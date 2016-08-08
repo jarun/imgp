@@ -67,7 +67,7 @@ class ExtendedArgumentParser(argparse.ArgumentParser):
     def print_extended_help(file=None):
         file.write('''
 Version %s
-Copyright (C) 2015-2016 Arun Prakash Jana <engineerarun@gmail.com>
+Copyright (C) 2016 Arun Prakash Jana <engineerarun@gmail.com>
 License: GPLv3
 Webpage: https://github.com/jarun/buku
 ''' % _VERSION_)
@@ -93,11 +93,13 @@ def parse_args(args=None, namespace=None):
     argparser = ExtendedArgumentParser(description='Adapt images to a resolution.')
     addarg = argparser.add_argument
     addarg('-x', '--res', dest='res', nargs=1, metavar='resolution',
-           help='desired resolution in nxn format (e.g. 512x256)')
+           help='output resolution in nxn format (e.g. 512x256)')
     addarg('-w', '--overwrite', dest='overwrite', action='store_true',
-           help='overwrite source')
+           help='overwrite source image')
+    addarg('-s', '--scale', dest='scale', action='store_true',
+           help='scale smaller images to specified resolution')
     addarg('keywords', nargs='*', metavar='PATH',
-           help='paths to source files')
+           help='paths to source files (default: current dir)')
 
     # Show help and exit if no arguments
     if len(sys.argv) < 2:
