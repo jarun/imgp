@@ -36,21 +36,28 @@ def getres(res):
     except:
         return (0, 0)
 
-def traverse_dir(src):
+def traverse_dir(src, overwrite):
     pass
 
-def resize_image(src):
+def resize_image(src, overwrite):
     name, ext = os.path.splitext(src)
 
     # TODO: add a check for image type, size etc.
     # Use file magic instead of extension?
-
+    """
     basewidth = 614
-    img = Image.open('src')
+    img = Image.open(src)
     wpercent = (basewidth / float(img.size[0]))
     hsize = int((float(img.size[1]) * float(wpercent)))
     img = img.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
-    img.save(name + '_resized.' + ext)
+    img.save(name + '_resized' + ext)
+    """
+    basewidth = 614
+    img = Image.open(src)
+    wpercent = (basewidth / img.size[0])
+    hsize = int(img.size[1] * wpercent)
+    img = img.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
+    img.save(name + '_RESIZED' + ext)
 
 class ExtendedArgumentParser(argparse.ArgumentParser):
     """Extend classic argument parser"""
@@ -114,15 +121,15 @@ def main():
     print('hres: %d, vres: %d' % (hres, vres))
 
     if len(args.keywords) == 0:
-        traverse_dir('.')
-    else:
-        for path in args.keywords:
-            if not os.path.exists(path):
-                print('source does not exist')
-            elif os.path.isdir(path):
-                traverse_dir(path)
-            else:
-                resize_image(path)
+        traverse_dir('.', args.overwrite)
+
+    for path in args.keywords:
+        if not os.path.exists(path):
+            print('%s does not exist' % path)
+        elif os.path.isdir(path):
+            traverse_dir(path, args.overwrite)
+        else:
+            resize_image(path, args.overwrite)
 
 if __name__ == '__main__':
     main()
