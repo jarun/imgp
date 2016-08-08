@@ -1,0 +1,128 @@
+#!/usr/bin/env python3
+#
+# Adapts images to a given resolution.
+#
+# Copyright (C) 2016 Arun Prakash Jana <engineerarun@gmail.com>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+import argparse
+import sys
+import os
+import glob
+import PIL
+from PIL import Image
+
+_VERSION_ = '0.1'
+
+def getres(res):
+    hxv = res.split('x')
+    if len(hxv) != 2:
+        return (0, 0)
+
+    try:
+        return(int(hxv[0]), int(hxv[1]))
+    except:
+        return (0, 0)
+
+def traverse_dir(src):
+    pass
+
+def resize_image(src):
+    name, ext = os.path.splitext(src)
+
+    # TODO: add a check for image type, size etc.
+    # Use file magic instead of extension?
+
+    basewidth = 614
+    img = Image.open('src')
+    wpercent = (basewidth / float(img.size[0]))
+    hsize = int((float(img.size[1]) * float(wpercent)))
+    img = img.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
+    img.save(name + '_resized.' + ext)
+
+class ExtendedArgumentParser(argparse.ArgumentParser):
+    """Extend classic argument parser"""
+
+    # Print additional help and info
+    @staticmethod
+    def print_extended_help(file=None):
+        file.write('''
+Version %s
+Copyright (C) 2015-2016 Arun Prakash Jana <engineerarun@gmail.com>
+License: GPLv3
+Webpage: https://github.com/jarun/buku
+''' % _VERSION_)
+
+    # Help
+    def print_help(self, file=None):
+        super(ExtendedArgumentParser, self).print_help(file)
+        self.print_extended_help(file)
+
+def parse_args(args=None, namespace=None):
+    """Parse imgd arguments/options.
+    Parameters
+    ----------
+    args : list, optional
+        Arguments to parse. Default is ``sys.argv``.
+    namespace : argparse.Namespace
+        Namespace to write to. Default is a new namespace.
+    Returns
+    -------
+    argparse.Namespace
+        Namespace with parsed arguments / options.
+    """
+    argparser = ExtendedArgumentParser(description='Adapt images to a resolution.')
+    addarg = argparser.add_argument
+    addarg('-x', '--res', dest='res', nargs=1, metavar='resolution',
+           help='desired resolution in nxn format (e.g. 512x256)')
+    addarg('-w', '--overwrite', dest='overwrite', action='store_true',
+           help='overwrite source')
+    addarg('keywords', nargs='*', metavar='PATH',
+           help='paths to source files')
+
+    # Show help and exit if no arguments
+    if len(sys.argv) < 2:
+        argparser.print_help(sys.stderr)
+        sys.exit(1)
+
+    return argparser.parse_args(args, namespace)
+
+def main():
+    args = parse_args()
+
+    if args.res is None:
+        print('Desired resolution is required')
+        return
+
+    hres, vres = getres(args.res[0])
+    if hres == 0 or vres == 0:
+        print('resolution must be numeric and > 0')
+        return
+
+    print('hres: %d, vres: %d' % (hres, vres))
+
+    if len(args.keywords) == 0:
+        traverse_dir('.')
+    else:
+        for path in args.keywords:
+            if not os.path.exists(path):
+                print('source does not exist')
+            elif os.path.isdir(path):
+                traverse_dir(path)
+            else:
+                resize_image(path)
+
+if __name__ == '__main__':
+    main()
