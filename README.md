@@ -1,6 +1,9 @@
 # imgd
 Adapt images to your preferred resolution
 
+# Status
+Nascent and under active development.
+
 # License
 GPLv3
 
