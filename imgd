@@ -24,6 +24,10 @@ import glob
 import PIL
 from PIL import Image
 
+HRES = 0
+VRES = 0
+overwrite = False
+noscale = False
 _VERSION_ = '0.1'
 
 def getres(res):
@@ -36,14 +40,14 @@ def getres(res):
     except:
         return (0, 0)
 
-def traverse_dir(path, HRES, VRES, overwrite, noscale):
+def traverse_dir(path):
     path = os.path.join(os.path.normpath(path), '*')
     for infile in glob.glob(path):
         if os.path.isdir(infile):
             continue
-        resize_image(infile, HRES, VRES, overwrite, noscale)
+        resize_image(infile)
 
-def resize_image(src, HRES, VRES, overwrite, noscale):
+def resize_image(src):
     # TODO: add a check for image size comparison with convert
     # TODO: add thumbnail support
     name, ext = os.path.splitext(src)
@@ -67,12 +71,14 @@ def resize_image(src, HRES, VRES, overwrite, noscale):
     if ratio_img >= ratio_target:
         if noscale and HRES > hres:
             return
+        # resample as per target horizontal resolution
         hratio = HRES/float(hres)
         target_vres = int(round(vres * hratio))
         img = img.resize((HRES, target_vres), PIL.Image.ANTIALIAS)
     else:
         if noscale and VRES > vres:
             return
+        # resample as per target vertical resolution
         vratio = VRES/float(vres)
         target_hres = int(round(hres * vratio))
         img = img.resize((target_hres, VRES), PIL.Image.ANTIALIAS)
@@ -129,6 +135,8 @@ def parse_args(args=None, namespace=None):
     return argparser.parse_args(args, namespace)
 
 def main():
+    global HRES, VRES, overwrite, noscale
+
     args = parse_args()
 
     if args.res is None:
@@ -140,18 +148,21 @@ def main():
         print('resolution must be numeric and > 0')
         return
 
+    overwrite = args.overwrite
+    noscale = args.noscale
+
     print('hres: %d, vres: %d' % (HRES, VRES))
 
     if len(args.keywords) == 0:
-        traverse_dir('.', HRES, VRES, args.overwrite, args.noscale)
+        traverse_dir('.')
 
     for path in args.keywords:
         if not os.path.exists(path):
             print('%s does not exist' % path)
         elif os.path.isdir(path):
-            traverse_dir(path, HRES, VRES, args.overwrite, args.noscale)
+            traverse_dir(path)
         else:
-            resize_image(path, HRES, VRES, args.overwrite, args.noscale)
+            resize_image(path)
 
 if __name__ == '__main__':
     main()
