@@ -22,7 +22,7 @@ import sys
 import os
 import shutil
 import PIL
-from PIL import Image
+from PIL import Image, ImageFile
 
 HRES = 0
 VRES = 0
@@ -30,6 +30,7 @@ scale = None
 brute = False
 overwrite = False
 nolarge = False
+optimize = False
 dot = False
 recursive = False
 _VERSION_ = '0.1'
@@ -69,12 +70,14 @@ def resize_image(src):
 
     try:
         img = Image.open(src)
+        srcformat = img.format
     except OSError as e:
         print(e)
         return
 
     hres = img.size[0]
     vres = img.size[1]
+    ImageFile.MAXBLOCK = hres * vres
 
     print(src + ': %dx%d' % (hres, vres))
 
@@ -123,7 +126,11 @@ def resize_image(src):
             print('calculated %dx%d\n' % (target_hres, VRES))
 
     try:
-        img.save(name + '_RESIZED' + ext)
+        if not optimize:
+            img.save(name + '_RESIZED' + ext, srcformat)
+        else:
+            img.save(name + '_RESIZED' + ext, srcformat, optimize=True)
+
         if overwrite:
             shutil.move(name + '_RESIZED' + ext, src)
     except OSError as e:
@@ -175,6 +182,8 @@ def parse_args(args=None, namespace=None):
            help='overwrite source images')
     addarg('-n', '--nolarge', dest='nolarge', action='store_true',
            help='do not enlarge smaller images')
+    addarg('-p', '--optimize', dest='optimize', action='store_true',
+           help='optimize the output images')
     addarg('-d', '--dot', dest='dot', action='store_true',
            help='include hidden files')
     addarg('-r', '--recursive', dest='recursive', action='store_true',
@@ -190,7 +199,7 @@ def parse_args(args=None, namespace=None):
     return argparser.parse_args(args, namespace)
 
 def main():
-    global HRES, VRES, scale, brute, overwrite, nolarge, dot, recursive
+    global HRES, VRES, scale, brute, overwrite, nolarge, optimize, dot, recursive
 
     args = parse_args()
 
@@ -216,6 +225,7 @@ def main():
     brute = args.brute
     overwrite = args.overwrite
     nolarge = args.nolarge
+    optimize = args.optimize
     dot = args.dot
     recursive = args.recursive
 
