@@ -26,6 +26,7 @@ from PIL import Image
 
 HRES = 0
 VRES = 0
+scale = None
 brute = False
 overwrite = False
 noscale = False
@@ -49,6 +50,7 @@ def traverse_dir(path):
         resize_image(infile)
 
 def resize_image(src):
+    global HRES, VRES
     # TODO: add a check for image size comparison with convert
     # TODO: add thumbnail support
     name, ext = os.path.splitext(src)
@@ -61,6 +63,14 @@ def resize_image(src):
 
     hres = img.size[0]
     vres = img.size[1]
+
+    if scale:
+        if scale == 100:
+            HRES = hres
+            VRES = vres
+        else:
+            HRES = int(round(hres * scale/float(100)))
+            VRES = int(round(vres * scale/float(100)))
 
     if HRES == hres and VRES == vres:
         pass
@@ -122,6 +132,8 @@ def parse_args(args=None, namespace=None):
     addarg = argparser.add_argument
     addarg('-x', '--res', dest='res', nargs=1, metavar='resolution',
            help='output resolution in hxv format')
+    addarg('-s', '--scale', dest='scale', type=int, metavar='percentage',
+           help='scale image to percentage')
     addarg('-b', '--brute', dest='brute', action='store_true',
            help='brute force to output resolution')
     addarg('-w', '--overwrite', dest='overwrite', action='store_true',
@@ -139,18 +151,25 @@ def parse_args(args=None, namespace=None):
     return argparser.parse_args(args, namespace)
 
 def main():
-    global HRES, VRES, brute, overwrite, noscale
+    global HRES, VRES, scale, brute, overwrite, noscale
 
     args = parse_args()
 
-    if args.res is None:
-        print('Desired resolution is required')
+    if (args.res is not None and args.scale is not None) or \
+            (args.res is None and args.scale is None):
+        print('specify either resolution or scale')
         return
 
-    HRES, VRES = getres(args.res[0])
-    if HRES == 0 or VRES == 0:
-        print('resolution must be numeric and > 0')
-        return
+    if args.scale is not None:
+        if (args.scale <= 0):
+            print('scale should be > 0 percent')
+            return
+        scale = args.scale
+    else:
+        HRES, VRES = getres(args.res[0])
+        if HRES == 0 or VRES == 0:
+            print('resolution must be numeric and > 0')
+            return
 
     brute = args.brute
     overwrite = args.overwrite
