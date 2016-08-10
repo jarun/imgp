@@ -30,6 +30,7 @@ scale = None
 brute = False
 overwrite = False
 nolarge = False
+recursive = False
 _VERSION_ = '0.1'
 
 def getres(res):
@@ -43,11 +44,13 @@ def getres(res):
         return (0, 0)
 
 def traverse_dir(path):
-    path = os.path.join(os.path.normpath(path), '*')
-    for infile in glob.glob(path):
-        if os.path.isdir(infile):
-            continue
-        resize_image(infile)
+    for entry in os.scandir(path):
+        # Add check for hidden here
+        if entry.is_dir():
+            if recursive:
+                traverse_dir(entry.path)
+        else:
+            resize_image(entry.path)
 
 def resize_image(src):
     global HRES, VRES
@@ -57,7 +60,7 @@ def resize_image(src):
     try:
         img = Image.open(src)
     except OSError:
-        print('%s: unsuported file type' % src)
+        print('%s: unsupported file type' % src)
         return
 
     hres = img.size[0]
@@ -139,6 +142,8 @@ def parse_args(args=None, namespace=None):
            help='overwrite source images')
     addarg('-n', '--nolarge', dest='nolarge', action='store_true',
            help='do not enlarge smaller images')
+    addarg('-r', '--recursive', dest='recursive', action='store_true',
+           help='visit directories recursively')
     addarg('keywords', nargs='*', metavar='PATH',
            help='path to source file (default: current dir)')
 
@@ -150,7 +155,7 @@ def parse_args(args=None, namespace=None):
     return argparser.parse_args(args, namespace)
 
 def main():
-    global HRES, VRES, scale, brute, overwrite, nolarge
+    global HRES, VRES, scale, brute, overwrite, nolarge, recursive
 
     args = parse_args()
 
@@ -173,6 +178,7 @@ def main():
     brute = args.brute
     overwrite = args.overwrite
     nolarge = args.nolarge
+    recursive = args.recursive
 
     if len(args.keywords) == 0:
         traverse_dir('.')
