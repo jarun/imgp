@@ -34,6 +34,7 @@ optimize = False
 convert = False
 dot = False
 recursive = False
+debug = False
 _VERSION_ = '0.1'
 
 def getres(res):
@@ -81,7 +82,7 @@ def resize_image(src):
     vres = img.size[1]
     ImageFile.MAXBLOCK = hres * vres
 
-    print(src + ': %dx%d' % (hres, vres))
+    print(src + ' [%dx%d]' % (hres, vres))
 
     if scale:
         if scale == 100:
@@ -92,10 +93,12 @@ def resize_image(src):
             VRES = int(round(vres * scale/float(100)))
 
     if HRES == hres and VRES == vres:
-        print('same %dx%d\n' % (HRES, VRES))
+        if debug:
+            print('resize_image: same res [%dx%d]\n' % (HRES, VRES))
     elif brute:
         img = img.resize((HRES, VRES), PIL.Image.ANTIALIAS)
-        print('brute %dx%d\n' % (HRES, VRES))
+        if debug:
+            print('resize_image: brute force res to [%dx%d]\n' % (HRES, VRES))
     else:
         ratio_img = float(hres/vres)
         ratio_target = float(HRES/VRES)
@@ -112,7 +115,8 @@ def resize_image(src):
             target_vres = int(target_vres)
 
             img = img.resize((HRES, target_vres), PIL.Image.ANTIALIAS)
-            print('calculated %dx%d\n' % (HRES, target_vres))
+            if debug:
+                print('resize_image: hres calculated %dx%d\n' % (HRES, target_vres))
         else:
             if nolarge and VRES > vres:
                 return
@@ -125,7 +129,8 @@ def resize_image(src):
             target_hres = int(target_hres)
 
             img = img.resize((target_hres, VRES), PIL.Image.ANTIALIAS)
-            print('calculated %dx%d\n' % (target_hres, VRES))
+            if debug:
+                print('resize_image: vres calculated %dx%d\n' % (target_hres, VRES))
 
     try:
         if not optimize:
@@ -184,6 +189,7 @@ def parse_args(args=None, namespace=None):
     argparse.Namespace
         Namespace with parsed arguments / options.
     """
+
     argparser = ExtendedArgumentParser(description='Adapt images to a resolution.')
     addarg = argparser.add_argument
     addarg('-x', '--res', dest='res', nargs=1, metavar='resolution',
@@ -204,6 +210,8 @@ def parse_args(args=None, namespace=None):
            help='include hidden files')
     addarg('-r', '--recursive', dest='recursive', action='store_true',
            help='process directories recursively')
+    addarg('-z', '--debug', dest='debug', action='store_true',
+           help='enable debug logs')
     addarg('keywords', nargs='+', metavar='PATH',
            help='source file or directory')
 
@@ -215,8 +223,8 @@ def parse_args(args=None, namespace=None):
     return argparser.parse_args(args, namespace)
 
 def main():
-    global HRES, VRES, scale, brute, overwrite, \
-           nolarge, optimize, convert, dot, recursive
+    global HRES, VRES, scale, brute, overwrite, nolarge, \
+           optimize, convert, dot, recursive, debug
 
     args = parse_args()
 
@@ -246,6 +254,7 @@ def main():
     convert = args.convert
     dot = args.dot
     recursive = args.recursive
+    debug = args.debug
 
     if len(args.keywords) == 0:
         print('no source specified')
