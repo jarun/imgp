@@ -30,6 +30,7 @@ scale = None
 brute = False
 overwrite = False
 nolarge = False
+dot = False
 recursive = False
 _VERSION_ = '0.1'
 
@@ -46,6 +47,9 @@ def getres(res):
 def traverse_dir(path):
     for entry in os.scandir(path):
         # Add check for hidden here
+        if not dot and entry.name.startswith('.'):
+            continue
+
         if entry.is_dir():
             if recursive:
                 traverse_dir(entry.path)
@@ -85,14 +89,14 @@ def resize_image(src):
         if ratio_img >= ratio_target:
             if nolarge and HRES > hres:
                 return
-            # resample as per target horizontal resolution
+            # re-sample as per target horizontal resolution
             hratio = HRES/float(hres)
             target_vres = int(round(vres * hratio))
             img = img.resize((HRES, target_vres), PIL.Image.ANTIALIAS)
         else:
             if nolarge and VRES > vres:
                 return
-            # resample as per target vertical resolution
+            # re-sample as per target vertical resolution
             vratio = VRES/float(vres)
             target_hres = int(round(hres * vratio))
             img = img.resize((target_hres, VRES), PIL.Image.ANTIALIAS)
@@ -140,11 +144,13 @@ def parse_args(args=None, namespace=None):
     addarg('-s', '--scale', dest='scale', type=int, metavar='percentage',
            help='scale image to percentage')
     addarg('-b', '--brute', dest='brute', action='store_true',
-           help='brute force to output resolution')
+           help='force to output resolution')
     addarg('-w', '--overwrite', dest='overwrite', action='store_true',
            help='overwrite source images')
     addarg('-n', '--nolarge', dest='nolarge', action='store_true',
            help='do not enlarge smaller images')
+    addarg('-d', '--dot', dest='dot', action='store_true',
+           help='include hidden files')
     addarg('-r', '--recursive', dest='recursive', action='store_true',
            help='visit directories recursively')
     addarg('keywords', nargs='*', metavar='PATH',
@@ -158,7 +164,7 @@ def parse_args(args=None, namespace=None):
     return argparser.parse_args(args, namespace)
 
 def main():
-    global HRES, VRES, scale, brute, overwrite, nolarge, recursive
+    global HRES, VRES, scale, brute, overwrite, nolarge, dot, recursive
 
     args = parse_args()
 
@@ -169,7 +175,10 @@ def main():
 
     if args.scale is not None:
         if (args.scale <= 0):
-            print('scale should be > 0 percent')
+            print('scale should be > 0%')
+            return
+        if args.scale > 100 and args.nolarge:
+            print('option --nolarge used, cannot scale > 100%')
             return
         scale = args.scale
     else:
@@ -181,6 +190,7 @@ def main():
     brute = args.brute
     overwrite = args.overwrite
     nolarge = args.nolarge
+    dot = args.dot
     recursive = args.recursive
 
     if len(args.keywords) == 0:
