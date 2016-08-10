@@ -20,7 +20,7 @@
 import argparse
 import sys
 import os
-import glob
+import shutil
 import PIL
 from PIL import Image
 
@@ -73,10 +73,10 @@ def resize_image(src):
         print(e)
         return
 
-    print(src)
-
     hres = img.size[0]
     vres = img.size[1]
+
+    print(src + ': %dx%d' % (hres, vres))
 
     if scale:
         if scale == 100:
@@ -87,9 +87,10 @@ def resize_image(src):
             VRES = int(round(vres * scale/float(100)))
 
     if HRES == hres and VRES == vres:
-        pass
+        print('same %dx%d\n' % (HRES, VRES))
     elif brute:
         img = img.resize((HRES, VRES), PIL.Image.ANTIALIAS)
+        print('brute %dx%d\n' % (HRES, VRES))
     else:
         ratio_img = float(hres/vres)
         ratio_target = float(HRES/VRES)
@@ -97,20 +98,32 @@ def resize_image(src):
         if ratio_img >= ratio_target:
             if nolarge and HRES > hres:
                 return
+
             # re-sample as per target horizontal resolution
             hratio = HRES/float(hres)
-            target_vres = int(round(vres * hratio))
+            target_vres = vres * hratio
+            if target_vres >= int(target_vres) + .5:
+                target_vres = target_vres + 1
+            target_vres = int(target_vres)
             img = img.resize((HRES, target_vres), PIL.Image.ANTIALIAS)
+            print('calculated %dx%d\n' % (HRES, target_vres))
         else:
             if nolarge and VRES > vres:
                 return
+
             # re-sample as per target vertical resolution
             vratio = VRES/float(vres)
-            target_hres = int(round(hres * vratio))
+            target_hres = hres * vratio
+            if target_hres >= int(target_hres) + .5:
+                target_hres = target_hres + 1
+            target_hres = int(target_hres)
             img = img.resize((target_hres, VRES), PIL.Image.ANTIALIAS)
+            print('calculated %dx%d\n' % (target_hres, VRES))
 
     try:
         img.save(name + '_RESIZED' + ext)
+        if overwrite:
+            shutil.move(name + '_RESIZED' + ext, src)
     except OSError as e:
         print(e)
 

@@ -2,7 +2,7 @@
 Adapt images to your preferred resolution
 
 # Status
-Nascent and under active development.
+Nascent and under active development. Consider alpha.
 
 # License
 GPLv3
