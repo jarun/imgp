@@ -31,6 +31,7 @@ brute = False
 overwrite = False
 nolarge = False
 optimize = False
+convert = False
 dot = False
 recursive = False
 _VERSION_ = '0.1'
@@ -66,6 +67,7 @@ def traverse_dir(path):
 def resize_image(src):
     global HRES, VRES
     # TODO: add a check for image size comparison with convert
+    converted = False
     name, ext = os.path.splitext(src)
 
     try:
@@ -127,12 +129,24 @@ def resize_image(src):
 
     try:
         if not optimize:
-            img.save(name + '_RESIZED' + ext, srcformat)
+            if convert and srcformat == 'PNG':
+                img.save(name + '_RESIZED' + '.jpg', 'JPEG')
+                converted = True
+            else:
+                img.save(name + '_RESIZED' + ext, srcformat)
         else:
-            img.save(name + '_RESIZED' + ext, srcformat, optimize=True)
+            if convert and srcformat == 'PNG':
+                img.save(name + '_RESIZED' + '.jpg', 'JPEG', optimize=True)
+                converted = True
+            else:
+                img.save(name + '_RESIZED' + ext, srcformat, optimize=True)
 
         if overwrite:
-            shutil.move(name + '_RESIZED' + ext, src)
+            if converted:
+                os.remove(src)
+                shutil.move(name + '_RESIZED' + '.jpg', name + '.jpg')
+            else:
+                shutil.move(name + '_RESIZED' + ext, src)
     except OSError as e:
         print(e)
 
@@ -184,6 +198,8 @@ def parse_args(args=None, namespace=None):
            help='do not enlarge smaller images')
     addarg('-p', '--optimize', dest='optimize', action='store_true',
            help='optimize the output images')
+    addarg('-c', '--convert', dest='convert', action='store_true',
+           help='convert PNG to JPG format')
     addarg('-d', '--dot', dest='dot', action='store_true',
            help='include hidden files')
     addarg('-r', '--recursive', dest='recursive', action='store_true',
@@ -199,7 +215,8 @@ def parse_args(args=None, namespace=None):
     return argparser.parse_args(args, namespace)
 
 def main():
-    global HRES, VRES, scale, brute, overwrite, nolarge, optimize, dot, recursive
+    global HRES, VRES, scale, brute, overwrite, \
+           nolarge, optimize, convert, dot, recursive
 
     args = parse_args()
 
@@ -226,6 +243,7 @@ def main():
     overwrite = args.overwrite
     nolarge = args.nolarge
     optimize = args.optimize
+    convert = args.convert
     dot = args.dot
     recursive = args.recursive
 
