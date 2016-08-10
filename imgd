@@ -105,6 +105,7 @@ def resize_image(src):
             if target_vres >= int(target_vres) + .5:
                 target_vres = target_vres + 1
             target_vres = int(target_vres)
+
             img = img.resize((HRES, target_vres), PIL.Image.ANTIALIAS)
             print('calculated %dx%d\n' % (HRES, target_vres))
         else:
@@ -117,6 +118,7 @@ def resize_image(src):
             if target_hres >= int(target_hres) + .5:
                 target_hres = target_hres + 1
             target_hres = int(target_hres)
+
             img = img.resize((target_hres, VRES), PIL.Image.ANTIALIAS)
             print('calculated %dx%d\n' % (target_hres, VRES))
 
@@ -164,7 +166,7 @@ def parse_args(args=None, namespace=None):
     argparser = ExtendedArgumentParser(description='Adapt images to a resolution.')
     addarg = argparser.add_argument
     addarg('-x', '--res', dest='res', nargs=1, metavar='resolution',
-           help='output resolution in hxv format')
+           help='output resolution in HxV format')
     addarg('-s', '--scale', dest='scale', type=int, metavar='percentage',
            help='scale image to percentage')
     addarg('-b', '--brute', dest='brute', action='store_true',
@@ -176,9 +178,9 @@ def parse_args(args=None, namespace=None):
     addarg('-d', '--dot', dest='dot', action='store_true',
            help='include hidden files')
     addarg('-r', '--recursive', dest='recursive', action='store_true',
-           help='visit directories recursively')
-    addarg('keywords', nargs='*', metavar='PATH',
-           help='path to source file (default: current dir)')
+           help='process directories recursively')
+    addarg('keywords', nargs='+', metavar='PATH',
+           help='source file or directory')
 
     # Show help and exit if no arguments
     if len(sys.argv) < 2:
@@ -218,7 +220,8 @@ def main():
     recursive = args.recursive
 
     if len(args.keywords) == 0:
-        traverse_dir('.')
+        print('no source specified')
+        return
 
     for path in args.keywords:
         if not os.path.exists(path):
