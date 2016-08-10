@@ -36,8 +36,12 @@ def getres(res):
     except:
         return (0, 0)
 
-def traverse_dir(src, overwrite, noscale):
-    pass
+def traverse_dir(path, HRES, VRES, overwrite, noscale):
+    path = os.path.join(os.path.normpath(path), '*')
+    for infile in glob.glob(path):
+        if os.path.isdir(infile):
+            continue
+        resize_image(infile, HRES, VRES, overwrite, noscale)
 
 def resize_image(src, HRES, VRES, overwrite, noscale):
     # TODO: add a check for image size comparison with convert
@@ -139,13 +143,13 @@ def main():
     print('hres: %d, vres: %d' % (HRES, VRES))
 
     if len(args.keywords) == 0:
-        traverse_dir('.', args.overwrite)
+        traverse_dir('.', HRES, VRES, args.overwrite, args.noscale)
 
     for path in args.keywords:
         if not os.path.exists(path):
             print('%s does not exist' % path)
         elif os.path.isdir(path):
-            traverse_dir(path, args.overwrite, args.noscale)
+            traverse_dir(path, HRES, VRES, args.overwrite, args.noscale)
         else:
             resize_image(path, HRES, VRES, args.overwrite, args.noscale)
 
