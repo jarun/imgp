@@ -26,6 +26,7 @@ from PIL import Image
 
 HRES = 0
 VRES = 0
+brute = False
 overwrite = False
 noscale = False
 _VERSION_ = '0.1'
@@ -62,26 +63,27 @@ def resize_image(src):
     vres = img.size[1]
 
     if HRES == hres and VRES == vres:
-        img.save(name + '_RESIZED' + ext)
-        return
-
-    ratio_img = float(hres/vres)
-    ratio_target = float(HRES/VRES)
-
-    if ratio_img >= ratio_target:
-        if noscale and HRES > hres:
-            return
-        # resample as per target horizontal resolution
-        hratio = HRES/float(hres)
-        target_vres = int(round(vres * hratio))
-        img = img.resize((HRES, target_vres), PIL.Image.ANTIALIAS)
+        pass
+    elif brute:
+        img = img.resize((HRES, VRES), PIL.Image.ANTIALIAS)
     else:
-        if noscale and VRES > vres:
-            return
-        # resample as per target vertical resolution
-        vratio = VRES/float(vres)
-        target_hres = int(round(hres * vratio))
-        img = img.resize((target_hres, VRES), PIL.Image.ANTIALIAS)
+        ratio_img = float(hres/vres)
+        ratio_target = float(HRES/VRES)
+
+        if ratio_img >= ratio_target:
+            if noscale and HRES > hres:
+                return
+            # resample as per target horizontal resolution
+            hratio = HRES/float(hres)
+            target_vres = int(round(vres * hratio))
+            img = img.resize((HRES, target_vres), PIL.Image.ANTIALIAS)
+        else:
+            if noscale and VRES > vres:
+                return
+            # resample as per target vertical resolution
+            vratio = VRES/float(vres)
+            target_hres = int(round(hres * vratio))
+            img = img.resize((target_hres, VRES), PIL.Image.ANTIALIAS)
 
     img.save(name + '_RESIZED' + ext)
 
@@ -119,11 +121,13 @@ def parse_args(args=None, namespace=None):
     argparser = ExtendedArgumentParser(description='Adapt images to a resolution.')
     addarg = argparser.add_argument
     addarg('-x', '--res', dest='res', nargs=1, metavar='resolution',
-           help='output resolution in nxn format (e.g. 512x256)')
+           help='output resolution in hxv format')
+    addarg('-b', '--brute', dest='brute', action='store_true',
+           help='brute force to output resolution')
     addarg('-w', '--overwrite', dest='overwrite', action='store_true',
-           help='overwrite source image')
+           help='overwrite source images')
     addarg('-n', '--noscale', dest='noscale', action='store_true',
-           help='scale smaller images to specified resolution')
+           help='do not scale smaller images')
     addarg('keywords', nargs='*', metavar='PATH',
            help='paths to source files (default: current dir)')
 
@@ -135,7 +139,7 @@ def parse_args(args=None, namespace=None):
     return argparser.parse_args(args, namespace)
 
 def main():
-    global HRES, VRES, overwrite, noscale
+    global HRES, VRES, brute, overwrite, noscale
 
     args = parse_args()
 
@@ -148,10 +152,9 @@ def main():
         print('resolution must be numeric and > 0')
         return
 
+    brute = args.brute
     overwrite = args.overwrite
     noscale = args.noscale
-
-    print('hres: %d, vres: %d' % (HRES, VRES))
 
     if len(args.keywords) == 0:
         traverse_dir('.')
