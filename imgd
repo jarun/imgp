@@ -39,28 +39,36 @@ def getres(res):
 def traverse_dir(src, overwrite):
     pass
 
-def resize_image(src, overwrite):
+def resize_image(src, HRES, VRES, overwrite):
+    # TODO: add a check for image size comparison with convert
+    # TODO: add thumbnail support
     name, ext = os.path.splitext(src)
 
-    # TODO: add a check for image type, size etc.
-    # Use file magic instead of extension?
-    """
-    basewidth = 614
-    img = Image.open(src)
-    wpercent = (basewidth / float(img.size[0]))
-    hsize = int((float(img.size[1]) * float(wpercent)))
-    img = img.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
-    img.save(name + '_resized' + ext)
-    """
-    basewidth = 614
     try:
         img = Image.open(src)
     except OSError:
         print('%s: unsuported file type' % src)
         return
-    wpercent = (basewidth / img.size[0])
-    hsize = int(img.size[1] * wpercent)
-    img = img.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
+
+    hres = img.size[0]
+    vres = img.size[1]
+
+    if HRES == hres and VRES == vres:
+        img.save(name + '_RESIZED' + ext)
+        return
+
+    ratio_img = float(hres/vres)
+    ratio_target = float(HRES/VRES)
+
+    if ratio_img >= ratio_target:
+        hratio = HRES/float(hres)
+        target_vres = int(round(vres * hratio))
+        img = img.resize((HRES, target_vres), PIL.Image.ANTIALIAS)
+    else:
+        vratio = VRES/float(vres)
+        target_hres = int(round(hres * vratio))
+        img = img.resize((target_hres, VRES), PIL.Image.ANTIALIAS)
+
     img.save(name + '_RESIZED' + ext)
 
 class ExtendedArgumentParser(argparse.ArgumentParser):
@@ -119,12 +127,12 @@ def main():
         print('Desired resolution is required')
         return
 
-    hres, vres = getres(args.res[0])
-    if hres == 0 or vres == 0:
+    HRES, VRES = getres(args.res[0])
+    if HRES == 0 or VRES == 0:
         print('resolution must be numeric and > 0')
         return
 
-    print('hres: %d, vres: %d' % (hres, vres))
+    print('hres: %d, vres: %d' % (HRES, VRES))
 
     if len(args.keywords) == 0:
         traverse_dir('.', args.overwrite)
@@ -135,7 +143,7 @@ def main():
         elif os.path.isdir(path):
             traverse_dir(path, args.overwrite)
         else:
-            resize_image(path, args.overwrite)
+            resize_image(path, HRES, VRES, args.overwrite)
 
 if __name__ == '__main__':
     main()
