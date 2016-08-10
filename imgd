@@ -29,7 +29,7 @@ VRES = 0
 scale = None
 brute = False
 overwrite = False
-noscale = False
+nolarge = False
 _VERSION_ = '0.1'
 
 def getres(res):
@@ -81,14 +81,14 @@ def resize_image(src):
         ratio_target = float(HRES/VRES)
 
         if ratio_img >= ratio_target:
-            if noscale and HRES > hres:
+            if nolarge and HRES > hres:
                 return
             # resample as per target horizontal resolution
             hratio = HRES/float(hres)
             target_vres = int(round(vres * hratio))
             img = img.resize((HRES, target_vres), PIL.Image.ANTIALIAS)
         else:
-            if noscale and VRES > vres:
+            if nolarge and VRES > vres:
                 return
             # resample as per target vertical resolution
             vratio = VRES/float(vres)
@@ -138,8 +138,8 @@ def parse_args(args=None, namespace=None):
            help='brute force to output resolution')
     addarg('-w', '--overwrite', dest='overwrite', action='store_true',
            help='overwrite source images')
-    addarg('-n', '--noscale', dest='noscale', action='store_true',
-           help='do not scale smaller images')
+    addarg('-n', '--nolarge', dest='nolarge', action='store_true',
+           help='do not enlarge smaller images')
     addarg('keywords', nargs='*', metavar='PATH',
            help='paths to source files (default: current dir)')
 
@@ -151,7 +151,7 @@ def parse_args(args=None, namespace=None):
     return argparser.parse_args(args, namespace)
 
 def main():
-    global HRES, VRES, scale, brute, overwrite, noscale
+    global HRES, VRES, scale, brute, overwrite, nolarge
 
     args = parse_args()
 
@@ -173,7 +173,7 @@ def main():
 
     brute = args.brute
     overwrite = args.overwrite
-    noscale = args.noscale
+    nolarge = args.nolarge
 
     if len(args.keywords) == 0:
         traverse_dir('.')
