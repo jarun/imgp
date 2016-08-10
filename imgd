@@ -53,7 +53,11 @@ def resize_image(src, overwrite):
     img.save(name + '_resized' + ext)
     """
     basewidth = 614
-    img = Image.open(src)
+    try:
+        img = Image.open(src)
+    except OSError:
+        print('%s: unsuported file type' % src)
+        return
     wpercent = (basewidth / img.size[0])
     hsize = int(img.size[1] * wpercent)
     img = img.resize((basewidth, hsize), PIL.Image.ANTIALIAS)
