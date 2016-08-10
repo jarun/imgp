@@ -45,16 +45,22 @@ def getres(res):
         return (0, 0)
 
 def traverse_dir(path):
-    for entry in os.scandir(path):
-        # Add check for hidden here
-        if not dot and entry.name.startswith('.'):
-            continue
+    try:
+        for entry in os.scandir(path):
+            # Add check for hidden here
+            if not dot and entry.name.startswith('.'):
+                continue
 
-        if entry.is_dir():
-            if recursive:
-                traverse_dir(entry.path)
-        else:
-            resize_image(entry.path)
+            if entry.is_dir():
+                if recursive:
+                    if not os.access(entry.path, os.W_OK | os.X_OK):
+                        print(entry.path + ': no permission')
+                        continue
+                    traverse_dir(entry.path)
+            else:
+                resize_image(entry.path)
+    except OSError as e:
+        print(e)
 
 def resize_image(src):
     global HRES, VRES
@@ -63,9 +69,11 @@ def resize_image(src):
 
     try:
         img = Image.open(src)
-    except OSError:
-        print('%s: unsupported file type' % src)
+    except OSError as e:
+        print(e)
         return
+
+    print(src)
 
     hres = img.size[0]
     vres = img.size[1]
@@ -101,7 +109,10 @@ def resize_image(src):
             target_hres = int(round(hres * vratio))
             img = img.resize((target_hres, VRES), PIL.Image.ANTIALIAS)
 
-    img.save(name + '_RESIZED' + ext)
+    try:
+        img.save(name + '_RESIZED' + ext)
+    except OSError as e:
+        print(e)
 
 class ExtendedArgumentParser(argparse.ArgumentParser):
     """Extend classic argument parser"""
