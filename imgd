@@ -36,10 +36,10 @@ def getres(res):
     except:
         return (0, 0)
 
-def traverse_dir(src, overwrite):
+def traverse_dir(src, overwrite, noscale):
     pass
 
-def resize_image(src, HRES, VRES, overwrite):
+def resize_image(src, HRES, VRES, overwrite, noscale):
     # TODO: add a check for image size comparison with convert
     # TODO: add thumbnail support
     name, ext = os.path.splitext(src)
@@ -61,10 +61,14 @@ def resize_image(src, HRES, VRES, overwrite):
     ratio_target = float(HRES/VRES)
 
     if ratio_img >= ratio_target:
+        if noscale and HRES > hres:
+            return
         hratio = HRES/float(hres)
         target_vres = int(round(vres * hratio))
         img = img.resize((HRES, target_vres), PIL.Image.ANTIALIAS)
     else:
+        if noscale and VRES > vres:
+            return
         vratio = VRES/float(vres)
         target_hres = int(round(hres * vratio))
         img = img.resize((target_hres, VRES), PIL.Image.ANTIALIAS)
@@ -108,7 +112,7 @@ def parse_args(args=None, namespace=None):
            help='output resolution in nxn format (e.g. 512x256)')
     addarg('-w', '--overwrite', dest='overwrite', action='store_true',
            help='overwrite source image')
-    addarg('-s', '--scale', dest='scale', action='store_true',
+    addarg('-n', '--noscale', dest='noscale', action='store_true',
            help='scale smaller images to specified resolution')
     addarg('keywords', nargs='*', metavar='PATH',
            help='paths to source files (default: current dir)')
@@ -141,9 +145,9 @@ def main():
         if not os.path.exists(path):
             print('%s does not exist' % path)
         elif os.path.isdir(path):
-            traverse_dir(path, args.overwrite)
+            traverse_dir(path, args.overwrite, args.noscale)
         else:
-            resize_image(path, HRES, VRES, args.overwrite)
+            resize_image(path, HRES, VRES, args.overwrite, args.noscale)
 
 if __name__ == '__main__':
     main()
