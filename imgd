@@ -105,6 +105,9 @@ class ExtendedArgumentParser(argparse.ArgumentParser):
     # Print additional help and info
     @staticmethod
     def print_extended_help(file=None):
+        if not file:
+            file = sys.stderr
+
         file.write('''
 Version %s
 Copyright (C) 2016 Arun Prakash Jana <engineerarun@gmail.com>
