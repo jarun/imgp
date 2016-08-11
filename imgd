@@ -227,20 +227,20 @@ def parse_args(args=None, namespace=None):
            help='output resolution in HxV format')
     addarg('-b', '--brute', dest='brute', action='store_true',
            help='force to output resolution')
-    addarg('-e', '--eraseexif', action='store_true',
-           help='erase exif metadata')
-    addarg('-w', '--overwrite', dest='overwrite', action='store_true',
-           help='overwrite source images')
-    addarg('-n', '--nolarge', dest='nolarge', action='store_true',
-           help='do not enlarge smaller images')
-    addarg('-p', '--optimize', dest='optimize', action='store_true',
-           help='optimize the output images')
     addarg('-c', '--convert', dest='convert', action='store_true',
            help='convert PNG to JPG format')
     addarg('-d', '--dot', dest='dot', action='store_true',
            help='include hidden files')
+    addarg('-e', '--eraseexif', action='store_true',
+           help='erase exif metadata')
+    addarg('-n', '--nolarge', dest='nolarge', action='store_true',
+           help='do not enlarge smaller images')
+    addarg('-p', '--optimize', dest='optimize', action='store_true',
+           help='optimize the output images')
     addarg('-r', '--recursive', dest='recursive', action='store_true',
            help='process directories recursively')
+    addarg('-w', '--overwrite', dest='overwrite', action='store_true',
+           help='overwrite source images')
     addarg('-z', '--debug', dest='debug', action='store_true',
            help='enable debug logs')
     addarg('keywords', nargs='+', metavar='PATH',
