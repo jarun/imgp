@@ -35,6 +35,7 @@ convert = False
 dot = False
 recursive = False
 debug = False
+pad = '_IMGD'
 _VERSION_ = '0.1'
 
 def getres(res):
@@ -94,11 +95,11 @@ def resize_image(src):
 
     if HRES == hres and VRES == vres:
         if debug:
-            print('resize_image: same res [%dx%d]\n' % (HRES, VRES))
+            print('resize_image: same res [%dx%d]' % (HRES, VRES))
     elif brute:
         img = img.resize((HRES, VRES), PIL.Image.ANTIALIAS)
         if debug:
-            print('resize_image: brute force res to [%dx%d]\n' % (HRES, VRES))
+            print('resize_image: brute force res to [%dx%d]' % (HRES, VRES))
     else:
         ratio_img = float(hres/vres)
         ratio_target = float(HRES/VRES)
@@ -116,7 +117,7 @@ def resize_image(src):
 
             img = img.resize((HRES, target_vres), PIL.Image.ANTIALIAS)
             if debug:
-                print('resize_image: hres calculated %dx%d\n' % (HRES, target_vres))
+                print('resize_image: hres calculated %dx%d' % (HRES, target_vres))
         else:
             if nolarge and VRES > vres:
                 return
@@ -130,28 +131,28 @@ def resize_image(src):
 
             img = img.resize((target_hres, VRES), PIL.Image.ANTIALIAS)
             if debug:
-                print('resize_image: vres calculated %dx%d\n' % (target_hres, VRES))
+                print('resize_image: vres calculated %dx%d' % (target_hres, VRES))
 
     try:
         if not optimize:
             if convert and srcformat == 'PNG':
-                img.save(name + '_RESIZED' + '.jpg', 'JPEG')
+                img.save(name + pad + '.jpg', 'JPEG')
                 converted = True
             else:
-                img.save(name + '_RESIZED' + ext, srcformat)
+                img.save(name + pad + ext, srcformat)
         else:
             if convert and srcformat == 'PNG':
-                img.save(name + '_RESIZED' + '.jpg', 'JPEG', optimize=True)
+                img.save(name + pad + '.jpg', 'JPEG', optimize=True)
                 converted = True
             else:
-                img.save(name + '_RESIZED' + ext, srcformat, optimize=True)
+                img.save(name + pad + ext, srcformat, optimize=True)
 
         if overwrite:
             if converted:
                 os.remove(src)
-                shutil.move(name + '_RESIZED' + '.jpg', name + '.jpg')
+                shutil.move(name + pad + '.jpg', name + '.jpg')
             else:
-                shutil.move(name + '_RESIZED' + ext, src)
+                shutil.move(name + pad + ext, src)
     except OSError as e:
         print(e)
 
@@ -192,10 +193,10 @@ def parse_args(args=None, namespace=None):
 
     argparser = ExtendedArgumentParser(description='Adapt images to a resolution.')
     addarg = argparser.add_argument
-    addarg('-x', '--res', dest='res', nargs=1, metavar='HxV',
-           help='output resolution in HxV format')
     addarg('-s', '--scale', dest='scale', type=int, metavar='%',
            help='scale image to percentage')
+    addarg('-x', '--res', dest='res', nargs=1, metavar='HxV',
+           help='output resolution in HxV format')
     addarg('-b', '--brute', dest='brute', action='store_true',
            help='force to output resolution')
     addarg('-w', '--overwrite', dest='overwrite', action='store_true',
@@ -228,10 +229,16 @@ def main():
 
     args = parse_args()
 
-    if (args.res is not None and args.scale is not None) or \
-            (args.res is None and args.scale is None):
+    if (args.res is not None and args.scale is not None):
         print('specify either resolution or scale')
         return
+
+    if (args.res is None and args.scale is None):
+        if args.convert or args.optimize:
+            scale = 100
+        else:
+            print('missing image transformation')
+            return
 
     if args.scale is not None:
         if (args.scale <= 0):
@@ -241,7 +248,8 @@ def main():
             print('option --nolarge used, cannot scale > 100%')
             return
         scale = args.scale
-    else:
+
+    if args.res is not None:
         HRES, VRES = getres(args.res[0])
         if HRES == 0 or VRES == 0:
             print('resolution must be numeric and > 0')
