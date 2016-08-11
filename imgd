@@ -92,13 +92,24 @@ def resize_image(src):
 
     if scale:
         if scale == 100:
-            HRES = hres
-            VRES = vres
+            _hres = hres
+            _vres = vres
         else:
-            HRES = int(round(hres * scale/float(100)))
-            VRES = int(round(vres * scale/float(100)))
+            _hres = hres * scale/float(100)
+            # use custom round()
+            if _hres >= int(_hres) + .5:
+                _hres = _hres + 1
+            _hres = int(_hres)
 
-    if HRES == hres and VRES == vres:
+            _vres = vres * scale/float(100)
+            if _vres >= int(_vres) + .5:
+                _vres = _vres + 1
+            _vres = int(_vres)
+
+        img = img.resize((_hres, _vres), PIL.Image.ANTIALIAS)
+        if debug:
+            print('resize_image: scaled to [%dx%d]' % (HRES, VRES))
+    elif HRES == hres and VRES == vres:
         if debug:
             print('resize_image: same res [%dx%d]' % (HRES, VRES))
     elif brute:
