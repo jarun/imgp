@@ -83,6 +83,8 @@ def resize_image(src):
             if debug:
                 print('resize_image: cannot convert non-PNG')
             return
+
+        exifdata = img.info['exif']
     except OSError as e:
         print(e)
         return
@@ -155,16 +157,16 @@ def resize_image(src):
     try:
         if not optimize:
             if convert and srcformat == 'PNG':
-                img.save(name + pad + '.jpg', 'JPEG')
+                img.save(name + pad + '.jpg', 'JPEG', exif=exifdata)
                 converted = True
             else:
-                img.save(name + pad + ext, srcformat)
+                img.save(name + pad + ext, srcformat, exif=exifdata)
         else:
             if convert and srcformat == 'PNG':
-                img.save(name + pad + '.jpg', 'JPEG', optimize=True)
+                img.save(name + pad + '.jpg', 'JPEG', optimize=True, exif=exifdata)
                 converted = True
             else:
-                img.save(name + pad + ext, srcformat, optimize=True)
+                img.save(name + pad + ext, srcformat, optimize=True, exif=exifdata)
 
         if overwrite:
             if converted:
