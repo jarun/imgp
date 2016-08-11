@@ -36,6 +36,7 @@ dot = False
 recursive = False
 debug = False
 pad = '_IMGD'
+no_res_opt = False
 _VERSION_ = '0.1'
 
 def getres(res):
@@ -75,6 +76,10 @@ def resize_image(src):
     try:
         img = Image.open(src)
         srcformat = img.format
+        if no_res_opt and not optimize and srcformat != 'PNG':
+            if debug:
+                print('resize_image: cannot convert non-PNG')
+            return
     except OSError as e:
         print(e)
         return
@@ -225,20 +230,13 @@ def parse_args(args=None, namespace=None):
 
 def main():
     global HRES, VRES, scale, brute, overwrite, nolarge, \
-           optimize, convert, dot, recursive, debug
+           optimize, convert, dot, recursive, debug, no_res_opt
 
     args = parse_args()
 
     if (args.res is not None and args.scale is not None):
         print('specify either resolution or scale')
         return
-
-    if (args.res is None and args.scale is None):
-        if args.convert or args.optimize:
-            scale = 100
-        else:
-            print('missing image transformation')
-            return
 
     if args.scale is not None:
         if (args.scale <= 0):
@@ -248,12 +246,17 @@ def main():
             print('option --nolarge used, cannot scale > 100%')
             return
         scale = args.scale
-
-    if args.res is not None:
+    elif args.res is not None:
         HRES, VRES = getres(args.res[0])
         if HRES == 0 or VRES == 0:
             print('resolution must be numeric and > 0')
             return
+    elif args.convert or args.optimize:
+        no_res_opt = True
+        scale = 100
+    else:
+        print('missing image transformation')
+        return
 
     brute = args.brute
     overwrite = args.overwrite
