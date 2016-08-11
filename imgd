@@ -28,6 +28,7 @@ HRES = 0
 VRES = 0
 scale = None
 brute = False
+eraseexif = False
 overwrite = False
 nolarge = False
 optimize = False
@@ -84,7 +85,13 @@ def resize_image(src):
                 print('resize_image: cannot convert non-PNG')
             return
 
-        exifdata = img.info['exif']
+        try:
+            if eraseexif:
+                exifdata = b''
+            else:
+                exifdata = img.info['exif']
+        except:
+            exifdata = b''
     except OSError as e:
         print(e)
         return
@@ -220,6 +227,8 @@ def parse_args(args=None, namespace=None):
            help='output resolution in HxV format')
     addarg('-b', '--brute', dest='brute', action='store_true',
            help='force to output resolution')
+    addarg('-e', '--eraseexif', action='store_true',
+           help='erase exif metadata')
     addarg('-w', '--overwrite', dest='overwrite', action='store_true',
            help='overwrite source images')
     addarg('-n', '--nolarge', dest='nolarge', action='store_true',
@@ -245,7 +254,7 @@ def parse_args(args=None, namespace=None):
     return argparser.parse_args(args, namespace)
 
 def main():
-    global HRES, VRES, scale, brute, overwrite, nolarge, \
+    global HRES, VRES, scale, brute, eraseexif, overwrite, nolarge, \
            optimize, convert, dot, recursive, debug, no_res_opt
 
     args = parse_args()
@@ -275,6 +284,7 @@ def main():
         return
 
     brute = args.brute
+    eraseexif = args.eraseexif
     overwrite = args.overwrite
     nolarge = args.nolarge
     optimize = args.optimize
