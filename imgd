@@ -168,7 +168,7 @@ class ExtendedArgumentParser(argparse.ArgumentParser):
 Version %s
 Copyright (C) 2016 Arun Prakash Jana <engineerarun@gmail.com>
 License: GPLv3
-Webpage: https://github.com/jarun/buku
+Webpage: https://github.com/jarun/imgd
 ''' % _VERSION_)
 
     # Help
@@ -192,9 +192,9 @@ def parse_args(args=None, namespace=None):
 
     argparser = ExtendedArgumentParser(description='Adapt images to a resolution.')
     addarg = argparser.add_argument
-    addarg('-x', '--res', dest='res', nargs=1, metavar='resolution',
+    addarg('-x', '--res', dest='res', nargs=1, metavar='HxV',
            help='output resolution in HxV format')
-    addarg('-s', '--scale', dest='scale', type=int, metavar='percentage',
+    addarg('-s', '--scale', dest='scale', type=int, metavar='%',
            help='scale image to percentage')
     addarg('-b', '--brute', dest='brute', action='store_true',
            help='force to output resolution')
