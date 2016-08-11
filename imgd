@@ -76,6 +76,9 @@ def resize_image(src):
     try:
         img = Image.open(src)
         srcformat = img.format
+
+        # if 'only' convert option is specified,
+        # nothing to be done for non-PNG images
         if no_res_opt and not optimize and srcformat != 'PNG':
             if debug:
                 print('resize_image: cannot convert non-PNG')
