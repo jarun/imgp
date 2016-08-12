@@ -100,8 +100,6 @@ def resize_image(src):
     vres = img.size[1]
     ImageFile.MAXBLOCK = hres * vres
 
-    print(src + ' [%dx%d]' % (hres, vres))
-
     if scale:
         if scale == 100:
             _hres = hres
@@ -160,6 +158,8 @@ def resize_image(src):
             img = img.resize((target_hres, VRES), PIL.Image.ANTIALIAS)
             if debug:
                 print('resize_image: vres calculated %dx%d' % (target_hres, VRES))
+
+    print(src + ' [%dx%d] -> [%dx%d]' % (hres, vres, img.size[0], img.size[1]))
 
     try:
         if not optimize:
