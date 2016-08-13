@@ -52,29 +52,29 @@ Nascent and under active development. Consider alpha.
 
 1. Convert some images and directories:
 
-    $ imgd -x 1366x768 ~/ ~/Pictures/image3.png ~/Downloads/
-    /home/testuser/image1.png
-    3840x2160 -> 1365x768
-    11104999 bytes -> 1486426 bytes
+        $ imgd -x 1366x768 ~/ ~/Pictures/image3.png ~/Downloads/
+        /home/testuser/image1.png
+        3840x2160 -> 1365x768
+        11104999 bytes -> 1486426 bytes
 
-    /home/testuser/image2.jpg
-    2048x1365 -> 1152x768
-    224642 bytes -> 31421 bytes
+        /home/testuser/image2.jpg
+        2048x1365 -> 1152x768
+        224642 bytes -> 31421 bytes
 
-    /home/testuser/Pictures/image3.png
-    1920x1080 -> 1365x768
-    2811155 bytes -> 1657474 bytes
+        /home/testuser/Pictures/image3.png
+        1920x1080 -> 1365x768
+        2811155 bytes -> 1657474 bytes
 
-    /home/testuser/Downloads/image4
-    2048x1365 -> 1152x768
-    224642 bytes -> 31421 bytes
+        /home/testuser/Downloads/image4
+        2048x1365 -> 1152x768
+        224642 bytes -> 31421 bytes
 
 2. Scale an image by 75% and overwrite the source image:
 
-    $ imgd -s 75 -w ~/image.jpg
-    /home/testuser/image.jpg
-    1366x767 -> 1025x575
-    120968 bytes -> 45040 bytes
+        $ imgd -s 75 -w ~/image.jpg
+        /home/testuser/image.jpg
+        1366x767 -> 1025x575
+        120968 bytes -> 45040 bytes
 
 # License
 
