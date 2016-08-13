@@ -35,7 +35,7 @@ force = False
 nolarge = False
 optimize = False
 quiet = False
-recursive = False
+recurse = False
 overwrite = False
 debug = False
 pad = '_IMGD'
@@ -60,7 +60,7 @@ def traverse_dir(path):
                 continue
 
             if entry.is_dir():
-                if recursive:
+                if recurse:
                     if not os.access(entry.path, os.W_OK | os.X_OK):
                         print(entry.path + ': no permission')
                         continue
@@ -287,7 +287,7 @@ def parse_args(args=None, namespace=None):
            help='optimize the output images [default: off]')
     addarg('-q', '--quiet', dest='quiet', action='store_true',
            help='operate silently [default: verbose]')
-    addarg('-r', '--recursive', dest='recursive', action='store_true',
+    addarg('-r', '--recurse', dest='recurse', action='store_true',
            help='process directories recursively [default: off]')
     addarg('-w', '--overwrite', dest='overwrite', action='store_true',
            help='overwrite source images [default: off]')
@@ -305,7 +305,7 @@ def parse_args(args=None, namespace=None):
 
 def main():
     global HRES, VRES, scale, adapt, convert, dot, eraseexif, force, \
-           nolarge, optimize, quiet, recursive, overwrite, debug, no_res_opt
+           nolarge, optimize, quiet, recurse, overwrite, debug, no_res_opt
 
     args = parse_args()
 
@@ -341,7 +341,7 @@ def main():
     nolarge = args.nolarge
     optimize = args.optimize
     quiet = args.quiet
-    recursive = args.recursive
+    recurse = args.recurse
     overwrite = args.overwrite
     debug = args.debug
 
