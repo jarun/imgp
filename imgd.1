@@ -9,6 +9,7 @@ imgd \- Adapt images to a resolution.
 .PP
 Features:
   * resize by percentage or resolution
+  * adaptive resize considering orientation
   * brute force to a resolution
   * optimize images to save more space
   * convert PNG to JPEG
@@ -18,6 +19,16 @@ Features:
   * overwrite source image option
 .PP
 Output image names are appended with \fB_IMGD\fR if overwrite option is not used.
+.PP
+.B Adaptive mode
+.PP
+  - If the specified and image orientations are same [(H > V and h > v) or (H < V and h < v)], the image is resized with the longer side as reference.
+  - In case of cross orientation [(H > V and h < v) or (H < V and h > v)], the image is resized with the shorter side as reference. Same as non-adaptive.
+.PP
+  For example, if an image has a resolution of 2048x1365 and is being resized to 1366x768:
+.PP
+  - In regular mode, output image resolution will be 1152x768
+  - In adaptive mode, output image resolution will be 1366x910
 .SH OPTIONS
 .TP
 .BI "-h, --help"
@@ -28,6 +39,9 @@ Scale image by percentage.
 .TP
 .BI "-x, --res=" HxV
 Output resolution in HRESxVRES representation.
+.TP
+.BI "-a, --adapt"
+Adapt to specified resolution considering the orientation of the image. Disabled by default.
 .TP
 .BI "-c, --convert"
 Convert PNG images to JPEG to save on space. The output image is saved with '.jpg' extension.

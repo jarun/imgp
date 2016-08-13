@@ -27,11 +27,11 @@ from PIL import Image, ImageFile
 HRES = 0
 VRES = 0
 scale = None
+adapt = False
 convert = False
 dot = False
 eraseexif = False
 force = False
-keep = False
 nolarge = False
 optimize = False
 quiet = False
@@ -129,6 +129,42 @@ def resize_image(src):
         img = img.resize((HRES, VRES), PIL.Image.ANTIALIAS)
         if debug:
             print('resize_image: brute force res to [%dx%d]' % (HRES, VRES))
+    elif adapt:
+        ratio_img = float(hres/vres)
+        ratio_target = float(HRES/VRES)
+
+        if (ratio_target >= 1 and ratio_img > 1) or (ratio_target < 1 and ratio_img >= 1):
+            # same orientation (H >= V and h > v) or
+            # cross orientation (H < V and h >= v)
+            if nolarge and HRES > hres:
+                return
+
+            if HRES != hres:
+                hratio = HRES/float(hres)
+                target_vres = vres * hratio
+                if target_vres >= int(target_vres) + .5:
+                    target_vres = target_vres + 1
+                target_vres = int(target_vres)
+
+                img = img.resize((HRES, target_vres), PIL.Image.ANTIALIAS)
+                if debug:
+                    print('resize_image: vres adapted %dx%d' % (HRES, target_vres))
+        elif (ratio_target < 1 and ratio_img < 1) or (ratio_target >= 1 and ratio_img <= 1):
+            # same orientation (H < V and h < v) or
+            # cross orientation (H >= V and h <= v)
+            if nolarge and VRES > vres:
+                return
+
+            if VRES != vres:
+                vratio = VRES/float(vres)
+                target_hres = hres * vratio
+                if target_hres >= int(target_hres) + .5:
+                    target_hres = target_hres + 1
+                target_hres = int(target_hres)
+
+                img = img.resize((target_hres, VRES), PIL.Image.ANTIALIAS)
+                if debug:
+                    print('resize_image: hres adapted %dx%d' % (target_hres, VRES))
     else:
         ratio_img = float(hres/vres)
         ratio_target = float(HRES/VRES)
@@ -146,7 +182,7 @@ def resize_image(src):
 
             img = img.resize((HRES, target_vres), PIL.Image.ANTIALIAS)
             if debug:
-                print('resize_image: hres calculated %dx%d' % (HRES, target_vres))
+                print('resize_image: vres calculated %dx%d' % (HRES, target_vres))
         else:
             if nolarge and VRES > vres:
                 return
@@ -160,7 +196,7 @@ def resize_image(src):
 
             img = img.resize((target_hres, VRES), PIL.Image.ANTIALIAS)
             if debug:
-                print('resize_image: vres calculated %dx%d' % (target_hres, VRES))
+                print('resize_image: hres calculated %dx%d' % (target_hres, VRES))
 
     if not quiet:
         stats = src + '\n%dx%d -> %dx%d' % (hres, vres, img.size[0], img.size[1])
@@ -235,6 +271,8 @@ def parse_args(args=None, namespace=None):
            help='scale image by percentage')
     addarg('-x', '--res', dest='res', nargs=1, metavar='HxV',
            help='output resolution in HxV representation')
+    addarg('-a', '--adapt', dest='adapt', action='store_true',
+           help='adapt to resolution by orientation [default: off]')
     addarg('-c', '--convert', dest='convert', action='store_true',
            help='convert PNG to JPG format [default: off]')
     addarg('-d', '--dot', dest='dot', action='store_true',
@@ -243,8 +281,6 @@ def parse_args(args=None, namespace=None):
            help='erase exif metadata [default: off]')
     addarg('-f', '--force', dest='force', action='store_true',
            help='force to exact specified resolution [default: off]')
-    addarg('-k', '--keep', dest='keep', action='store_true',
-           help='best fit for screen [default: off]')
     addarg('-n', '--nolarge', dest='nolarge', action='store_true',
            help='do not enlarge smaller images [default: scale up]')
     addarg('-p', '--optimize', dest='optimize', action='store_true',
@@ -268,8 +304,8 @@ def parse_args(args=None, namespace=None):
     return argparser.parse_args(args, namespace)
 
 def main():
-    global HRES, VRES, scale, convert, dot, eraseexif, force, nolarge, \
-           optimize, quiet, recursive, overwrite, debug, no_res_opt
+    global HRES, VRES, scale, adapt, convert, dot, eraseexif, force, \
+           nolarge, optimize, quiet, recursive, overwrite, debug, no_res_opt
 
     args = parse_args()
 
@@ -297,6 +333,7 @@ def main():
         print('missing image transformation')
         return
 
+    adapt = args.adapt
     convert = args.convert
     dot = args.dot
     eraseexif = args.eraseexif

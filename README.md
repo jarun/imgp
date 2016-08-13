@@ -11,6 +11,7 @@
 # Features
 
 - resize by percentage or resolution
+- adaptive resize considering orientation
 - brute force to a resolution
 - optimize images to save more space
 - convert PNG to JPEG
@@ -19,6 +20,16 @@
 - process directories recursively
 - overwrite source image option
 - minimal dependencies
+
+## Adaptive mode
+
+- If the specified and image orientations are same [(H > V and h > v) or (H < V and h < v)], the image is resized with the longer side as reference.
+- In case of cross orientation [(H > V and h < v) or (H < V and h > v)], the image is resized with the shorter side as reference. Same as non-adaptive.
+
+For example, if an image has a resolution of 2048x1365 and is being resized to 1366x768:
+
+- In regular mode, output image resolution will be 1152x768
+- In adaptive mode, output image resolution will be 1366x910
 
 # Usage
 
@@ -35,10 +46,12 @@
       -h, --help         show this help message and exit
       -s %, --scale %    scale image by percentage
       -x HxV, --res HxV  output resolution in HxV representation
+      -a, --adapt        adapt to resolution by orientation [default: off]
       -c, --convert      convert PNG to JPG format [default: off]
       -d, --dot          include hidden files (on Linux) [default: off]
       -e, --eraseexif    erase exif metadata [default: off]
       -f, --force        force to exact pecified resolution [default: off]
+      -k, -keep          best fit to resolution [default: off]
       -n, --nolarge      do not enlarge smaller images [default: scale up]
       -p, --optimize     optimize the output images [default: off]
       -q, --quiet        operate silently [default: verbose]
