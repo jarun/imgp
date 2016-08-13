@@ -162,7 +162,7 @@ def resize_image(src):
                 print('resize_image: vres calculated %dx%d' % (target_hres, VRES))
 
     if not quiet:
-        print(src + ' [%dx%d] -> [%dx%d]' % (hres, vres, img.size[0], img.size[1]))
+        stats = src + '\n%dx%d -> %dx%d' % (hres, vres, img.size[0], img.size[1])
 
     try:
         if not optimize:
@@ -180,9 +180,9 @@ def resize_image(src):
 
         if not quiet:
             if convert and srcformat == 'PNG':
-                print('%12ld bytes -> %12ld bytes\n' % (os.path.getsize(src), os.path.getsize(name + pad + '.jpg')))
+                print('%s\n%ld bytes -> %ld bytes\n' % (stats, os.path.getsize(src), os.path.getsize(name + pad + '.jpg')))
             else:
-                print('%12ld bytes -> %12ld bytes\n' % (os.path.getsize(src), os.path.getsize(name + pad + ext)))
+                print('%s\n%ld bytes -> %ld bytes\n' % (stats, os.path.getsize(src), os.path.getsize(name + pad + ext)))
 
         if overwrite:
             if converted:
