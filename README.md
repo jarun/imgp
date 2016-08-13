@@ -6,8 +6,6 @@
 
 `imgd` works with Python 3.5 and above.
 
-Nascent and under active development. Consider alpha.
-
 [![Donate Button](https://img.shields.io/badge/paypal-donate-orange.svg?maxAge=2592000)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RMLTQ76JSXJ4Q)
 
 # Features
