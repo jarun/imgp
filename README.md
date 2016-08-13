@@ -1,6 +1,6 @@
 # imgd
 
-`imgd` (read *imaged*) is a command line image-resizer (and more) written using the Python PIL library. If you have tons of images you would like to resize adaptively to a screen-size using a single command, `imgd` is the utility for you. In most cases, `imgd` will save on storage while converting to smaller resolutions. There are additional optimization options too.
+`imgd` (read *imaged*) is a command line image-resizer (and more) written using the Python PIL library. If you have tons of images you would like to resize adaptively to a screen-size using a single command, `imgd` is the utility for you. In most cases, `imgd` will save on storage while converting to smaller resolutions. There are additional optimization options too. Output image names are appended with **_IMGD** if overwrite option is not used.
 
 `imgd` intends to be a stronger replacement for the resizer in Nautilus Image Converter extension, not tied to any File Manager and much faster. The Nautilus Image Converter is essentially a GTK extension with a library of its own that calls the `convert` utility of the ImageMagick library. On Desktop Environments (like Xfce or LxQt) which do not integrate Nautilus, `imgd` will save your day.
 
@@ -26,7 +26,7 @@ Nascent and under active development. Consider alpha.
 
 ## cmdline options
 
-    usage: imgd [OPTIONS] [PATH [PATH ...]]
+    usage: imgd [OPTIONS] PATH [PATH ...]
 
     Adapt images to a resolution.
 
@@ -35,17 +35,17 @@ Nascent and under active development. Consider alpha.
 
     optional arguments:
       -h, --help         show this help message and exit
-      -s %, --scale %    scale image to percentage
-      -x HxV, --res HxV  output resolution in HxV format
-      -b, --brute        force to output resolution
-      -c, --convert      convert PNG to JPG format
-      -d, --dot          include hidden files
-      -e, --eraseexif    erase exif metadata
-      -n, --nolarge      do not enlarge smaller images
-      -p, --optimize     optimize the output images
-      -r, --recursive    process directories recursively
-      -w, --overwrite    overwrite source images
-      -z, --debug        enable debug logs
+      -s %, --scale %    scale image by percentage
+      -x HxV, --res HxV  output resolution in HxV representation
+      -c, --convert      convert PNG to JPG format [default: off]
+      -d, --dot          include hidden files (on Linux) [default: off]
+      -e, --eraseexif    erase exif metadata [default: off]
+      -f, --force        force to exact pecified resolution [default: off]
+      -n, --nolarge      do not enlarge smaller images [default: scale up]
+      -p, --optimize     optimize the output images [default: off]
+      -r, --recursive    process directories recursively [default: off]
+      -w, --overwrite    overwrite source images [default: off]
+      -z, --debug        enable debug logs [default: off]
 
 # License
 

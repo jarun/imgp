@@ -93,7 +93,8 @@ def resize_image(src):
         except:
             exifdata = b''
     except OSError as e:
-        print(e)
+        if not str(e).startswith('cannot identify image file'):
+            print(e)
         return
 
     hres = img.size[0]
@@ -175,6 +176,11 @@ def resize_image(src):
             else:
                 img.save(name + pad + ext, srcformat, optimize=True, exif=exifdata)
 
+        if convert and srcformat == 'PNG':
+            print('%12ld bytes -> %12ld bytes\n' % (os.path.getsize(src), os.path.getsize(name + pad + '.jpg')))
+        else:
+            print('%12ld bytes -> %12ld bytes\n' % (os.path.getsize(src), os.path.getsize(name + pad + ext)))
+
         if overwrite:
             if converted:
                 os.remove(src)
@@ -222,27 +228,27 @@ def parse_args(args=None, namespace=None):
     argparser = ExtendedArgumentParser(description='Adapt images to a resolution.')
     addarg = argparser.add_argument
     addarg('-s', '--scale', dest='scale', type=int, metavar='%',
-           help='scale image to percentage')
+           help='scale image by percentage')
     addarg('-x', '--res', dest='res', nargs=1, metavar='HxV',
-           help='output resolution in HxV format')
-    addarg('-b', '--brute', dest='brute', action='store_true',
-           help='force to output resolution')
+           help='output resolution in HxV representation')
     addarg('-c', '--convert', dest='convert', action='store_true',
-           help='convert PNG to JPG format')
+           help='convert PNG to JPG format [default: off]')
     addarg('-d', '--dot', dest='dot', action='store_true',
-           help='include hidden files')
+           help='include hidden files (on Linux) [default: off]')
     addarg('-e', '--eraseexif', action='store_true',
-           help='erase exif metadata')
+           help='erase exif metadata [default: off]')
+    addarg('-f', '--force', dest='brute', action='store_true',
+           help='force to exact specified resolution [default: off]')
     addarg('-n', '--nolarge', dest='nolarge', action='store_true',
-           help='do not enlarge smaller images')
+           help='do not enlarge smaller images [default: scale up]')
     addarg('-p', '--optimize', dest='optimize', action='store_true',
-           help='optimize the output images')
+           help='optimize the output images [default: off]')
     addarg('-r', '--recursive', dest='recursive', action='store_true',
-           help='process directories recursively')
+           help='process directories recursively [default: off]')
     addarg('-w', '--overwrite', dest='overwrite', action='store_true',
-           help='overwrite source images')
+           help='overwrite source images [default: off]')
     addarg('-z', '--debug', dest='debug', action='store_true',
-           help='enable debug logs')
+           help='enable debug logs [default: off]')
     addarg('keywords', nargs='+', metavar='PATH',
            help='source file or directory')
 
