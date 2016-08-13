@@ -15,10 +15,10 @@ Nascent and under active development. Consider alpha.
 - resize by percentage or resolution
 - brute force to a resolution
 - optimize images to save more space
-- optionally convert PNG to JPEG
-- option to erase exif metadata
+- convert PNG to JPEG
+- erase exif metadata
 - force only larger to smaller resize
-- option to operate recusively
+- process directories recursively
 - overwrite source image option
 - minimal dependencies
 
