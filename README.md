@@ -23,8 +23,8 @@
 
 ## Adaptive mode
 
-- If the specified and image orientations are same [(H > V and h > v) or (H < V and h < v)], the image is resized with the longer side as reference.
-- In case of cross orientation [(H > V and h < v) or (H < V and h > v)], the image is resized with the shorter side as reference. Same as non-adaptive.
+- If the specified and image orientations are same [(H >= V and h > v) or (H < V and h < v)], the image is resized with the longer side as reference.
+- In case of cross orientation [(H >= V and h <= v) or (H < V and h >= v)], the image is resized with the shorter side as reference. Same as non-adaptive.
 
 For example, if an image has a resolution of 2048x1365 and is being resized to 1366x768:
 
