@@ -43,6 +43,7 @@ Nascent and under active development. Consider alpha.
       -f, --force        force to exact pecified resolution [default: off]
       -n, --nolarge      do not enlarge smaller images [default: scale up]
       -p, --optimize     optimize the output images [default: off]
+      -q, --quiet        operate silently [default: verbose]
       -r, --recursive    process directories recursively [default: off]
       -w, --overwrite    overwrite source images [default: off]
       -z, --debug        enable debug logs [default: off]

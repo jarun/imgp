@@ -35,6 +35,7 @@ optimize = False
 convert = False
 dot = False
 recursive = False
+quiet = False
 debug = False
 pad = '_IMGD'
 no_res_opt = False
@@ -160,7 +161,8 @@ def resize_image(src):
             if debug:
                 print('resize_image: vres calculated %dx%d' % (target_hres, VRES))
 
-    print(src + ' [%dx%d] -> [%dx%d]' % (hres, vres, img.size[0], img.size[1]))
+    if not quiet:
+        print(src + ' [%dx%d] -> [%dx%d]' % (hres, vres, img.size[0], img.size[1]))
 
     try:
         if not optimize:
@@ -176,10 +178,11 @@ def resize_image(src):
             else:
                 img.save(name + pad + ext, srcformat, optimize=True, exif=exifdata)
 
-        if convert and srcformat == 'PNG':
-            print('%12ld bytes -> %12ld bytes\n' % (os.path.getsize(src), os.path.getsize(name + pad + '.jpg')))
-        else:
-            print('%12ld bytes -> %12ld bytes\n' % (os.path.getsize(src), os.path.getsize(name + pad + ext)))
+        if not quiet:
+            if convert and srcformat == 'PNG':
+                print('%12ld bytes -> %12ld bytes\n' % (os.path.getsize(src), os.path.getsize(name + pad + '.jpg')))
+            else:
+                print('%12ld bytes -> %12ld bytes\n' % (os.path.getsize(src), os.path.getsize(name + pad + ext)))
 
         if overwrite:
             if converted:
@@ -243,6 +246,8 @@ def parse_args(args=None, namespace=None):
            help='do not enlarge smaller images [default: scale up]')
     addarg('-p', '--optimize', dest='optimize', action='store_true',
            help='optimize the output images [default: off]')
+    addarg('-q', '--quiet', dest='quiet', action='store_true',
+           help='operate silently [default: verbose]')
     addarg('-r', '--recursive', dest='recursive', action='store_true',
            help='process directories recursively [default: off]')
     addarg('-w', '--overwrite', dest='overwrite', action='store_true',
@@ -261,7 +266,7 @@ def parse_args(args=None, namespace=None):
 
 def main():
     global HRES, VRES, scale, brute, eraseexif, overwrite, nolarge, \
-           optimize, convert, dot, recursive, debug, no_res_opt
+           optimize, convert, dot, recursive, quiet, debug, no_res_opt
 
     args = parse_args()
 
@@ -297,6 +302,7 @@ def main():
     convert = args.convert
     dot = args.dot
     recursive = args.recursive
+    quiet = args.quiet
     debug = args.debug
 
     if len(args.keywords) == 0:
