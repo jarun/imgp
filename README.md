@@ -99,7 +99,7 @@ To remove, run:
       -f, --force        force to exact pecified resolution [default: off]
       -n, --enlarge      enlarge smaller images [default: off]
       -p, --optimize     optimize the output images [default: off]
-      -q, --quiet        operate silently [default: verbose]
+      -q, --quiet        operate silently [default: informative]
       -r, --recursive    process directories recursively [default: off]
       -w, --overwrite    overwrite source images [default: off]
       -z, --debug        enable debug logs [default: off]

@@ -286,7 +286,7 @@ def parse_args(args=None, namespace=None):
     addarg('-p', '--optimize', dest='optimize', action='store_true',
            help='optimize the output images [default: off]')
     addarg('-q', '--quiet', dest='quiet', action='store_true',
-           help='operate silently [default: verbose]')
+           help='operate silently [default: informative]')
     addarg('-r', '--recurse', dest='recurse', action='store_true',
            help='process directories recursively [default: off]')
     addarg('-w', '--overwrite', dest='overwrite', action='store_true',
