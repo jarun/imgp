@@ -85,11 +85,44 @@ def rotate_image(src):
                 exifdata = img.info['exif']
         except:
             exifdata = b''
-    #except OSError as e:
-        img = img.rotate(rotate)
-        img.save(name + pad + ext, srcformat, optimize=True, exif=exifdata)
+    except OSError as e:
+        if not str(e).startswith('cannot identify image file'):
+            print(e)
+        return
+
+    img = img.rotate(rotate, 0, True)
+    # Image.rotate(angle, resample=0, expand=0) expand = True means the image will be enlarged to hold th entire rotated image
+    img.save(name + pad + ext, srcformat, optimize=True, exif=exifdata)
+    try:
+        if not optimize:
+            if convert and srcformat == 'PNG':
+                img.save(name + pad + '.jpg', 'JPEG', exif=exifdata)
+                converted = True
+            else:
+                img.save(name + pad + ext, srcformat, exif=exifdata)
+        else:
+            if convert and srcformat == 'PNG':
+                img.save(name + pad + '.jpg', 'JPEG', optimize=True, exif=exifdata)
+                converted = True
+            else:
+                img.save(name + pad + ext, srcformat, optimize=True, exif=exifdata)
+
+        if not quiet:
+            if convert and srcformat == 'PNG':
+                print('%ld bytes\n' % (os.path.getsize(name + pad + '.jpg')))
+            else:
+                print('%ld bytes\n' % (os.path.getsize(name + pad + ext)))
+
+        if overwrite:
+            if converted:
+                os.remove(src)
+                shutil.move(name + pad + '.jpg', name + '.jpg')
+            else:
+                shutil.move(name + pad + ext, src)
     except OSError as e:
         print(e)
+
+
 
 def resize_image(src):
     global HRES, VRES
