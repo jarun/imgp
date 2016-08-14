@@ -66,10 +66,15 @@ def traverse_dir(path):
                         print(entry.path + ': no permission')
                         continue
                     traverse_dir(entry.path)
+            elif args.rotate is not None:
+                rotate_image(entry.path)
             else:
                 resize_image(entry.path)
     except OSError as e:
         print(e)
+
+def rotate_image(src):
+    print('inside rotate image function')
 
 def resize_image(src):
     global HRES, VRES
@@ -362,6 +367,8 @@ def main():
             print('%s does not exist' % path)
         elif os.path.isdir(path):
             traverse_dir(path)
+        elif args.rotate is not None:
+            rotate_image(path)
         else:
             resize_image(path)
 
