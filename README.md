@@ -42,7 +42,7 @@ In most cases, `imgd` will save on storage while converting to smaller resolutio
 
 For example, if an image has a resolution of 2048x1365 and is being resized to 1366x768:
 
-- In regular mode, output image resolution will be 1152x768
+- In regular mode (default), output image resolution will be 1152x768
 - In adaptive mode, output image resolution will be 1366x910
 
 # Installation
