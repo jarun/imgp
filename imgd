@@ -40,6 +40,7 @@ overwrite = False
 debug = False
 pad = '_IMGD'
 no_res_opt = False
+rotate = None
 _VERSION_ = '0.1'
 
 def getres(res):
@@ -295,6 +296,8 @@ def parse_args(args=None, namespace=None):
            help='enable debug logs [default: off]')
     addarg('keywords', nargs='+', metavar='PATH',
            help='source file or directory')
+    addarg('-o', '--rotate', dest='rotate', type=int, metavar='deg',
+           help='rotate the image by degree')
 
     # Show help and exit if no arguments
     if len(sys.argv) < 2:
@@ -305,12 +308,12 @@ def parse_args(args=None, namespace=None):
 
 def main():
     global HRES, VRES, scale, adapt, convert, dot, eraseexif, force, \
-           enlarge, optimize, quiet, recurse, overwrite, debug, no_res_opt
+           enlarge, optimize, quiet, recurse, overwrite, debug, no_res_opt, rotate
 
     args = parse_args()
 
-    if (args.res is not None and args.scale is not None):
-        print('specify either resolution or scale')
+    if (args.res is not None and args.scale is not None) or (args.res is not None and args.rotate is not None) or (args.rotate is not None and args.scale is not None):
+        print('specify either resolution or scale or rotate')
         return
 
     if args.scale is not None:
@@ -326,6 +329,11 @@ def main():
         if HRES == 0 or VRES == 0:
             print('resolution must be numeric and > 0')
             return
+    elif args.rotate is not None:
+        if(args.rotate <= 0) or (args.rotate >= 360):
+            print('the angle specified should be > 0 degree and < 360 degree')
+            return
+        rotate = args.rotate
     elif args.convert or args.optimize:
         no_res_opt = True
         scale = 100
