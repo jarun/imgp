@@ -52,7 +52,7 @@ For example, if an image has a resolution of 2048x1365 and is being resized to 1
       -e, --eraseexif    erase exif metadata [default: off]
       -f, --force        force to exact pecified resolution [default: off]
       -k, -keep          best fit to resolution [default: off]
-      -n, --nolarge      do not enlarge smaller images [default: scale up]
+      -n, --enlarge      enlarge smaller images [default: off]
       -p, --optimize     optimize the output images [default: off]
       -q, --quiet        operate silently [default: verbose]
       -r, --recursive    process directories recursively [default: off]
