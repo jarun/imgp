@@ -58,7 +58,7 @@ For example, if an image has a resolution of 2048x1365 and is being resized to 1
       -r, --recursive    process directories recursively [default: off]
       -w, --overwrite    overwrite source images [default: off]
       -z, --debug        enable debug logs [default: off]
-
+      -o deg, --rotate deg  rotate the image by specified angle
 # Examples
 
 1. Convert some images and directories:

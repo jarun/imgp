@@ -317,7 +317,7 @@ def parse_args(args=None, namespace=None):
     addarg('keywords', nargs='+', metavar='PATH',
            help='source file or directory')
     addarg('-o', '--rotate', dest='rotate', type=int, metavar='deg',
-           help='rotate the image by degree')
+           help='rotate the image by specified angle')
 
     # Show help and exit if no arguments
     if len(sys.argv) < 2:
