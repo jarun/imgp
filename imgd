@@ -74,7 +74,22 @@ def traverse_dir(path):
         print(e)
 
 def rotate_image(src):
-    print('inside rotate image function')
+    name, ext = os.path.splitext(src)
+    try:
+        img = Image.open(src)
+        srcformat = img.format
+        try:
+            if eraseexif:
+                exifdata = b''
+            else:
+                exifdata = img.info['exif']
+        except:
+            exifdata = b''
+    #except OSError as e:
+        img = img.rotate(rotate)
+        img.save(name + pad + ext, srcformat, optimize=True, exif=exifdata)
+    except OSError as e:
+        print(e)
 
 def resize_image(src):
     global HRES, VRES
