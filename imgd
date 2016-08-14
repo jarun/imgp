@@ -32,7 +32,7 @@ convert = False
 dot = False
 eraseexif = False
 force = False
-nolarge = False
+enlarge = False
 optimize = False
 quiet = False
 recurse = False
@@ -136,7 +136,7 @@ def resize_image(src):
         if (ratio_target >= 1 and ratio_img > 1) or (ratio_target < 1 and ratio_img >= 1):
             # same orientation (H >= V and h > v) or
             # cross orientation (H < V and h >= v)
-            if nolarge and HRES > hres:
+            if not enlarge and HRES > hres:
                 return
 
             if HRES != hres:
@@ -152,7 +152,7 @@ def resize_image(src):
         elif (ratio_target < 1 and ratio_img < 1) or (ratio_target >= 1 and ratio_img <= 1):
             # same orientation (H < V and h < v) or
             # cross orientation (H >= V and h <= v)
-            if nolarge and VRES > vres:
+            if not enlarge and VRES > vres:
                 return
 
             if VRES != vres:
@@ -170,7 +170,7 @@ def resize_image(src):
         ratio_target = float(HRES/VRES)
 
         if ratio_img >= ratio_target:
-            if nolarge and HRES > hres:
+            if not enlarge and HRES > hres:
                 return
 
             # re-sample as per target horizontal resolution
@@ -184,7 +184,7 @@ def resize_image(src):
             if debug:
                 print('resize_image: vres calculated %dx%d' % (HRES, target_vres))
         else:
-            if nolarge and VRES > vres:
+            if not enlarge and VRES > vres:
                 return
 
             # re-sample as per target vertical resolution
@@ -281,8 +281,8 @@ def parse_args(args=None, namespace=None):
            help='erase exif metadata [default: off]')
     addarg('-f', '--force', dest='force', action='store_true',
            help='force to exact specified resolution [default: off]')
-    addarg('-n', '--nolarge', dest='nolarge', action='store_true',
-           help='do not enlarge smaller images [default: scale up]')
+    addarg('-n', '--enlarge', dest='enlarge', action='store_true',
+           help='enlarge smaller images [default: does not scale up]')
     addarg('-p', '--optimize', dest='optimize', action='store_true',
            help='optimize the output images [default: off]')
     addarg('-q', '--quiet', dest='quiet', action='store_true',
@@ -305,7 +305,7 @@ def parse_args(args=None, namespace=None):
 
 def main():
     global HRES, VRES, scale, adapt, convert, dot, eraseexif, force, \
-           nolarge, optimize, quiet, recurse, overwrite, debug, no_res_opt
+           enlarge, optimize, quiet, recurse, overwrite, debug, no_res_opt
 
     args = parse_args()
 
@@ -317,8 +317,8 @@ def main():
         if (args.scale <= 0):
             print('scale should be > 0%')
             return
-        if args.scale > 100 and args.nolarge:
-            print('option --nolarge used, cannot scale > 100%')
+        if args.scale > 100 and not args.enlarge:
+            print('option --enlarge is not used, cannot scale > 100%')
             return
         scale = args.scale
     elif args.res is not None:
@@ -338,7 +338,7 @@ def main():
     dot = args.dot
     eraseexif = args.eraseexif
     force = args.force
-    nolarge = args.nolarge
+    enlarge = args.enlarge
     optimize = args.optimize
     quiet = args.quiet
     recurse = args.recurse
