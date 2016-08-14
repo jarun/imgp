@@ -1,12 +1,26 @@
 # imgd
 
-`imgd` (read *imaged*) is a command line image-resizer (and more) written using the Python PIL library. If you have tons of images you would like to resize adaptively to a screen-size using a single command, `imgd` is the utility for you. In most cases, `imgd` will save on storage while converting to smaller resolutions. There are additional optimization options too. Output image names are appended with **_IMGD** if overwrite option is not used.
+`imgd` (read *imaged*) is a command line image-resizer (and more). If you have tons of images you would like to resize adaptively to a screen-size using a single command, `imgd` is the utility for you.
 
-`imgd` intends to be a stronger replacement for the resizer in Nautilus Image Converter extension, not tied to any File Manager and much faster. The Nautilus Image Converter is essentially a GTK extension with a library of its own that calls the `convert` utility of the ImageMagick library. On Desktop Environments (like Xfce or LxQt) which do not integrate Nautilus, `imgd` will save your day.
+In most cases, `imgd` will save on storage while converting to smaller resolutions. There are additional optimization options too. Output image names are appended with **_IMGD** if overwrite option is not used.
 
-`imgd` works with Python 3.5 and above.
+`imgd` intends to be a stronger replacement for the resizer in Nautilus Image Converter extension, not tied to any File Manager and much faster. The Nautilus Image Converter is essentially a GTK extension with a library of its own that calls the `convert` utility of the ImageMagick library. On desktop environments (like Xfce or LxQt) which do not integrate Nautilus, `imgd` will save your day.
 
 [![Donate Button](https://img.shields.io/badge/paypal-donate-orange.svg?maxAge=2592000)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RMLTQ76JSXJ4Q)
+
+# Table of Contents
+
+- [Features](#features)
+  - [Adaptive mode](#adaptive-mode)
+- [Installation](#installation)
+  - [Dependncies](#dependencies)
+  - [Installing from this repository](#installing-from-this-repository)
+  - [Running as a standalone utility](#running-as-a-standalone-utility)
+- [Usage](#usage)
+  - [cmdline options](#cmdline-options)
+- [Examples](#examples)
+- [License](#license)
+- [Developers](#developers)
 
 # Features
 
@@ -31,6 +45,38 @@ For example, if an image has a resolution of 2048x1365 and is being resized to 1
 - In regular mode, output image resolution will be 1152x768
 - In adaptive mode, output image resolution will be 1366x910
 
+# Installation
+
+## Dependencies
+
+`imgd` requires Python 3.5 or later. It uses the Python PIL library.
+
+To install PIL library on Ubuntu, run:
+
+    $ sudo apt-get install python3-pil
+
+## Installing from this repository
+
+If you have git installed, run:
+
+    $ git clone https://github.com/jarun/imgd/
+or download the latest [stable release](https://github.com/jarun/imgd/releases/latest) or [development version](https://github.com/jarun/imgd/archive/master.zip).
+
+Install to default location (`/usr/local`):
+
+    $ sudo make install
+
+To remove, run:
+
+    $ sudo make uninstall
+`PREFIX` is supported. You may need to use `sudo` with `PREFIX` depending on your permissions on destination directory.
+
+## Running as a standalone utility
+
+`imgd` is a standalone utility. From the containing directory, run:
+
+    $ ./imgd
+
 # Usage
 
 ## cmdline options
@@ -51,7 +97,6 @@ For example, if an image has a resolution of 2048x1365 and is being resized to 1
       -d, --dot          include hidden files (on Linux) [default: off]
       -e, --eraseexif    erase exif metadata [default: off]
       -f, --force        force to exact pecified resolution [default: off]
-      -k, -keep          best fit to resolution [default: off]
       -n, --enlarge      enlarge smaller images [default: off]
       -p, --optimize     optimize the output images [default: off]
       -q, --quiet        operate silently [default: verbose]
