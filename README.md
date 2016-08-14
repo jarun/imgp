@@ -1,6 +1,6 @@
 # imgd
 
-`imgd` (read *imaged*) is a command line image-resizer (and more). If you have tons of images you would like to resize adaptively to a screen-size using a single command, `imgd` is the utility for you.
+`imgd` (read *imaged*) is a command line image-resizer (and more) for JPEG and PNG images. If you have tons of images you would like to resize adaptively to a screen-size using a single command, `imgd` is the utility for you.
 
 In most cases, `imgd` will save on storage while converting to smaller resolutions. There are additional optimization options too. Output image names are appended with **_IMGD** if overwrite option is not used.
 
