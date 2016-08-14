@@ -80,7 +80,7 @@ def resize_image(src):
         img = Image.open(src)
         srcformat = img.format
 
-        if srcformat != 'JPEG' or srcformat != 'PNG':
+        if not (srcformat == 'JPEG' or srcformat == 'PNG'):
             if debug:
                 print(src + ': not JPEG or PNG image')
             return
