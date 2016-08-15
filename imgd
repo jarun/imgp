@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Adapts images to a given resolution.
+# Resize or rotate JPEG and PNG images.
 #
 # Copyright (C) 2016 Arun Prakash Jana <engineerarun@gmail.com>
 #
