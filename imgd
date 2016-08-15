@@ -349,7 +349,7 @@ def parse_args(args=None, namespace=None):
         Namespace with parsed arguments / options.
     """
 
-    argparser = ExtendedArgumentParser(description='Adapt images to a resolution.')
+    argparser = ExtendedArgumentParser(description='Resize or rotate JPEG and PNG images.')
     addarg = argparser.add_argument
     addarg('-s', '--scale', dest='scale', type=int, metavar='%',
            help='scale image by percentage')

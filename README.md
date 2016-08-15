@@ -1,10 +1,10 @@
 # imgd
 
-`imgd` (read *imaged*) is a multiprocessing command line image resizer and rotator for JPEG and PNG images. If you have tons of images you would like to resize adaptively to a screen-size using a single command, `imgd` is the utility for you.
+`imgd` (read *imaged*) is a multiprocessing command line image resizer and rotator for JPEG and PNG images. If you have tons of images you would like to resize adaptively to a screen-size or rotate by an angle using a single command, `imgd` is the utility for you.
 
-Resize and rotation are lossy operations. In most cases, `imgd` will save on storage while converting to smaller resolutions. There are additional optimization options too. Output image names are appended with **_IMGD** if overwrite option is not used. By default _IMGD files are not processed. Doing so may lead to potential race conditions when overwrite option is used.
+Resize and rotation are lossy operations. In most cases, `imgd` will save on storage while converting to smaller resolutions. There are additional optimization options too. Output image names are appended with **_IMGD** if overwrite option is not used. By default *_IMGD* files are not processed. Doing so may lead to potential race conditions when overwrite option is used.
 
-`imgd` intends to be a stronger replacement for the resizer in Nautilus Image Converter extension, not tied to any File Manager and much faster. The Nautilus Image Converter is essentially a GTK extension with a library of its own that calls the `convert` utility of the ImageMagick library. On desktop environments (like Xfce or LxQt) which do not integrate Nautilus, `imgd` will save your day.
+`imgd` intends to be a stronger replacement for the Nautilus Image Converter extension, not tied to any File Manager and much faster. The Nautilus Image Converter is essentially a GTK extension with a library of its own that calls the `convert` utility of the ImageMagick library. On desktop environments (like Xfce or LxQt) which do not integrate Nautilus, `imgd` will save your day.
 
 [![Donate Button](https://img.shields.io/badge/paypal-donate-orange.svg?maxAge=2592000)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RMLTQ76JSXJ4Q)
 

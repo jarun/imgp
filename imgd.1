@@ -1,6 +1,6 @@
 .TH "IMGD" "1" "Aug 2016" "Version 0.1" "User Commands"
 .SH NAME
-imgd \- Resize or rotate JPEG and PNG images
+imgd \- Resize or rotate JPEG and PNG images.
 .SH SYNOPSIS
 .B imgd [OPTIONS] PATH [PATH ...]
 .SH DESCRIPTION
@@ -58,6 +58,9 @@ Erase EXIF metadata of JPEG images. Preserved by default.
 .TP
 .B "-f, --force"
 Force to the exact specified resolution. Disabled by default.
+.TP
+.B "-i, --processimgd"
+Process generated \fI_IMGD\fR files. Risky due to potential race conditions.
 .TP
 .B "-n, --enlarge"
 Enlarge smaller images. By default smaller images are not scaled if specified resolution is greater.
