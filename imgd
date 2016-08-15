@@ -96,7 +96,6 @@ def rotate_image(src):
 
     img = img.rotate(rotate, 0, True)
     # Image.rotate(angle, resample=0, expand=0) expand = True means the image will be enlarged to hold th entire rotated image
-    img.save(name + pad + ext, srcformat, optimize=True, exif=exifdata)
     try:
         if not optimize:
             if convert and srcformat == 'PNG':
@@ -113,9 +112,9 @@ def rotate_image(src):
 
         if not quiet:
             if convert and srcformat == 'PNG':
-                print('%ld bytes\n' % (os.path.getsize(name + pad + '.jpg')))
+                print('%ld bytes -> %ld bytes\n' % (os.path.getsize(src), os.path.getsize(name + pad + '.jpg')))
             else:
-                print('%ld bytes\n' % (os.path.getsize(name + pad + ext)))
+                print('%ld bytes -> %ld bytes\n' % (os.path.getsize(src), os.path.getsize(name + pad + ext)))
 
         if overwrite:
             if converted:

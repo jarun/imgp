@@ -1,14 +1,15 @@
 .TH "IMGD" "1" "Aug 2016" "Version 0.1" "User Commands"
 .SH NAME
-imgd \- Adapt images to a resolution.
+imgd \- Resize or rotate JPEG and PNG images
 .SH SYNOPSIS
 .B imgd [OPTIONS] PATH [PATH ...]
 .SH DESCRIPTION
 .B imgd
-(read \fIimaged\fR) is a command line image-resizer for JPEG and PNG images.
+(read \fIimaged\fR) is a command line image resizer and rotator for JPEG and PNG images.
 .PP
 Features:
   * resize by percentage or resolution
+  * rotate by specified angle
   * adaptive resize considering orientation
   * brute force to a resolution
   * optimize images to save more space
@@ -112,6 +113,15 @@ Scale an image by 75% and overwrite the source image:
 /home/testuser/image.jpg
 1366x767 -> 1025x575
 120968 bytes -> 45040 bytes
+.EE
+.PP
+.IP 2. 4
+Rotate an image by 90 degree:
+.PP
+.EX
+.IP
+.B $ imgd -o 75 ~/image.jpg
+120968 bytes -> 72038 bytes
 .EE
 .SH AUTHORS
 Arun Prakash Jana <engineerarun@gmail.com>
