@@ -25,7 +25,7 @@ Resize and rotation are lossy operations. In most cases, `imgd` will save on sto
 # Features
 
 - resize by percentage or resolution
-- rotate by specified angle
+- rotate clockwise by specified angle
 - adaptive resize considering orientation
 - brute force to a resolution
 - optimize images to save more space
@@ -93,7 +93,7 @@ To remove, run:
       -h, --help            show this help message and exit
       -s %, --scale %       scale image by percentage
       -x HxV, --res HxV     output resolution in HxV representation
-      -o deg, --rotate deg  rotate by specified angle
+      -o deg, --rotate deg  rotate clockwise by specified angle
       -a, --adapt           adapt to resolution by orientation [default: off]
       -c, --convert         convert PNG to JPG format [default: off]
       -d, --dot             include hidden files (on Linux) [default: off]
@@ -135,7 +135,7 @@ To remove, run:
         1366x767 -> 1025x575
         120968 bytes -> 45040 bytes
 
-3. Rotate an image by 90 degree:
+3. Rotate an image clockwise by 90 degrees:
 
         $ imgd -o 90  ~/image.jpg
         120968 bytes -> 72038 bytes

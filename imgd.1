@@ -9,7 +9,7 @@ imgd \- Resize or rotate JPEG and PNG images
 .PP
 Features:
   * resize by percentage or resolution
-  * rotate by specified angle
+  * rotate clockwise by specified angle
   * adaptive resize considering orientation
   * brute force to a resolution
   * optimize images to save more space
@@ -42,7 +42,7 @@ Scale image by percentage.
 Output resolution in HRESxVRES representation.
 .TP
 .BI "-o, --rotate=" deg
-Rotate by specified angle.
+Rotate clockwise by specified angle.
 .TP
 .BI "-a, --adapt"
 Adapt to specified resolution considering the orientation of the image. Disabled by default.
@@ -116,7 +116,7 @@ Scale an image by 75% and overwrite the source image:
 .EE
 .PP
 .IP 3. 4
-Rotate an image by 90 degree:
+Rotate an image clockwise by 90 degrees:
 .PP
 .EX
 .IP

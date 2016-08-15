@@ -112,7 +112,7 @@ def rotate_image(src, lock):
 
     # Image.rotate(angle, resample=0, expand=0) expand = True means
     # the image will be enlarged to hold th entire rotated image
-    img = img.rotate(rotate, 0, True)
+    img = img.rotate(-rotate, 0, True)
 
     if not quiet:
         stats = src + '\n%ld bytes ->' % os.path.getsize(src)
@@ -356,7 +356,7 @@ def parse_args(args=None, namespace=None):
     addarg('-x', '--res', dest='res', nargs=1, metavar='HxV',
            help='output resolution in HxV representation')
     addarg('-o', '--rotate', dest='rotate', type=int, metavar='deg',
-           help='rotate by specified angle')
+           help='rotate clockwise by specified angle')
     addarg('-a', '--adapt', dest='adapt', action='store_true',
            help='adapt to resolution by orientation [default: off]')
     addarg('-c', '--convert', dest='convert', action='store_true',
