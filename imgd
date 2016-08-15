@@ -20,7 +20,6 @@
 import argparse
 import sys
 import os
-import shutil
 import PIL
 from PIL import Image, ImageFile
 from multiprocessing import Process, Lock
@@ -92,8 +91,8 @@ def rotate_image(src, lock):
 
     try:
         img = Image.open(src)
-        srcformat = img.format
-        if not (srcformat == 'JPEG' or srcformat == 'PNG'):
+        _format = img.format
+        if not (_format == 'JPEG' or _format == 'PNG'):
             if debug:
                 lock_print(lock, src + ': not JPEG or PNG image')
             return
@@ -111,36 +110,36 @@ def rotate_image(src, lock):
             lock.release()
         return
 
+    # Image.rotate(angle, resample=0, expand=0) expand = True means
+    # the image will be enlarged to hold th entire rotated image
     img = img.rotate(rotate, 0, True)
-    # Image.rotate(angle, resample=0, expand=0) expand = True means the image will be enlarged to hold th entire rotated image
+
+    if not quiet:
+        stats = src + '\n%ld bytes ->' % os.path.getsize(src)
+
+    if overwrite:
+        suffix = ''
+    else:
+        suffix = pad
+
+    if convert and _format == 'PNG':
+        dest = name + suffix + '.jpg'
+        _format = 'JPEG'
+        converted = True
+    else:
+        dest = name + suffix + ext
+
     try:
         if not optimize:
-            if convert and srcformat == 'PNG':
-                img.save(name + pad + '.jpg', 'JPEG', exif=exifdata)
-                converted = True
-            else:
-                img.save(name + pad + ext, srcformat, exif=exifdata)
+            img.save(dest, _format, exif=exifdata)
         else:
-            if convert and srcformat == 'PNG':
-                img.save(name + pad + '.jpg', 'JPEG', optimize=True, exif=exifdata)
-                converted = True
-            else:
-                img.save(name + pad + ext, srcformat, optimize=True, exif=exifdata)
+            img.save(dest, _format, optimize=True, exif=exifdata)
 
         if not quiet:
-            if convert and srcformat == 'PNG':
-                lock_print(lock, '%s\n%ld bytes -> %ld bytes\n'
-                    % (src, os.path.getsize(src), os.path.getsize(name + pad + '.jpg')))
-            else:
-                lock_print(lock, '%s\n%ld bytes -> %ld bytes\n'
-                    % (src, os.path.getsize(src), os.path.getsize(name + pad + ext)))
+            lock_print(lock, '%s %ld bytes\n' % (stats, os.path.getsize(dest)))
 
-        if overwrite:
-            if converted:
-                os.remove(src)
-                shutil.move(name + pad + '.jpg', name + '.jpg')
-            else:
-                shutil.move(name + pad + ext, src)
+        if overwrite and converted:
+            os.remove(src)
     except OSError as e:
         lock.acquire()
         print(e)
@@ -156,16 +155,16 @@ def resize_image(src, lock):
 
     try:
         img = Image.open(src)
-        srcformat = img.format
+        _format = img.format
 
-        if not (srcformat == 'JPEG' or srcformat == 'PNG'):
+        if not (_format == 'JPEG' or _format == 'PNG'):
             if debug:
                 lock_print(lock, src + ': not JPEG or PNG image')
             return
 
         # if 'only' convert option is specified,
         # nothing to be done for non-PNG images
-        if no_res_opt and not optimize and srcformat != 'PNG':
+        if no_res_opt and not optimize and _format != 'PNG':
             if debug:
                 lock_print(lock, 'resize_image: cannot convert non-PNG')
             return
@@ -284,36 +283,32 @@ def resize_image(src, lock):
                 lock_print(lock, 'resize_image: hres calculated %dx%d' % (target_hres, VRES))
 
     if not quiet:
-        stats = src + '\n%dx%d -> %dx%d' % (hres, vres, img.size[0], img.size[1])
+        stats = src + '\n%dx%d -> %dx%d\n%ld bytes ->' \
+            % (hres, vres, img.size[0], img.size[1], os.path.getsize(src))
+
+    if overwrite:
+        suffix = ''
+    else:
+        suffix = pad
+
+    if convert and _format == 'PNG':
+        dest = name + suffix + '.jpg'
+        _format = 'JPEG'
+        converted = True
+    else:
+        dest = name + suffix + ext
 
     try:
         if not optimize:
-            if convert and srcformat == 'PNG':
-                img.save(name + pad + '.jpg', 'JPEG', exif=exifdata)
-                converted = True
-            else:
-                img.save(name + pad + ext, srcformat, exif=exifdata)
+            img.save(dest, _format, exif=exifdata)
         else:
-            if convert and srcformat == 'PNG':
-                img.save(name + pad + '.jpg', 'JPEG', optimize=True, exif=exifdata)
-                converted = True
-            else:
-                img.save(name + pad + ext, srcformat, optimize=True, exif=exifdata)
+            img.save(dest, _format, optimize=True, exif=exifdata)
 
         if not quiet:
-            if convert and srcformat == 'PNG':
-                lock_print(lock, '%s\n%ld bytes -> %ld bytes\n'
-                    % (stats, os.path.getsize(src), os.path.getsize(name + pad + '.jpg')))
-            else:
-                lock_print(lock, '%s\n%ld bytes -> %ld bytes\n'
-                    % (stats, os.path.getsize(src), os.path.getsize(name + pad + ext)))
+            lock_print(lock, '%s %ld bytes\n' % (stats, os.path.getsize(dest)))
 
-        if overwrite:
-            if converted:
-                os.remove(src)
-                shutil.move(name + pad + '.jpg', name + '.jpg')
-            else:
-                shutil.move(name + pad + ext, src)
+        if overwrite and converted:
+            os.remove(src)
     except OSError as e:
         lock.acquire()
         print(e)
