@@ -22,7 +22,7 @@ import sys
 import os
 import PIL
 from PIL import Image, ImageFile
-from multiprocessing import Process, Lock
+from multiprocessing import Pool, Lock
 
 HRES = 0
 VRES = 0
@@ -44,6 +44,9 @@ pad = '_IMGD'
 no_res_opt = False
 _VERSION_ = '0.1'
 
+pool = None
+lock = None
+
 def getres(res):
     hxv = res.split('x')
     if len(hxv) != 2:
@@ -54,12 +57,18 @@ def getres(res):
     except:
         return (0, 0)
 
-def lock_print(lock, msg):
+def lock_print(msg):
+    global lock
+
+    lock = Lock()
+
     lock.acquire()
     print(msg)
     lock.release()
 
 def traverse_dir(path):
+    global lock, pool
+
     lock = Lock()
 
     try:
@@ -71,19 +80,21 @@ def traverse_dir(path):
             if entry.is_dir():
                 if recurse:
                     if not os.access(entry.path, os.W_OK | os.X_OK):
-                        lock_print(lock, entry.path + ': no permission')
+                        lock_print(entry.path + ': no permission')
                         continue
                     traverse_dir(entry.path)
             elif rotate is not None:
-                Process(target=rotate_image, args=(entry.path, lock)).start()
+                result = pool.apply_async(rotate_image, args=(entry.path,))
             else:
-                Process(target=resize_image, args=(entry.path, lock)).start()
+                result = pool.apply_async(resize_image, args=(entry.path,))
     except OSError as e:
         lock.acquire()
         print(e)
         lock.release()
 
-def rotate_image(src, lock):
+def rotate_image(src):
+    global lock
+
     converted = False
     name, ext = os.path.splitext(src)
     if name.endswith(pad) and not processimgd:
@@ -94,7 +105,7 @@ def rotate_image(src, lock):
         _format = img.format
         if not (_format == 'JPEG' or _format == 'PNG'):
             if debug:
-                lock_print(lock, src + ': not JPEG or PNG image')
+                lock_print(src + ': not JPEG or PNG image')
             return
         try:
             if eraseexif:
@@ -136,7 +147,7 @@ def rotate_image(src, lock):
             img.save(dest, _format, optimize=True, exif=exifdata)
 
         if not quiet:
-            lock_print(lock, '%s %ld bytes\n' % (stats, os.path.getsize(dest)))
+            lock_print('%s %ld bytes\n' % (stats, os.path.getsize(dest)))
 
         if overwrite and converted:
             os.remove(src)
@@ -145,8 +156,8 @@ def rotate_image(src, lock):
         print(e)
         lock.release()
 
-def resize_image(src, lock):
-    global HRES, VRES
+def resize_image(src):
+    global HRES, VRES, lock
 
     converted = False
     name, ext = os.path.splitext(src)
@@ -159,14 +170,14 @@ def resize_image(src, lock):
 
         if not (_format == 'JPEG' or _format == 'PNG'):
             if debug:
-                lock_print(lock, src + ': not JPEG or PNG image')
+                lock_print(src + ': not JPEG or PNG image')
             return
 
         # if 'only' convert option is specified,
         # nothing to be done for non-PNG images
         if no_res_opt and not optimize and _format != 'PNG':
             if debug:
-                lock_print(lock, 'resize_image: cannot convert non-PNG')
+                lock_print('resize_image: cannot convert non-PNG')
             return
 
         try:
@@ -205,14 +216,14 @@ def resize_image(src, lock):
 
         img = img.resize((_hres, _vres), PIL.Image.ANTIALIAS)
         if debug:
-            lock_print(lock, 'resize_image: scaled to [%dx%d]' % (HRES, VRES))
+            lock_print('resize_image: scaled to [%dx%d]' % (HRES, VRES))
     elif HRES == hres and VRES == vres:
         if debug:
-            lock_print(lock, 'resize_image: same res [%dx%d]' % (HRES, VRES))
+            lock_print('resize_image: same res [%dx%d]' % (HRES, VRES))
     elif force:
         img = img.resize((HRES, VRES), PIL.Image.ANTIALIAS)
         if debug:
-            lock_print(lock, 'resize_image: brute force res to [%dx%d]' % (HRES, VRES))
+            lock_print('resize_image: brute force res to [%dx%d]' % (HRES, VRES))
     elif adapt:
         ratio_img = float(hres/vres)
         ratio_target = float(HRES/VRES)
@@ -232,7 +243,7 @@ def resize_image(src, lock):
 
                 img = img.resize((HRES, target_vres), PIL.Image.ANTIALIAS)
                 if debug:
-                    lock_print(lock, 'resize_image: vres adapted %dx%d' % (HRES, target_vres))
+                    lock_print('resize_image: vres adapted %dx%d' % (HRES, target_vres))
         elif (ratio_target < 1 and ratio_img < 1) or (ratio_target >= 1 and ratio_img <= 1):
             # same orientation (H < V and h < v) or
             # cross orientation (H >= V and h <= v)
@@ -248,7 +259,7 @@ def resize_image(src, lock):
 
                 img = img.resize((target_hres, VRES), PIL.Image.ANTIALIAS)
                 if debug:
-                    lock_print(lock, 'resize_image: hres adapted %dx%d' % (target_hres, VRES))
+                    lock_print('resize_image: hres adapted %dx%d' % (target_hres, VRES))
     else:
         ratio_img = float(hres/vres)
         ratio_target = float(HRES/VRES)
@@ -266,7 +277,7 @@ def resize_image(src, lock):
 
             img = img.resize((HRES, target_vres), PIL.Image.ANTIALIAS)
             if debug:
-                lock_print(lock, 'resize_image: vres calculated %dx%d' % (HRES, target_vres))
+                lock_print('resize_image: vres calculated %dx%d' % (HRES, target_vres))
         else:
             if not enlarge and VRES > vres:
                 return
@@ -280,7 +291,7 @@ def resize_image(src, lock):
 
             img = img.resize((target_hres, VRES), PIL.Image.ANTIALIAS)
             if debug:
-                lock_print(lock, 'resize_image: hres calculated %dx%d' % (target_hres, VRES))
+                lock_print('resize_image: hres calculated %dx%d' % (target_hres, VRES))
 
     if not quiet:
         stats = src + '\n%dx%d -> %dx%d\n%ld bytes ->' \
@@ -305,7 +316,7 @@ def resize_image(src, lock):
             img.save(dest, _format, optimize=True, exif=exifdata)
 
         if not quiet:
-            lock_print(lock, '%s %ld bytes\n' % (stats, os.path.getsize(dest)))
+            lock_print('%s %ld bytes\n' % (stats, os.path.getsize(dest)))
 
         if overwrite and converted:
             os.remove(src)
@@ -392,8 +403,8 @@ def parse_args(args=None, namespace=None):
     return argparser.parse_args(args, namespace)
 
 def main():
-    global HRES, VRES, scale, rotate, adapt, convert, dot, eraseexif, force, \
-           process_imgd, enlarge, optimize, quiet, recurse, overwrite, debug, no_res_opt
+    global HRES, VRES, scale, rotate, adapt, convert, dot, eraseexif, force, process_imgd, \
+           enlarge, optimize, quiet, recurse, overwrite, debug, no_res_opt, pool, lock
 
     args = parse_args()
 
@@ -430,6 +441,10 @@ def main():
         print('missing image transformation')
         return
 
+    if len(args.keywords) == 0:
+        print('no source specified')
+        return
+
     adapt = args.adapt
     convert = args.convert
     dot = args.dot
@@ -443,9 +458,8 @@ def main():
     overwrite = args.overwrite
     debug = args.debug
 
-    if len(args.keywords) == 0:
-        print('no source specified')
-        return
+    pool = Pool()
+    lock_print('')
 
     for path in args.keywords:
         if not os.path.exists(path):
@@ -453,11 +467,12 @@ def main():
         elif os.path.isdir(path):
             traverse_dir(path)
         elif args.rotate is not None:
-            lock = Lock()
-            rotate_image(path, lock)
+            rotate_image(path)
         else:
-            lock = Lock()
-            resize_image(path, lock)
+            resize_image(path)
+
+    pool.close()
+    pool.join()
 
 if __name__ == '__main__':
     main()
