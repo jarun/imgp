@@ -2,7 +2,7 @@
 
 `imgd` (read *imaged*) is a command line image resizer and rotator for JPEG and PNG images. If you have tons of images you would like to resize adaptively to a screen-size using a single command, `imgd` is the utility for you.
 
-Resize and rotation are lossy operations. In most cases, `imgd` will save on storage while converting to smaller resolutions. There are additional optimization options too. Output image names are appended with **_IMGD** if overwrite option is not used.
+Resize and rotation are lossy operations. In most cases, `imgd` will save on storage while converting to smaller resolutions. There are additional optimization options too. Output image names are appended with **_IMGD** if overwrite option is not used. By default _IMGD files are not processed. Doing so may lead to potential race conditions when overwrite option is used.
 
 `imgd` intends to be a stronger replacement for the resizer in Nautilus Image Converter extension, not tied to any File Manager and much faster. The Nautilus Image Converter is essentially a GTK extension with a library of its own that calls the `convert` utility of the ImageMagick library. On desktop environments (like Xfce or LxQt) which do not integrate Nautilus, `imgd` will save your day.
 
@@ -99,6 +99,7 @@ To remove, run:
       -d, --dot             include hidden files (on Linux) [default: off]
       -e, --eraseexif       erase exif metadata [default: off]
       -f, --force           force to exact pecified resolution [default: off]
+      -i, --processimgd     re-process generated files. * RISKY: refer to docs
       -n, --enlarge         enlarge smaller images [default: off]
       -p, --optimize        optimize the output images [default: off]
       -q, --quiet           operate silently [default: verbose]

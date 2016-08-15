@@ -458,11 +458,9 @@ def main():
         elif os.path.isdir(path):
             traverse_dir(path)
         elif args.rotate is not None:
-            processimgd = True
             lock = Lock()
             rotate_image(path, lock)
         else:
-            processimgd = True
             lock = Lock()
             resize_image(path, lock)
 

@@ -19,7 +19,7 @@ Features:
   * process directories recursively
   * overwrite source image option
 .PP
-Output image names are appended with \fB_IMGD\fR if overwrite option is not used.
+Output image names are appended with \fB_IMGD\fR if overwrite option is not used. By default \fB_IMGD\fR files are not processed. Doing so may lead to potential race conditions when overwrite option is used.
 .PP
 .B Adaptive mode
 .PP
