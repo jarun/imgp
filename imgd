@@ -74,6 +74,7 @@ def traverse_dir(path):
         print(e)
 
 def rotate_image(src):
+    converted = False
     name, ext = os.path.splitext(src)
     try:
         img = Image.open(src)
@@ -127,7 +128,7 @@ def rotate_image(src):
 
 def resize_image(src):
     global HRES, VRES
-    # TODO: add a check for image size comparison with convert
+
     converted = False
     name, ext = os.path.splitext(src)
 
