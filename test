@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+
+import argparse
+import sys
+import os
+import shutil
+import PIL
+from PIL import Image, ImageFile
+
+
+im = Image.open("bride.jpg")
+im.rotate(45).show()
+
+is = im.rotate(45)
+is.save("new.jpg")
+
+
