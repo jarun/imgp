@@ -115,13 +115,23 @@ Scale an image by 75% and overwrite the source image:
 120968 bytes -> 45040 bytes
 .EE
 .PP
-.IP 2. 4
+.IP 3. 4
 Rotate an image by 90 degree:
 .PP
 .EX
 .IP
 .B $ imgd -o 90 ~/image.jpg
 120968 bytes -> 72038 bytes
+.EE
+.PP
+.IP 4. 4
+Adapt the images in the current directory to 1366x1000 resolution.
+.br
+Convert PNG images to JPEG, visit all directories recursively and overwrite source images.
+.PP
+.EX
+.IP
+.B $ imgd -x 1366x1000 -acrw .
 .EE
 .SH AUTHORS
 Arun Prakash Jana <engineerarun@gmail.com>

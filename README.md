@@ -139,6 +139,10 @@ To remove, run:
         $ imgd -o 90  ~/image.jpg
         120968 bytes -> 72038 bytes
 
+4. Adapt the images in the current directory to 1366x1000 resolution. Convert PNG images to JPEG, visit all directories recursively and overwrite source images.
+
+        $ imgd -x 1366x1000 -acrw .
+
 # License
 
 GPLv3
