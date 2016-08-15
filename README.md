@@ -46,6 +46,7 @@ For example, if an image has a resolution of 2048x1365 and is being resized to 1
       -h, --help         show this help message and exit
       -s %, --scale %    scale image by percentage
       -x HxV, --res HxV  output resolution in HxV representation
+      -o deg, --rotate deg  rotate the image by specified angle
       -a, --adapt        adapt to resolution by orientation [default: off]
       -c, --convert      convert PNG to JPG format [default: off]
       -d, --dot          include hidden files (on Linux) [default: off]
@@ -58,7 +59,6 @@ For example, if an image has a resolution of 2048x1365 and is being resized to 1
       -r, --recursive    process directories recursively [default: off]
       -w, --overwrite    overwrite source images [default: off]
       -z, --debug        enable debug logs [default: off]
-      -o deg, --rotate deg  rotate the image by specified angle
 # Examples
 
 1. Convert some images and directories:
