@@ -66,7 +66,7 @@ def traverse_dir(path):
                         print(entry.path + ': no permission')
                         continue
                     traverse_dir(entry.path)
-            elif args.rotate is not None:
+            elif rotate is not None:
                 rotate_image(entry.path)
             else:
                 resize_image(entry.path)
@@ -371,8 +371,8 @@ def main():
 
     args = parse_args()
 
-    if (args.res is not None and args.scale is not None): 
-        print('specify either resolution or scale or rotate')
+    if (args.res is not None and args.scale is not None):
+        print('specify either resolution or scale')
         return
 
     if (args.rotate is not None and (args.res is not None or args.scale is not None)):
