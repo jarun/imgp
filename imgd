@@ -129,9 +129,11 @@ def rotate_image(src, lock):
 
         if not quiet:
             if convert and srcformat == 'PNG':
-                lock_print(lock, '%ld bytes -> %ld bytes\n' % (os.path.getsize(src), os.path.getsize(name + pad + '.jpg')))
+                lock_print(lock, '%s\n%ld bytes -> %ld bytes\n'
+                    % (src, os.path.getsize(src), os.path.getsize(name + pad + '.jpg')))
             else:
-                lock_print(lock, '%ld bytes -> %ld bytes\n' % (os.path.getsize(src), os.path.getsize(name + pad + ext)))
+                lock_print(lock, '%s\n%ld bytes -> %ld bytes\n'
+                    % (src, os.path.getsize(src), os.path.getsize(name + pad + ext)))
 
         if overwrite:
             if converted:
@@ -300,9 +302,11 @@ def resize_image(src, lock):
 
         if not quiet:
             if convert and srcformat == 'PNG':
-                lock_print(lock, '%s\n%ld bytes -> %ld bytes\n' % (stats, os.path.getsize(src), os.path.getsize(name + pad + '.jpg')))
+                lock_print(lock, '%s\n%ld bytes -> %ld bytes\n'
+                    % (stats, os.path.getsize(src), os.path.getsize(name + pad + '.jpg')))
             else:
-                lock_print(lock, '%s\n%ld bytes -> %ld bytes\n' % (stats, os.path.getsize(src), os.path.getsize(name + pad + ext)))
+                lock_print(lock, '%s\n%ld bytes -> %ld bytes\n'
+                    % (stats, os.path.getsize(src), os.path.getsize(name + pad + ext)))
 
         if overwrite:
             if converted:
