@@ -134,7 +134,7 @@ To remove, run:
         1366x767 -> 1025x575
         120968 bytes -> 45040 bytes
 
-3. Rotate an image by 75 degree:
+3. Rotate an image by 90 degree:
 
         $ imgd -o 90  ~/image.jpg
         120968 bytes -> 72038 bytes
