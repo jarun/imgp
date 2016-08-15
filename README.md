@@ -138,6 +138,7 @@ To remove, run:
 
         $ imgd -o 90  ~/image.jpg
         120968 bytes -> 72038 bytes
+
 # License
 
 GPLv3
