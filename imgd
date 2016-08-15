@@ -27,6 +27,7 @@ from PIL import Image, ImageFile
 HRES = 0
 VRES = 0
 scale = None
+rotate = None
 adapt = False
 convert = False
 dot = False
@@ -40,7 +41,6 @@ overwrite = False
 debug = False
 pad = '_IMGD'
 no_res_opt = False
-rotate = None
 _VERSION_ = '0.1'
 
 def getres(res):
@@ -121,8 +121,6 @@ def rotate_image(src):
                 shutil.move(name + pad + ext, src)
     except OSError as e:
         print(e)
-
-
 
 def resize_image(src):
     global HRES, VRES
@@ -325,6 +323,8 @@ def parse_args(args=None, namespace=None):
            help='scale image by percentage')
     addarg('-x', '--res', dest='res', nargs=1, metavar='HxV',
            help='output resolution in HxV representation')
+    addarg('-o', '--rotate', dest='rotate', type=int, metavar='deg',
+           help='rotate by specified angle')
     addarg('-a', '--adapt', dest='adapt', action='store_true',
            help='adapt to resolution by orientation [default: off]')
     addarg('-c', '--convert', dest='convert', action='store_true',
@@ -349,8 +349,6 @@ def parse_args(args=None, namespace=None):
            help='enable debug logs [default: off]')
     addarg('keywords', nargs='+', metavar='PATH',
            help='source file or directory')
-    addarg('-o', '--rotate', dest='rotate', type=int, metavar='deg',
-           help='rotate the image by specified angle')
 
     # Show help and exit if no arguments
     if len(sys.argv) < 2:
@@ -360,12 +358,12 @@ def parse_args(args=None, namespace=None):
     return argparser.parse_args(args, namespace)
 
 def main():
-    global HRES, VRES, scale, adapt, convert, dot, eraseexif, force, \
-           enlarge, optimize, quiet, recurse, overwrite, debug, no_res_opt, rotate
+    global HRES, VRES, scale, rotate, adapt, convert, dot, eraseexif, force, \
+           enlarge, optimize, quiet, recurse, overwrite, debug, no_res_opt
 
     args = parse_args()
 
-    if (args.res is not None and args.scale is not None) or (args.res is not None and args.rotate is not None) or (args.rotate is not None and args.scale is not None):
+    if (args.res is not None and args.scale is not None) or (args.rotate is not None and (args.res is not None or args.scale is not None)):
         print('specify either resolution or scale or rotate')
         return
 
