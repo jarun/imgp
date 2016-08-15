@@ -1,6 +1,6 @@
 # imgd
 
-`imgd` (read *imaged*) is a command line image resizer and rotator for JPEG and PNG images. If you have tons of images you would like to resize adaptively to a screen-size using a single command, `imgd` is the utility for you.
+`imgd` (read *imaged*) is a multiprocessing command line image resizer and rotator for JPEG and PNG images. If you have tons of images you would like to resize adaptively to a screen-size using a single command, `imgd` is the utility for you.
 
 Resize and rotation are lossy operations. In most cases, `imgd` will save on storage while converting to smaller resolutions. There are additional optimization options too. Output image names are appended with **_IMGD** if overwrite option is not used. By default _IMGD files are not processed. Doing so may lead to potential race conditions when overwrite option is used.
 
