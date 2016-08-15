@@ -92,6 +92,7 @@ To remove, run:
       -h, --help         show this help message and exit
       -s %, --scale %    scale image by percentage
       -x HxV, --res HxV  output resolution in HxV representation
+      -o deg, --rotate deg  rotate by specified angle
       -a, --adapt        adapt to resolution by orientation [default: off]
       -c, --convert      convert PNG to JPG format [default: off]
       -d, --dot          include hidden files (on Linux) [default: off]
@@ -103,7 +104,6 @@ To remove, run:
       -r, --recursive    process directories recursively [default: off]
       -w, --overwrite    overwrite source images [default: off]
       -z, --debug        enable debug logs [default: off]
-
 # Examples
 
 1. Convert some images and directories:

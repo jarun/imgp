@@ -27,6 +27,7 @@ from PIL import Image, ImageFile
 HRES = 0
 VRES = 0
 scale = None
+rotate = None
 adapt = False
 convert = False
 dot = False
@@ -65,8 +66,63 @@ def traverse_dir(path):
                         print(entry.path + ': no permission')
                         continue
                     traverse_dir(entry.path)
+            elif args.rotate is not None:
+                rotate_image(entry.path)
             else:
                 resize_image(entry.path)
+    except OSError as e:
+        print(e)
+
+def rotate_image(src):
+    name, ext = os.path.splitext(src)
+    try:
+        img = Image.open(src)
+        srcformat = img.format
+        if not (srcformat == 'JPEG' or srcformat == 'PNG'):
+            if debug:
+                print(src + ': not JPEG or PNG image')
+            return
+        try:
+            if eraseexif:
+                exifdata = b''
+            else:
+                exifdata = img.info['exif']
+        except:
+            exifdata = b''
+    except OSError as e:
+        if not str(e).startswith('cannot identify image file'):
+            print(e)
+        return
+
+    img = img.rotate(rotate, 0, True)
+    # Image.rotate(angle, resample=0, expand=0) expand = True means the image will be enlarged to hold th entire rotated image
+    img.save(name + pad + ext, srcformat, optimize=True, exif=exifdata)
+    try:
+        if not optimize:
+            if convert and srcformat == 'PNG':
+                img.save(name + pad + '.jpg', 'JPEG', exif=exifdata)
+                converted = True
+            else:
+                img.save(name + pad + ext, srcformat, exif=exifdata)
+        else:
+            if convert and srcformat == 'PNG':
+                img.save(name + pad + '.jpg', 'JPEG', optimize=True, exif=exifdata)
+                converted = True
+            else:
+                img.save(name + pad + ext, srcformat, optimize=True, exif=exifdata)
+
+        if not quiet:
+            if convert and srcformat == 'PNG':
+                print('%ld bytes\n' % (os.path.getsize(name + pad + '.jpg')))
+            else:
+                print('%ld bytes\n' % (os.path.getsize(name + pad + ext)))
+
+        if overwrite:
+            if converted:
+                os.remove(src)
+                shutil.move(name + pad + '.jpg', name + '.jpg')
+            else:
+                shutil.move(name + pad + ext, src)
     except OSError as e:
         print(e)
 
@@ -276,6 +332,8 @@ def parse_args(args=None, namespace=None):
            help='scale image by percentage')
     addarg('-x', '--res', dest='res', nargs=1, metavar='HxV',
            help='output resolution in HxV representation')
+    addarg('-o', '--rotate', dest='rotate', type=int, metavar='deg',
+           help='rotate by specified angle')
     addarg('-a', '--adapt', dest='adapt', action='store_true',
            help='adapt to resolution by orientation [default: off]')
     addarg('-c', '--convert', dest='convert', action='store_true',
@@ -309,13 +367,17 @@ def parse_args(args=None, namespace=None):
     return argparser.parse_args(args, namespace)
 
 def main():
-    global HRES, VRES, scale, adapt, convert, dot, eraseexif, force, \
+    global HRES, VRES, scale, rotate, adapt, convert, dot, eraseexif, force, \
            enlarge, optimize, quiet, recurse, overwrite, debug, no_res_opt
 
     args = parse_args()
 
-    if (args.res is not None and args.scale is not None):
-        print('specify either resolution or scale')
+    if (args.res is not None and args.scale is not None): 
+        print('specify either resolution or scale or rotate')
+        return
+
+    if (args.rotate is not None and (args.res is not None or args.scale is not None)):
+        print('option --rotate cannot be used with --scale or --res')
         return
 
     if args.scale is not None:
@@ -331,6 +393,11 @@ def main():
         if HRES == 0 or VRES == 0:
             print('resolution must be numeric and > 0')
             return
+    elif args.rotate is not None:
+        if(args.rotate <= 0) or (args.rotate >= 360):
+            print('the angle specified should be > 0 degree and < 360 degree')
+            return
+        rotate = args.rotate
     elif args.convert or args.optimize:
         no_res_opt = True
         scale = 100
@@ -359,6 +426,8 @@ def main():
             print('%s does not exist' % path)
         elif os.path.isdir(path):
             traverse_dir(path)
+        elif args.rotate is not None:
+            rotate_image(path)
         else:
             resize_image(path)
 
