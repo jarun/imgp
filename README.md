@@ -1,6 +1,6 @@
 # imgd
 
-`imgd` (read *imaged*) is a command line image-resizer (and more) written using the Python PIL library. If you have tons of images you would like to resize adaptively to a screen-size using a single command, `imgd` is the utility for you. In most cases, `imgd` will save on storage while converting to smaller resolutions. There are additional optimization options too. Output image names are appended with **_IMGD** if overwrite option is not used.
+`imgd` (read *imaged*) is a command line image-resizer and image-rotator (and more) written using the Python PIL library. If you have tons of images you would like to resize adaptively to a screen-size using a single command, `imgd` is the utility for you. In most cases, `imgd` will save on storage while converting to smaller resolutions. There are additional optimization options too. Output image names are appended with **_IMGD** if overwrite option is not used.
 
 `imgd` intends to be a stronger replacement for the resizer in Nautilus Image Converter extension, not tied to any File Manager and much faster. The Nautilus Image Converter is essentially a GTK extension with a library of its own that calls the `convert` utility of the ImageMagick library. On Desktop Environments (like Xfce or LxQt) which do not integrate Nautilus, `imgd` will save your day.
 
@@ -11,6 +11,7 @@
 # Features
 
 - resize by percentage or resolution
+- rotate by specified angle
 - adaptive resize considering orientation
 - brute force to a resolution
 - optimize images to save more space
@@ -37,28 +38,28 @@ For example, if an image has a resolution of 2048x1365 and is being resized to 1
 
     usage: imgd [OPTIONS] PATH [PATH ...]
 
-    Adapt images to a resolution.
+    Resize or rotate JPEG and PNG images.
 
     positional arguments:
       PATH               source file or directory
 
     optional arguments:
-      -h, --help         show this help message and exit
-      -s %, --scale %    scale image by percentage
-      -x HxV, --res HxV  output resolution in HxV representation
+      -h, --help            show this help message and exit
+      -s %, --scale %       scale image by percentage
+      -x HxV, --res HxV     output resolution in HxV representation
       -o deg, --rotate deg  rotate by specified angle
-      -a, --adapt        adapt to resolution by orientation [default: off]
-      -c, --convert      convert PNG to JPG format [default: off]
-      -d, --dot          include hidden files (on Linux) [default: off]
-      -e, --eraseexif    erase exif metadata [default: off]
-      -f, --force        force to exact pecified resolution [default: off]
-      -k, -keep          best fit to resolution [default: off]
-      -n, --enlarge      enlarge smaller images [default: off]
-      -p, --optimize     optimize the output images [default: off]
-      -q, --quiet        operate silently [default: verbose]
-      -r, --recursive    process directories recursively [default: off]
-      -w, --overwrite    overwrite source images [default: off]
-      -z, --debug        enable debug logs [default: off]
+      -a, --adapt           adapt to resolution by orientation [default: off]
+      -c, --convert         convert PNG to JPG format [default: off]
+      -d, --dot             include hidden files (on Linux) [default: off]
+      -e, --eraseexif       erase exif metadata [default: off]
+      -f, --force           force to exact pecified resolution [default: off]
+      -k, -keep             best fit to resolution [default: off]
+      -n, --enlarge         enlarge smaller images [default: off]
+      -p, --optimize        optimize the output images [default: off]
+      -q, --quiet           operate silently [default: verbose]
+      -r, --recursive       process directories recursively [default: off]
+      -w, --overwrite       overwrite source images [default: off]
+      -z, --debug           enable debug logs [default: off]
 # Examples
 
 1. Convert some images and directories:
@@ -87,6 +88,10 @@ For example, if an image has a resolution of 2048x1365 and is being resized to 1
         1366x767 -> 1025x575
         120968 bytes -> 45040 bytes
 
+3. Rotate an image by 75 degree:
+
+        $ imgd -o 90  ~/image.jpg
+        120968 bytes -> 72038 bytes
 # License
 
 GPLv3

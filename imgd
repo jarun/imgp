@@ -113,9 +113,9 @@ def rotate_image(src):
 
         if not quiet:
             if convert and srcformat == 'PNG':
-                print('%ld bytes\n' % (os.path.getsize(name + pad + '.jpg')))
+                print('%ld bytes -> %ld bytes\n' % (os.path.getsize(src), os.path.getsize(name + pad + '.jpg')))
             else:
-                print('%ld bytes\n' % (os.path.getsize(name + pad + ext)))
+                print('%ld bytes -> %ld bytes\n' % (os.path.getsize(src), os.path.getsize(name + pad + ext)))
 
         if overwrite:
             if converted:
