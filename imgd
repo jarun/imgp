@@ -45,7 +45,7 @@ no_res_opt = False
 _VERSION_ = '0.1'
 
 pool = None
-lock = None
+lock = Lock()
 
 def getres(res):
     hxv = res.split('x')
@@ -60,16 +60,12 @@ def getres(res):
 def lock_print(msg):
     global lock
 
-    lock = Lock()
-
     lock.acquire()
     print(msg)
     lock.release()
 
 def traverse_dir(path):
     global lock, pool
-
-    lock = Lock()
 
     try:
         for entry in os.scandir(path):
@@ -403,8 +399,9 @@ def parse_args(args=None, namespace=None):
     return argparser.parse_args(args, namespace)
 
 def main():
-    global HRES, VRES, scale, rotate, adapt, convert, dot, eraseexif, force, process_imgd, \
-           enlarge, optimize, quiet, recurse, overwrite, debug, no_res_opt, pool, lock
+    global HRES, VRES, scale, rotate, adapt, convert, dot, eraseexif, \
+           force, process_imgd, process_imgd, enlarge, optimize, \
+           quiet, recurse, overwrite, debug, no_res_opt, pool
 
     args = parse_args()
 
@@ -459,7 +456,6 @@ def main():
     debug = args.debug
 
     pool = Pool()
-    lock_print('')
 
     for path in args.keywords:
         if not os.path.exists(path):
