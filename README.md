@@ -16,6 +16,7 @@ Resize and rotation are lossy operations. In most cases, `imgd` will save on sto
   - [Dependncies](#dependencies)
   - [Installing from this repository](#installing-from-this-repository)
   - [Running as a standalone utility](#running-as-a-standalone-utility)
+  - [Debian package](#debian-package)
 - [Usage](#usage)
   - [cmdline options](#cmdline-options)
 - [Examples](#examples)
@@ -77,6 +78,13 @@ To remove, run:
 `imgd` is a standalone utility. From the containing directory, run:
 
     $ ./imgd
+
+## Debian package
+
+If you are on a Debian based system (including Ubuntu), visit [the latest stable release](https://github.com/jarun/imgd/releases/latest) and download the.deb package. To install, run
+
+    $ sudo dpkg -i imgd-$version-all.deb
+Please substitute `$version` with the appropriate package version.
 
 # Usage
 
