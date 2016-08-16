@@ -42,7 +42,7 @@ overwrite = False
 debug = False
 pad = '_IMGD'
 no_res_opt = False
-_VERSION_ = '0.1'
+_VERSION_ = '1.0'
 
 pool = None
 lock = Lock()
