@@ -1,0 +1,19 @@
+-------------------------------------------------------------------------------
+
+imgd v1.0
+2016-08-17
+
+Initial features
+- resize by percentage or resolution
+- rotate clockwise by specified angle
+- adaptive resize considering orientation
+- brute force to a resolution
+- optimize images to save more space
+- convert PNG to JPEG
+- erase exif metadata
+- force only larger to smaller resize
+- process directories recursively
+- overwrite source image option
+- minimal dependencies
+
+-------------------------------------------------------------------------------
