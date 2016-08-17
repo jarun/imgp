@@ -34,7 +34,7 @@ Performance: imgd could resize 8823 images (~4.5GB in size) of mixed resolutions
 - optimize images to save more space
 - convert PNG to JPEG
 - erase exif metadata
-- force only larger to smaller resize
+- force smaller to larger resize
 - process directories recursively
 - overwrite source image option
 - minimal dependencies
