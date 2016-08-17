@@ -19,6 +19,7 @@ Performance: imgd could resize 8823 images (~4.5GB in size) of mixed resolutions
   - [Installing from this repository](#installing-from-this-repository)
   - [Running as a standalone utility](#running-as-a-standalone-utility)
   - [Debian package](#debian-package)
+  - [Arch users](#arch-users)
 - [Usage](#usage)
   - [cmdline options](#cmdline-options)
 - [Examples](#examples)
