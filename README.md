@@ -92,6 +92,15 @@ If you are on a Debian based system (including Ubuntu), visit [the latest stable
     $ sudo dpkg -i imgd-$version-all.deb
 Please substitute `$version` with the appropriate package version.
 
+## Arch users
+
+If you are on an Arch based system you can use the following AUR packages:
+
+* **Official Releases**: https://aur.archlinux.org/packages/imgd/
+* **Development Releases**: https://aur.archlinux.org/packages/imgd-git/
+
+**Note**: If you're having trouble with the AUR packages please email the package maintainer at zach@zach-adams.com before creating an issue.
+
 # Usage
 
 ## cmdline options
