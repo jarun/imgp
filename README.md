@@ -53,11 +53,15 @@ For example, if an image has a resolution of 2048x1365 and is being resized to 1
 
 ## Dependencies
 
-`imgd` requires Python 3.5 or later. It uses the Python PIL library.
+`imgd` requires Python 3.5 or later. It uses the Python PIL/Pillow library.
 
 To install PIL library on Ubuntu, run:
 
     $ sudo apt-get install python3-pil
+
+or, using pip3:
+
+    $ sudo pip3 install pillow
 
 ## Installing from this repository
 
