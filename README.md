@@ -6,6 +6,8 @@ Resize and rotation are lossy operations. In most cases, `imgd` will save on sto
 
 `imgd` intends to be a stronger replacement for the Nautilus Image Converter extension, not tied to any File Manager and much faster. The Nautilus Image Converter is essentially a GTK extension with a library of its own that calls the `convert` utility of the ImageMagick library. On desktop environments (like Xfce or LxQt) which do not integrate Nautilus, `imgd` will save your day.
 
+Performance: imgd could resize 8823 images (~4.5GB in size) of mixed resolutions (high to regular) stored in an external USB 2.0 hard disk at an adaptive resolution of 1366x1000 in around 8 minutes. The resulting size was 897MB (~ 20%).
+
 [![Donate Button](https://img.shields.io/badge/paypal-donate-orange.svg?maxAge=2592000)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RMLTQ76JSXJ4Q)
 
 # Table of Contents
