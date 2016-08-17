@@ -112,7 +112,7 @@ Please substitute `$version` with the appropriate package version.
       -c, --convert         convert PNG to JPG format [default: off]
       -d, --dot             include hidden files (on Linux) [default: off]
       -e, --eraseexif       erase exif metadata [default: off]
-      -f, --force           force to exact pecified resolution [default: off]
+      -f, --force           force to exact specified resolution [default: off]
       -i, --processimgd     re-process generated files. * RISKY: refer to docs
       -n, --enlarge         enlarge smaller images [default: off]
       -p, --optimize        optimize the output images [default: off]
