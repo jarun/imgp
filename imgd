@@ -34,6 +34,7 @@ dot = False
 eraseexif = False
 force = False
 processimgd = False
+keep = False
 enlarge = False
 optimize = False
 quiet = False
@@ -194,7 +195,10 @@ def resize_image(src):
     vres = img.size[1]
     ImageFile.MAXBLOCK = hres * vres
 
-    if scale:
+    if keep and (HRES == hres or VRES == vres or scale == 100):
+        if not (_format == 'PNG' and convert):
+            return
+    elif scale:
         if scale == 100:
             _hres = hres
             _vres = vres
@@ -376,6 +380,9 @@ def parse_args(args=None, namespace=None):
            help='force to exact specified resolution [default: off]')
     addarg('-i', '--processimgd', dest='processimgd', action='store_true',
            help='re-process generated files. * RISKY: refer to docs')
+    addarg('-k', '--keep', dest='keep', action='store_true',
+           help='retain (but convert, if opted) images with matching specified \
+                 hres or vres or scale=100 [default: off]')
     addarg('-n', '--enlarge', dest='enlarge', action='store_true',
            help='enlarge smaller images [default: off]')
     addarg('-p', '--optimize', dest='optimize', action='store_true',
@@ -400,7 +407,7 @@ def parse_args(args=None, namespace=None):
 
 def main():
     global HRES, VRES, scale, rotate, adapt, convert, dot, eraseexif, \
-           force, process_imgd, process_imgd, enlarge, optimize, \
+           force, processimgd, keep, enlarge, optimize, \
            quiet, recurse, overwrite, debug, no_res_opt, pool
 
     args = parse_args()
@@ -448,6 +455,7 @@ def main():
     eraseexif = args.eraseexif
     force = args.force
     processimgd = args.processimgd
+    keep = args.keep
     enlarge = args.enlarge
     optimize = args.optimize
     quiet = args.quiet

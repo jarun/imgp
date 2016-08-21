@@ -62,6 +62,9 @@ Force to the exact specified resolution. Disabled by default.
 .B "-i, --processimgd"
 Process generated \fI_IMGD\fR files. Risky due to potential race conditions.
 .TP
+.B "-k, --keep"
+Do not process if image hres or vres matches specified hres or vres, or scale is 100. However, PNG images are converted to JPEG if --convert option is specified.
+.TP
 .B "-n, --enlarge"
 Enlarge smaller images. By default smaller images are not scaled if specified resolution is greater.
 .TP
@@ -130,7 +133,7 @@ Rotate an image clockwise by 90 degrees:
 .IP 4. 4
 Adapt the images in the current directory to 1366x1000 resolution.
 .br
-Convert PNG images to JPEG, visit all directories recursively and overwrite source images.
+Visit all directories recursively, overwrite source images, transform only if hres and vres doesn't match but convert PNG images to JPEG.
 .PP
 .EX
 .IP

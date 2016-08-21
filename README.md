@@ -124,6 +124,8 @@ If you are on an Arch based system you can use the following AUR packages:
       -e, --eraseexif       erase exif metadata [default: off]
       -f, --force           force to exact specified resolution [default: off]
       -i, --processimgd     re-process generated files. * RISKY: refer to docs
+      -k, --keep            retain (but convert, if opted) images with matching
+                            specified hres or vres or scale=100 [default: off]
       -n, --enlarge         enlarge smaller images [default: off]
       -p, --optimize        optimize the output images [default: off]
       -q, --quiet           operate silently [default: verbose]
@@ -164,9 +166,9 @@ If you are on an Arch based system you can use the following AUR packages:
         $ imgd -o 90  ~/image.jpg
         120968 bytes -> 72038 bytes
 
-4. Adapt the images in the current directory to 1366x1000 resolution. Convert PNG images to JPEG, visit all directories recursively and overwrite source images.
+4. Adapt the images in the current directory to 1366x1000 resolution. Visit all directories recursively, overwrite source images, transform only if hres and vres doesn't match but convert PNG images to JPEG.
 
-        $ imgd -x 1366x1000 -acrw .
+        $ imgd -x 1366x1000 -wrack .
 
 # License
 
