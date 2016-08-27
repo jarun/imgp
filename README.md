@@ -10,7 +10,7 @@ Performance: imgd could resize 8823 images (~4.5GB in size) of mixed resolutions
 
 [![Donate Button](https://img.shields.io/badge/paypal-donate-orange.svg?maxAge=2592000)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RMLTQ76JSXJ4Q)
 
-# Table of Contents
+## Table of Contents
 
 - [Features](#features)
   - [Adaptive mode](#adaptive-mode)
@@ -26,7 +26,7 @@ Performance: imgd could resize 8823 images (~4.5GB in size) of mixed resolutions
 - [License](#license)
 - [Developers](#developers)
 
-# Features
+## Features
 
 - resize by percentage or resolution
 - rotate clockwise by specified angle
@@ -40,7 +40,7 @@ Performance: imgd could resize 8823 images (~4.5GB in size) of mixed resolutions
 - overwrite source image option
 - minimal dependencies
 
-## Adaptive mode
+### Adaptive mode
 
 - If the specified and image orientations are same [(H >= V and h > v) or (H < V and h < v)], the image is resized with the longer specified side as reference.
 - In case of cross orientation [(H >= V and h <= v) or (H < V and h >= v)], the image is resized with the shorter specified side as reference. Same as non-adaptive.
@@ -50,9 +50,9 @@ For example, if an image has a resolution of 2048x1365 and is being resized to 1
 - In regular mode (default), output image resolution will be 1152x768
 - In adaptive mode, output image resolution will be 1366x910
 
-# Installation
+## Installation
 
-## Dependencies
+### Dependencies
 
 `imgd` requires Python 3.5 or later. It uses the Python PIL/Pillow library.
 
@@ -64,7 +64,7 @@ or, using pip3:
 
     $ sudo pip3 install pillow
 
-## Installing from this repository
+### Installing from this repository
 
 If you have git installed, run:
 
@@ -80,20 +80,20 @@ To remove, run:
     $ sudo make uninstall
 `PREFIX` is supported. You may need to use `sudo` with `PREFIX` depending on your permissions on destination directory.
 
-## Running as a standalone utility
+### Running as a standalone utility
 
 `imgd` is a standalone utility. From the containing directory, run:
 
     $ ./imgd
 
-## Debian package
+### Debian package
 
 If you are on a Debian based system (including Ubuntu), visit [the latest stable release](https://github.com/jarun/imgd/releases/latest) and download the.deb package. To install, run
 
     $ sudo dpkg -i imgd-$version-all.deb
 Please substitute `$version` with the appropriate package version.
 
-## Arch users
+### Arch users
 
 If you are on an Arch based system you can use the following AUR packages:
 
@@ -102,9 +102,9 @@ If you are on an Arch based system you can use the following AUR packages:
 
 **Note**: If you're having trouble with the AUR packages please email the package maintainer at zach@zach-adams.com before creating an issue.
 
-# Usage
+## Usage
 
-## cmdline options
+### cmdline options
 
     usage: imgd [OPTIONS] PATH [PATH ...]
 
@@ -133,7 +133,7 @@ If you are on an Arch based system you can use the following AUR packages:
       -w, --overwrite       overwrite source images [default: off]
       -z, --debug           enable debug logs [default: off]
 
-# Examples
+## Examples
 
 1. Convert some images and directories:
 
@@ -170,10 +170,10 @@ If you are on an Arch based system you can use the following AUR packages:
 
         $ imgd -x 1366x1000 -wrack .
 
-# License
+## License
 
 GPLv3
 
-# Developers
+## Developers
 
 Copyright (C) 2016 [Arun Prakash Jana](mailto:engineerarun@gmail.com)
