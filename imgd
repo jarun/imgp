@@ -381,7 +381,7 @@ def parse_args(args=None, namespace=None):
     addarg('-i', '--processimgd', dest='processimgd', action='store_true',
            help='re-process generated files. * RISKY: refer to docs')
     addarg('-k', '--keep', dest='keep', action='store_true',
-           help='retain (but convert, if opted) images with matching specified \
+           help='skip (but convert, if opted) images with matching specified \
                  hres or vres or scale=100 [default: off]')
     addarg('-n', '--enlarge', dest='enlarge', action='store_true',
            help='enlarge smaller images [default: off]')
