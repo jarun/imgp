@@ -21,3 +21,6 @@ uninstall:
 	rm -f $(BINDIR)/imgd
 	rm -f $(MANDIR)/imgd.1.gz
 	rm -rf $(DOCDIR)
+
+publish:
+	python setup.py sdist bdist_wheel upload

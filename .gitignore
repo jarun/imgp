@@ -1,0 +1,17 @@
+# Mac #
+.DS_Store
+
+# Vim swap files #
+*.sw[po]
+
+# Byte-compiled
+*.py[cod]
+__pycache__/
+
+# Distribution / packaging
+/build/
+/dist/
+*.egg-info/
+
+# Sphinx documentation
+docs/_build/
