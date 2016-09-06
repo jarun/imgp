@@ -24,6 +24,9 @@ import PIL
 from PIL import Image, ImageFile
 from multiprocessing import Pool, Lock
 
+
+__version__ = '1.0'
+
 HRES = 0
 VRES = 0
 scale = None
@@ -43,7 +46,6 @@ overwrite = False
 debug = False
 pad = '_IMGD'
 no_res_opt = False
-_VERSION_ = '1.0'
 
 pool = None
 lock = Lock()
@@ -339,7 +341,7 @@ Version %s
 Copyright (C) 2016 Arun Prakash Jana <engineerarun@gmail.com>
 License: GPLv3
 Webpage: https://github.com/jarun/imgd
-''' % _VERSION_)
+''' % __version__)
 
     # Help
     def print_help(self, file=None):
