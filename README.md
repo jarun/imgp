@@ -106,12 +106,12 @@ If you are on an Arch based system you can use the following AUR packages:
 
 ### cmdline options
 
-    usage: imgd [OPTIONS] PATH [PATH ...]
+    usage: imgd [OPTIONS] [PATH [PATH ...]]
 
     Resize or rotate JPEG and PNG images.
 
     positional arguments:
-      PATH               source file or directory
+      PATH                  source file or dir [default: current dir]
 
     optional arguments:
       -h, --help            show this help message and exit

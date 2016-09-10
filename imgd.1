@@ -2,12 +2,13 @@
 .SH NAME
 imgd \- Resize or rotate JPEG and PNG images.
 .SH SYNOPSIS
-.B imgd [OPTIONS] PATH [PATH ...]
+.B imgd [OPTIONS] [PATH [PATH ...]]
 .SH DESCRIPTION
 .B imgd
 (pronounced \fIimaged\fR) is a multiprocessing command line image resizer and rotator for JPEG and PNG images.
 .PP
-Features:
+.B Features
+.PP
   * resize by percentage or resolution
   * rotate clockwise by specified angle
   * adaptive resize considering orientation
@@ -19,17 +20,21 @@ Features:
   * process directories recursively
   * overwrite source image option
 .PP
+Multiple files and directories can be specified as source. If \fBPATH\fR is omitted, the current directory is processed.
+.PP
 Output image names are appended with \fB_IMGD\fR if overwrite option is not used. By default \fB_IMGD\fR files are not processed. Doing so may lead to potential race conditions when overwrite option is used.
 .PP
 .B Adaptive mode
 .PP
-  - If the specified and image orientations are same [(H >= V and h > v) or (H < V and h < v)], the image is resized with the longer specified side as reference.
-  - In case of cross orientation [(H >= V and h <= v) or (H < V and h >= v)], the image is resized with the shorter specified side as reference. Same as non-adaptive.
+- If the specified and image orientations are same [(H >= V and h > v) or (H < V and h < v)], the image is resized with the longer specified side as reference.
+.br
+- In case of cross orientation [(H >= V and h <= v) or (H < V and h >= v)], the image is resized with the shorter specified side as reference. Same as non-adaptive.
 .PP
-  For example, if an image has a resolution of 2048x1365 and is being resized to 1366x768:
+For example, if an image has a resolution of 2048x1365 and is being resized to 1366x768:
 .PP
-  - In regular mode (default), output image resolution will be 1152x768
-  - In adaptive mode, output image resolution will be 1366x910
+- In regular mode (default), output image resolution will be 1152x768
+.br
+- In adaptive mode, output image resolution will be 1366x910
 .SH OPTIONS
 .TP
 .BI "-h, --help"

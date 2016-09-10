@@ -410,8 +410,8 @@ def parse_args(args=None, namespace=None):
            help='overwrite source images [default: off]')
     addarg('-z', '--debug', dest='debug', action='store_true',
            help='enable debug logs [default: off]')
-    addarg('keywords', nargs='+', metavar='PATH',
-           help='source file or directory')
+    addarg('keywords', nargs='*', metavar='PATH',
+           help='source file or dir [default: current dir]')
 
     # Show help and exit if no arguments
     if len(sys.argv) < 2:
@@ -462,10 +462,6 @@ def main():
         print('missing image transformation')
         return
 
-    if len(args.keywords) == 0:
-        print('no source specified')
-        return
-
     adapt = args.adapt
     convert = args.convert
     dot = args.dot
@@ -491,6 +487,11 @@ def main():
             rotate_image(path)
         else:
             resize_image(path)
+
+    # Process current directory if PATH is unspecified
+    if len(args.keywords) == 0:
+        print('Source unspecified. Processing current directory...\n')
+        traverse_dir('.')
 
     pool.close()
     pool.join()
