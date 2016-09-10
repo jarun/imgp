@@ -48,6 +48,7 @@ _VERSION_ = '1.0'
 pool = None
 lock = Lock()
 
+
 def getres(res):
     hxv = res.split('x')
     if len(hxv) != 2:
@@ -58,12 +59,14 @@ def getres(res):
     except:
         return (0, 0)
 
+
 def lock_print(msg):
     global lock
 
     lock.acquire()
     print(msg)
     lock.release()
+
 
 def traverse_dir(path):
     global lock, pool
@@ -81,13 +84,14 @@ def traverse_dir(path):
                         continue
                     traverse_dir(entry.path)
             elif rotate is not None:
-                result = pool.apply_async(rotate_image, args=(entry.path,))
+                pool.apply_async(rotate_image, args=(entry.path,))
             else:
-                result = pool.apply_async(resize_image, args=(entry.path,))
+                pool.apply_async(resize_image, args=(entry.path,))
     except OSError as e:
         lock.acquire()
         print(e)
         lock.release()
+
 
 def rotate_image(src):
     global lock
@@ -152,6 +156,7 @@ def rotate_image(src):
         lock.acquire()
         print(e)
         lock.release()
+
 
 def resize_image(src):
     global HRES, VRES, lock
@@ -223,12 +228,14 @@ def resize_image(src):
     elif force:
         img = img.resize((HRES, VRES), PIL.Image.ANTIALIAS)
         if debug:
-            lock_print('resize_image: brute force res to [%dx%d]' % (HRES, VRES))
+            lock_print('resize_image: brute force res to [%dx%d]'
+                       % (HRES, VRES))
     elif adapt:
         ratio_img = float(hres/vres)
         ratio_target = float(HRES/VRES)
 
-        if (ratio_target >= 1 and ratio_img > 1) or (ratio_target < 1 and ratio_img >= 1):
+        if (ratio_target >= 1 and ratio_img > 1) \
+                or (ratio_target < 1 and ratio_img >= 1):
             # same orientation (H >= V and h > v) or
             # cross orientation (H < V and h >= v)
             if not enlarge and HRES > hres:
@@ -243,8 +250,10 @@ def resize_image(src):
 
                 img = img.resize((HRES, target_vres), PIL.Image.ANTIALIAS)
                 if debug:
-                    lock_print('resize_image: vres adapted %dx%d' % (HRES, target_vres))
-        elif (ratio_target < 1 and ratio_img < 1) or (ratio_target >= 1 and ratio_img <= 1):
+                    lock_print('resize_image: vres adapted %dx%d'
+                               % (HRES, target_vres))
+        elif (ratio_target < 1 and ratio_img < 1) \
+                or (ratio_target >= 1 and ratio_img <= 1):
             # same orientation (H < V and h < v) or
             # cross orientation (H >= V and h <= v)
             if not enlarge and VRES > vres:
@@ -259,7 +268,8 @@ def resize_image(src):
 
                 img = img.resize((target_hres, VRES), PIL.Image.ANTIALIAS)
                 if debug:
-                    lock_print('resize_image: hres adapted %dx%d' % (target_hres, VRES))
+                    lock_print('resize_image: hres adapted %dx%d'
+                               % (target_hres, VRES))
     else:
         ratio_img = float(hres/vres)
         ratio_target = float(HRES/VRES)
@@ -277,7 +287,8 @@ def resize_image(src):
 
             img = img.resize((HRES, target_vres), PIL.Image.ANTIALIAS)
             if debug:
-                lock_print('resize_image: vres calculated %dx%d' % (HRES, target_vres))
+                lock_print('resize_image: vres calculated %dx%d'
+                           % (HRES, target_vres))
         else:
             if not enlarge and VRES > vres:
                 return
@@ -291,7 +302,8 @@ def resize_image(src):
 
             img = img.resize((target_hres, VRES), PIL.Image.ANTIALIAS)
             if debug:
-                lock_print('resize_image: hres calculated %dx%d' % (target_hres, VRES))
+                lock_print('resize_image: hres calculated %dx%d'
+                           % (target_hres, VRES))
 
     if not quiet:
         stats = src + '\n%dx%d -> %dx%d\n%ld bytes ->' \
@@ -325,8 +337,9 @@ def resize_image(src):
         print(e)
         lock.release()
 
+
 class ExtendedArgumentParser(argparse.ArgumentParser):
-    """Extend classic argument parser"""
+    '''Extend classic argument parser'''
 
     # Print additional help and info
     @staticmethod
@@ -346,8 +359,9 @@ Webpage: https://github.com/jarun/imgd
         super(ExtendedArgumentParser, self).print_help(file)
         self.print_extended_help(file)
 
+
 def parse_args(args=None, namespace=None):
-    """Parse imgd arguments/options.
+    '''Parse imgd arguments/options.
     Parameters
     ----------
     args : list, optional
@@ -358,9 +372,10 @@ def parse_args(args=None, namespace=None):
     -------
     argparse.Namespace
         Namespace with parsed arguments / options.
-    """
+    '''
 
-    argparser = ExtendedArgumentParser(description='Resize or rotate JPEG and PNG images.')
+    argparser = ExtendedArgumentParser(
+                    description='Resize or rotate JPEG and PNG images.')
     addarg = argparser.add_argument
     addarg('-s', '--scale', dest='scale', type=int, metavar='%',
            help='scale image by percentage')
@@ -405,6 +420,7 @@ def parse_args(args=None, namespace=None):
 
     return argparser.parse_args(args, namespace)
 
+
 def main():
     global HRES, VRES, scale, rotate, adapt, convert, dot, eraseexif, \
            force, processimgd, keep, enlarge, optimize, \
@@ -416,7 +432,8 @@ def main():
         print('specify either resolution or scale')
         return
 
-    if (args.rotate is not None and (args.res is not None or args.scale is not None)):
+    if args.rotate is not None and \
+            (args.res is not None or args.scale is not None):
         print('option --rotate cannot be used with --scale or --res')
         return
 
