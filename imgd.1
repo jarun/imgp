@@ -47,7 +47,7 @@ Scale image by percentage.
 Output resolution in HRESxVRES representation.
 .TP
 .BI "-o, --rotate=" deg
-Rotate clockwise by specified angle.
+Rotate clockwise by a specified angle (in degrees).
 .TP
 .BI "-a, --adapt"
 Adapt to specified resolution considering the orientation of the image. Disabled by default.
@@ -64,8 +64,8 @@ Erase EXIF metadata of JPEG images. Preserved by default.
 .B "-f, --force"
 Force to the exact specified resolution. Disabled by default.
 .TP
-.B "-i, --processimgd"
-Process generated \fI_IMGD\fR files. Risky due to potential race conditions.
+.B "-i, --includeimgd"
+Process \fI_IMGD\fR files. Risky due to potential race conditions.
 .TP
 .B "-k, --keep"
 Do not process if image hres or vres matches specified hres or vres, or scale is 100. However, PNG images are converted to JPEG if --convert option is specified.

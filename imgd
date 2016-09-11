@@ -33,7 +33,7 @@ convert = False
 dot = False
 eraseexif = False
 force = False
-processimgd = False
+includeimgd = False
 keep = False
 enlarge = False
 optimize = False
@@ -98,7 +98,7 @@ def rotate_image(src):
 
     converted = False
     name, ext = os.path.splitext(src)
-    if name.endswith(pad) and not processimgd:
+    if name.endswith(pad) and not includeimgd:
         return
 
     try:
@@ -163,7 +163,7 @@ def resize_image(src):
 
     converted = False
     name, ext = os.path.splitext(src)
-    if name.endswith(pad) and not processimgd:
+    if name.endswith(pad) and not includeimgd:
         return
 
     try:
@@ -382,7 +382,7 @@ def parse_args(args=None, namespace=None):
     addarg('-x', '--res', dest='res', nargs=1, metavar='HxV',
            help='output resolution in HxV representation')
     addarg('-o', '--rotate', dest='rotate', type=int, metavar='deg',
-           help='rotate clockwise by specified angle')
+           help='rotate clockwise by angle (in degrees)')
     addarg('-a', '--adapt', dest='adapt', action='store_true',
            help='adapt to resolution by orientation [default: off]')
     addarg('-c', '--convert', dest='convert', action='store_true',
@@ -393,8 +393,8 @@ def parse_args(args=None, namespace=None):
            help='erase exif metadata [default: off]')
     addarg('-f', '--force', dest='force', action='store_true',
            help='force to exact specified resolution [default: off]')
-    addarg('-i', '--processimgd', dest='processimgd', action='store_true',
-           help='re-process generated files. * RISKY: refer to docs')
+    addarg('-i', '--includeimgd', dest='includeimgd', action='store_true',
+           help='re-process _IMGD files. * RISKY: refer to docs')
     addarg('-k', '--keep', dest='keep', action='store_true',
            help='skip (but convert, if opted) images with matching specified \
                  hres or vres or scale=100 [default: off]')
@@ -423,7 +423,7 @@ def parse_args(args=None, namespace=None):
 
 def main():
     global HRES, VRES, scale, rotate, adapt, convert, dot, eraseexif, \
-           force, processimgd, keep, enlarge, optimize, \
+           force, includeimgd, keep, enlarge, optimize, \
            quiet, recurse, overwrite, debug, no_res_opt, pool
 
     args = parse_args()
@@ -467,7 +467,7 @@ def main():
     dot = args.dot
     eraseexif = args.eraseexif
     force = args.force
-    processimgd = args.processimgd
+    includeimgd = args.includeimgd
     keep = args.keep
     enlarge = args.enlarge
     optimize = args.optimize

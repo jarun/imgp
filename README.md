@@ -20,6 +20,7 @@ Performance: imgd could resize 8823 images (~4.5GB in size) of mixed resolutions
   - [Running as a standalone utility](#running-as-a-standalone-utility)
   - [Debian package](#debian-package)
   - [Arch users](#arch-users)
+- [Shell completion](#shell-completion)
 - [Usage](#usage)
   - [cmdline options](#cmdline-options)
 - [Examples](#examples)
@@ -38,6 +39,7 @@ Performance: imgd could resize 8823 images (~4.5GB in size) of mixed resolutions
 - force smaller to larger resize
 - process directories recursively
 - overwrite source image option
+- completion scripts for bash, fish, zsh
 - minimal dependencies
 
 ### Adaptive mode
@@ -102,6 +104,10 @@ If you are on an Arch based system you can use the following AUR packages:
 
 **Note**: If you're having trouble with the AUR packages please email the package maintainer at zach@zach-adams.com before creating an issue.
 
+## Shell completion
+
+Shell completion scripts for Bash, Fish and Zsh can be found in respective subdirectories of [auto-completion/](https://github.com/jarun/imgd/blob/master/auto-completion). Please refer to your shell's manual for installation instructions.
+
 ## Usage
 
 ### cmdline options
@@ -117,13 +123,13 @@ If you are on an Arch based system you can use the following AUR packages:
       -h, --help            show this help message and exit
       -s %, --scale %       scale image by percentage
       -x HxV, --res HxV     output resolution in HxV representation
-      -o deg, --rotate deg  rotate clockwise by specified angle
+      -o deg, --rotate deg  rotate clockwise by angle (in degrees)
       -a, --adapt           adapt to resolution by orientation [default: off]
       -c, --convert         convert PNG to JPG format [default: off]
       -d, --dot             include hidden files (on Linux) [default: off]
       -e, --eraseexif       erase exif metadata [default: off]
       -f, --force           force to exact specified resolution [default: off]
-      -i, --processimgd     re-process generated files. * RISKY: refer to docs
+      -i, --includeimgd     re-process _IMGD files. * RISKY: refer to docs
       -k, --keep            skip (but convert, if opted) images with matching
                             specified hres or vres or scale=100 [default: off]
       -n, --enlarge         enlarge smaller images [default: off]

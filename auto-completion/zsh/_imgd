@@ -1,0 +1,30 @@
+#compdef imgd
+#
+# Completion definition for imgd.
+#
+# Author:
+#   Arun Prakash Jana <engineerarun@gmail.com>
+#
+
+setopt localoptions noshwordsplit noksharrays
+local -a args
+args=(
+    '(-a --adapt)'{-a,--adapt}'[adapt to resolution by orientation]'
+    '(-c --convert)'{-c,--convert}'[convert PNG to JPG format]'
+    '(-d --dot)'{-d,--dot}'[include hidden files (on Linux)]'
+    '(-e --eraseexif)'{-e,--eraseexif}'[erase exif metadata]'
+    '(-f --force)'{-f,--force}'[force to exact specified resolution]'
+    '(-h --help)'{-h,--help}'[show help]'
+    '(-i --includeimgd)'{-i,--includeimgd}'[re-process _IMGD files]'
+    '(-k --keep)'{-k,--keep}'[skip images with matching hres or vres]'
+    '(-n --enlarge)'{-n,--enlarge}'[enlarge smaller images]'
+    '(-o --rotate)'{-o,--rotate}'[rotate clockwise by angle]:degree'
+    '(-p --optimize)'{-o,--optimize}'[optimize the output images]'
+    '(-q --quiet)'{-q,--quiet}'[operate silently]'
+    '(-r --recurse)'{-r,--recurse}'[process directories recursively]'
+    '(-s --scale)'{-s,--scale}'[scale image by percentage]:percent'
+    '(-w --overwrite)'{-w,--overwrite}'[overwrite source images]'
+    '(-x --res)'{-x,--res}'[output resolution]:HxV'
+    '(-z --debug)'{-z,--debug}'[enable debug logs]'
+)
+_arguments -S -s $args
