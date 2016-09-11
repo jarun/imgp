@@ -8,7 +8,11 @@ Resize and rotation are lossy operations. In most cases, `imgd` will save on sto
 
 Performance: imgd could resize 8823 images (~4.5GB in size) of mixed resolutions (high to regular) stored in an external USB 2.0 hard disk at an adaptive resolution of 1366x1000 in around 8 minutes. The resulting size was 897MB (~ 20%).
 
-[![Donate Button](https://img.shields.io/badge/paypal-donate-orange.svg?maxAge=2592000)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RMLTQ76JSXJ4Q)
+`imgd` is **GPLv3** licensed.
+
+<p align="center">
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RMLTQ76JSXJ4Q"><img src="https://img.shields.io/badge/paypal-donate-orange.svg?maxAge=2592000" alt="Donate" /></a>
+</p>
 
 ## Table of Contents
 
@@ -24,8 +28,7 @@ Performance: imgd could resize 8823 images (~4.5GB in size) of mixed resolutions
 - [Usage](#usage)
   - [cmdline options](#cmdline-options)
 - [Examples](#examples)
-- [License](#license)
-- [Developers](#developers)
+- [Copyright](#copyright)
 
 ## Features
 
@@ -176,10 +179,6 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
 
         $ imgd -x 1366x1000 -wrack .
 
-## License
-
-GPLv3
-
-## Developers
+## Copyright
 
 Copyright (C) 2016 [Arun Prakash Jana](mailto:engineerarun@gmail.com)
