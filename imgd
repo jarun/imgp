@@ -24,32 +24,39 @@ import PIL
 from PIL import Image, ImageFile
 from multiprocessing import Pool, Lock
 
-HRES = 0
-VRES = 0
-scale = None
-rotate = None
-adapt = False
-convert = False
-dot = False
-eraseexif = False
-force = False
-includeimgd = False
-keep = False
-enlarge = False
-optimize = False
-quiet = False
-recurse = False
-overwrite = False
-debug = False
-pad = '_IMGD'
-no_res_opt = False
-_VERSION_ = '1.0'
+# Globals
+HRES = 0  # specified horizontal resolution
+VRES = 0  # specified vertical resolution
+scale = None  # specified scale in percentage
+rotate = None  # specified rotation in degree
+adapt = False  # use adaptive resolution
+convert = False  # convert PNG to JPG
+dot = False  # process hidden files starting with .
+eraseexif = False  # erase EXIF metadata
+force = False  # forced to exact specified resolution
+includeimgd = False  # process _IMGD files
+keep = False  # ignore images with matching hres or vres
+enlarge = False  # enlarge images with smaller hres or vres
+optimize = False  # apply PIL library optimization when saving
+quiet = False  # suppress additional information
+recurse = False  # recursively process subdirectories
+overwrite = False  # remove source images
+debug = False  # enable debug information
+no_res_opt = False  # --res and --scale options not specified
+pad = '_IMGD'  # output file suffix when --overwrite is unused
+_VERSION_ = '1.0'  # current program version
 
+# Globals for multiprocessing
 pool = None
 lock = Lock()
 
 
 def getres(res):
+    '''Retrieve hres and vres as a tuple
+
+    :param res: resolution in hresxvres format
+    '''
+
     hxv = res.split('x')
     if len(hxv) != 2:
         return (0, 0)
@@ -61,6 +68,8 @@ def getres(res):
 
 
 def lock_print(msg):
+    '''Acquire lock and print a message'''
+
     global lock
 
     lock.acquire()
@@ -69,6 +78,8 @@ def lock_print(msg):
 
 
 def traverse_dir(path):
+    '''Traverse a directory recursively'''
+
     global lock, pool
 
     try:
@@ -94,6 +105,8 @@ def traverse_dir(path):
 
 
 def rotate_image(src):
+    '''Rotate a source image'''
+
     global lock
 
     converted = False
@@ -159,6 +172,8 @@ def rotate_image(src):
 
 
 def resize_image(src):
+    '''Resize a source image'''
+
     global HRES, VRES, lock
 
     converted = False
@@ -490,7 +505,7 @@ def main():
 
     # Process current directory if PATH is unspecified
     if len(args.keywords) == 0:
-        print('Source unspecified. Processing current directory...\n')
+        print('Source omitted. Processing current directory...\n')
         traverse_dir('.')
 
     pool.close()
