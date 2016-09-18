@@ -88,7 +88,7 @@ def traverse_dir(path):
             if not dot and entry.name.startswith('.'):
                 continue
 
-            if entry.is_dir():
+            if entry.is_dir(follow_symlinks=False):
                 if recurse:
                     if not os.access(entry.path, os.W_OK | os.X_OK):
                         lock_print(entry.path + ': no permission')
@@ -420,7 +420,8 @@ def parse_args(args=None, namespace=None):
     addarg('-q', '--quiet', dest='quiet', action='store_true',
            help='operate silently [default: informative]')
     addarg('-r', '--recurse', dest='recurse', action='store_true',
-           help='process directories recursively [default: off]')
+           help='process directories recursively [default: off] \
+                 symbolic links to directories are ignored')
     addarg('-w', '--overwrite', dest='overwrite', action='store_true',
            help='overwrite source images [default: off]')
     addarg('-z', '--debug', dest='debug', action='store_true',

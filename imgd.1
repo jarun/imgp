@@ -80,7 +80,7 @@ Optimize output images using PIL library optimization algorithm. Disabled by def
 Do not show any operational output.
 .TP
 .B "-r, --recursive"
-Recursively process sub-directories. By default only the specified directory is processed.
+Recursively process sub-directories. By default only the specified directory is processed. Symbolic links to directories are ignored to avoid recursive loops.
 .TP
 .BI "-w, --overwrite"
 Overwrite the source images. By default an output image is saved with \fB_IMGD\fR appended to the source image name.
