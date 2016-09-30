@@ -44,7 +44,7 @@ overwrite = False  # remove source images
 debug = False  # enable debug information
 no_res_opt = False  # --res and --scale options not specified
 pad = '_IMGD'  # output file suffix when --overwrite is unused
-_VERSION_ = '1.0'  # current program version
+_VERSION_ = '2.0'  # current program version
 
 # Globals for multiprocessing
 pool = None

@@ -1,3 +1,18 @@
+
+imgd v2.0
+2016-09-30
+
+News
+- imgd is available on AUR
+
+Modifications
+- process current directory, if source unspecified
+- completion scripts for bash, fish and zsh
+- option `--processimgd` is now `--includeimgd`
+- option `--keep` to skip images with matching hres/vres
+- skip symbolic links to avoid recursive loops
+- PEP8 compliance
+
 -------------------------------------------------------------------------------
 
 imgd v1.0
