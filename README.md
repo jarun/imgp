@@ -180,6 +180,19 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
 
         $ imgd -x 1366x1000 -wrack .
 
+5. Set hres=800 and adapt vres maintaining the ratio.
+
+        $ imgd -x 800x0
+        Source omitted. Processing current directory...
+
+        ./image1.jpg
+        1366x911 -> 800x534
+        69022 bytes -> 35123 bytes
+
+        ./image2.jpg
+        1050x1400 -> 800x1067
+        458092 bytes -> 78089 bytes
+
 ## Copyright
 
 Copyright (C) 2016 [Arun Prakash Jana](mailto:engineerarun@gmail.com)

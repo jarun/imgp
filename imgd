@@ -237,6 +237,34 @@ def resize_image(src):
         img = img.resize((_hres, _vres), PIL.Image.ANTIALIAS)
         if debug:
             lock_print('resize_image: scaled to [%dx%d]' % (HRES, VRES))
+    elif HRES == 0 or VRES == 0:
+        if HRES:
+            if not enlarge and HRES > hres:
+                return
+
+            hratio = HRES/float(hres)
+            target_vres = vres * hratio
+            if target_vres >= int(target_vres) + .5:
+                target_vres = target_vres + 1
+            target_vres = int(target_vres)
+
+            img = img.resize((HRES, target_vres), PIL.Image.ANTIALIAS)
+            if debug:
+                lock_print('resize_image: 0 vres %dx%d' % (HRES, target_vres))
+
+        if VRES:
+            if not enlarge and VRES > vres:
+                return
+
+            vratio = VRES/float(vres)
+            target_hres = hres * vratio
+            if target_hres >= int(target_hres) + .5:
+                target_hres = target_hres + 1
+            target_hres = int(target_hres)
+
+            img = img.resize((target_hres, VRES), PIL.Image.ANTIALIAS)
+            if debug:
+                lock_print('resize_image: 0 hres %dx%d' % (target_hres, VRES))
     elif HRES == hres and VRES == vres:
         if debug:
             lock_print('resize_image: same res [%dx%d]' % (HRES, VRES))
@@ -463,8 +491,8 @@ def main():
         scale = args.scale
     elif args.res is not None:
         HRES, VRES = getres(args.res[0])
-        if HRES == 0 or VRES == 0:
-            print('resolution must be numeric and > 0')
+        if HRES == 0 and VRES == 0:
+            print('resolution should be >= 0, hres and vres cannot be 0 together')
             return
     elif args.rotate is not None:
         if(args.rotate <= 0) or (args.rotate >= 360):
