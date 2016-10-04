@@ -163,7 +163,7 @@ git_ref_is_tag $normalized_commitish && commitish_is_tag=1 || commitish_is_tag=0
     exit
 }
 
-pkgname=imgd
+pkgname=imgp
 version="${$(git describe --tags $commitish)#v}" # Quoting just to make sh-mode happy
 [[ -n $version ]] || {
     print_error 'Failed to extract version information.'
@@ -185,10 +185,10 @@ mkdir debian
 
 if (( commitish_is_tag )); then
     # Tag -- point to the release
-    changelog_url=https://github.com/jarun/imgd/releases/tag/$normalized_commitish
+    changelog_url=https://github.com/jarun/imgp/releases/tag/$normalized_commitish
 else
     # Just a commit -- point to the list of commits in the tree
-    changelog_url=https://github.com/jarun/imgd/commits/$normalized_commitish
+    changelog_url=https://github.com/jarun/imgp/commits/$normalized_commitish
 fi
 cat >debian/changelog <<EOF
 $pkgname (${version}-${debrevision}) UNRELEASED; urgency=medium
@@ -220,7 +220,7 @@ Package: $pkgname
 Architecture: all
 Depends: \${shlibs:Depends}, \${misc:Depends}, python3 (>= 3.5), python3-pil
 Description: Powerful command-line bookmark manager
- See https://github.com/jarun/imgd#readme.
+ See https://github.com/jarun/imgp#readme.
 EOF
 
 # Write debian/copyright
@@ -229,7 +229,7 @@ cat >debian/copyright <<EOF
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: $pkgname
 Upstream-Contact: $DEBFULLNAME <$DEBEMAIL>
-Source: https://github.com/jarun/imgd
+Source: https://github.com/jarun/imgp
 
 Files: *
 Copyright: 2015, 2016 Arun Prakash Jana

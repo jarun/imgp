@@ -34,7 +34,7 @@ convert = False  # convert PNG to JPG
 dot = False  # process hidden files starting with .
 eraseexif = False  # erase EXIF metadata
 force = False  # forced to exact specified resolution
-includeimgd = False  # process _IMGD files
+includeimgp = False  # process _IMGP files
 keep = False  # ignore images with matching hres or vres
 enlarge = False  # enlarge images with smaller hres or vres
 optimize = False  # apply PIL library optimization when saving
@@ -43,8 +43,8 @@ recurse = False  # recursively process subdirectories
 overwrite = False  # remove source images
 debug = False  # enable debug information
 no_res_opt = False  # --res and --scale options not specified
-pad = '_IMGD'  # output file suffix when --overwrite is unused
-_VERSION_ = '2.0'  # current program version
+pad = '_IMGP'  # output file suffix when --overwrite is unused
+_VERSION_ = '2.1'  # current program version
 
 # Globals for multiprocessing
 pool = None
@@ -111,7 +111,7 @@ def rotate_image(src):
 
     converted = False
     name, ext = os.path.splitext(src)
-    if name.endswith(pad) and not includeimgd:
+    if name.endswith(pad) and not includeimgp:
         return
 
     try:
@@ -178,7 +178,7 @@ def resize_image(src):
 
     converted = False
     name, ext = os.path.splitext(src)
-    if name.endswith(pad) and not includeimgd:
+    if name.endswith(pad) and not includeimgp:
         return
 
     try:
@@ -394,7 +394,7 @@ class ExtendedArgumentParser(argparse.ArgumentParser):
 Version %s
 Copyright (C) 2016 Arun Prakash Jana <engineerarun@gmail.com>
 License: GPLv3
-Webpage: https://github.com/jarun/imgd
+Webpage: https://github.com/jarun/imgp
 ''' % _VERSION_)
 
     # Help
@@ -404,7 +404,7 @@ Webpage: https://github.com/jarun/imgd
 
 
 def parse_args(args=None, namespace=None):
-    '''Parse imgd arguments/options.
+    '''Parse imgp arguments/options.
     Parameters
     ----------
     args : list, optional
@@ -436,8 +436,8 @@ def parse_args(args=None, namespace=None):
            help='erase exif metadata [default: off]')
     addarg('-f', '--force', dest='force', action='store_true',
            help='force to exact specified resolution [default: off]')
-    addarg('-i', '--includeimgd', dest='includeimgd', action='store_true',
-           help='re-process _IMGD files. * RISKY: refer to docs')
+    addarg('-i', '--includeimgp', dest='includeimgp', action='store_true',
+           help='re-process _IMGP files. * RISKY: refer to docs')
     addarg('-k', '--keep', dest='keep', action='store_true',
            help='skip (but convert, if opted) images with matching specified \
                  hres or vres or scale=100 [default: off]')
@@ -467,7 +467,7 @@ def parse_args(args=None, namespace=None):
 
 def main():
     global HRES, VRES, scale, rotate, adapt, convert, dot, eraseexif, \
-           force, includeimgd, keep, enlarge, optimize, \
+           force, includeimgp, keep, enlarge, optimize, \
            quiet, recurse, overwrite, debug, no_res_opt, pool
 
     args = parse_args()
@@ -511,7 +511,7 @@ def main():
     dot = args.dot
     eraseexif = args.eraseexif
     force = args.force
-    includeimgd = args.includeimgd
+    includeimgp = args.includeimgp
     keep = args.keep
     enlarge = args.enlarge
     optimize = args.optimize

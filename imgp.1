@@ -1,10 +1,10 @@
-.TH "IMGD" "1" "Sep 2016" "Version 2.0" "User Commands"
+.TH "IMGP" "1" "Oct 2016" "Version 2.1" "User Commands"
 .SH NAME
-imgd \- Resize or rotate JPEG and PNG images.
+imgp \- Resize or rotate JPEG and PNG images.
 .SH SYNOPSIS
-.B imgd [OPTIONS] [PATH [PATH ...]]
+.B imgp [OPTIONS] [PATH [PATH ...]]
 .SH DESCRIPTION
-.B imgd
+.B imgp
 (pronounced \fIimaged\fR) is a multiprocessing command line image resizer and rotator for JPEG and PNG images.
 .PP
 .B Features
@@ -22,7 +22,7 @@ imgd \- Resize or rotate JPEG and PNG images.
 .PP
 Multiple files and directories can be specified as source. If \fBPATH\fR is omitted, the current directory is processed.
 .PP
-Output image names are appended with \fB_IMGD\fR if overwrite option is not used. By default \fB_IMGD\fR files are not processed. Doing so may lead to potential race conditions when overwrite option is used.
+Output image names are appended with \fB_IMGP\fR if overwrite option is not used. By default \fB_IMGP\fR files are not processed. Doing so may lead to potential race conditions when overwrite option is used.
 .PP
 .B Adaptive mode
 .PP
@@ -64,8 +64,8 @@ Erase EXIF metadata of JPEG images. Preserved by default.
 .B "-f, --force"
 Force to the exact specified resolution. Disabled by default.
 .TP
-.B "-i, --includeimgd"
-Process \fI_IMGD\fR files. Risky due to potential race conditions.
+.B "-i, --includeimgp"
+Process \fI_IMGP\fR files. Risky due to potential race conditions.
 .TP
 .B "-k, --keep"
 Do not process if image hres or vres matches specified hres or vres, or scale is 100. However, PNG images are converted to JPEG if --convert option is specified.
@@ -83,7 +83,7 @@ Do not show any operational output.
 Recursively process sub-directories. By default only the specified directory is processed. Symbolic links to directories are ignored to avoid recursive loops.
 .TP
 .BI "-w, --overwrite"
-Overwrite the source images. By default an output image is saved with \fB_IMGD\fR appended to the source image name.
+Overwrite the source images. By default an output image is saved with \fB_IMGP\fR appended to the source image name.
 .br
 .B NOTE:
 If overwrite and convert options are used together, source PNG images are deleted.
@@ -97,7 +97,7 @@ Convert some images and directories:
 .PP
 .EX
 .IP
-.B $ imgd -x 1366x768 ~/ ~/Pictures/image3.png ~/Downloads/
+.B $ imgp -x 1366x768 ~/ ~/Pictures/image3.png ~/Downloads/
 /home/testuser/image1.png
 3840x2160 -> 1365x768
 11104999 bytes -> 1486426 bytes
@@ -120,7 +120,7 @@ Scale an image by 75% and overwrite the source image:
 .PP
 .EX
 .IP
-.B $ imgd -s 75 -w ~/image.jpg
+.B $ imgp -s 75 -w ~/image.jpg
 /home/testuser/image.jpg
 1366x767 -> 1025x575
 120968 bytes -> 45040 bytes
@@ -131,7 +131,7 @@ Rotate an image clockwise by 90 degrees:
 .PP
 .EX
 .IP
-.B $ imgd -o 90 ~/image.jpg
+.B $ imgp -o 90 ~/image.jpg
 120968 bytes -> 72038 bytes
 .EE
 .PP
@@ -142,7 +142,7 @@ Visit all directories recursively, overwrite source images, ignore images with m
 .PP
 .EX
 .IP
-.B $ imgd -x 1366x1000 -acrw .
+.B $ imgp -x 1366x1000 -acrw .
 .EE
 .PP
 .EX
@@ -151,7 +151,7 @@ Set hres=800 and adapt vres maintaining the ratio.
 .PP
 .EX
 .IP
-.B $ imgd -x 800x0
+.B $ imgp -x 800x0
 Source omitted. Processing current directory...
 
 ./image1.jpg
@@ -164,9 +164,9 @@ Source omitted. Processing current directory...
 .SH AUTHORS
 Arun Prakash Jana <engineerarun@gmail.com>
 .SH HOME
-.I https://github.com/jarun/imgd
+.I https://github.com/jarun/imgp
 .SH REPORTING BUGS
-.I https://github.com/jarun/imgd/issues
+.I https://github.com/jarun/imgp/issues
 .SH LICENSE
 Copyright \(co 2016 Arun Prakash Jana <engineerarun@gmail.com>
 .PP

@@ -1,17 +1,17 @@
 #
-# Bash completion definition for imgd.
+# Bash completion definition for imgp.
 #
 # Author:
 #   Arun Prakash Jana <engineerarun@gmail.com>
 #
 
-_imgd () {
+_imgp () {
     COMPREPLY=()
     local IFS=$' \n'
     local cur=$2 prev=$3
     local -a opts opts_with_args
     opts=(-a --adapt -c --convert -d --dot -e --eraseexif -f --force -h --help
-          -i --includeimgd -k --keep -n --enlarge -o --rotate -p --optimize
+          -i --includeimgp -k --keep -n --enlarge -o --rotate -p --optimize
           -q --quiet -r --recurse -s --scale -w --overwrite -x --res -z --debug)
     opts_with_arg=(-o --rotate -s --scale -x --res)
 
@@ -28,4 +28,4 @@ _imgd () {
     return 0
 }
 
-complete -F _imgd imgd
+complete -F _imgp imgp

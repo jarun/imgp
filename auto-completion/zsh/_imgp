@@ -1,6 +1,6 @@
-#compdef imgd
+#compdef imgp
 #
-# Completion definition for imgd.
+# Completion definition for imgp.
 #
 # Author:
 #   Arun Prakash Jana <engineerarun@gmail.com>
@@ -15,7 +15,7 @@ args=(
     '(-e --eraseexif)'{-e,--eraseexif}'[erase exif metadata]'
     '(-f --force)'{-f,--force}'[force to exact specified resolution]'
     '(-h --help)'{-h,--help}'[show help]'
-    '(-i --includeimgd)'{-i,--includeimgd}'[re-process _IMGD files]'
+    '(-i --includeimgp)'{-i,--includeimgp}'[re-process _IMGP files]'
     '(-k --keep)'{-k,--keep}'[skip images with matching hres or vres]'
     '(-n --enlarge)'{-n,--enlarge}'[enlarge smaller images]'
     '(-o --rotate)'{-o,--rotate}'[rotate clockwise by angle]:degree'
