@@ -1,3 +1,11 @@
+imgp v2.1
+2016-10-05
+
+Modifications
+- Rename utility to `imgp`
+- Support adapting to either hres or vres
+
+-------------------------------------------------------------------------------
 
 imgd v2.0
 2016-09-30
