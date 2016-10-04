@@ -19,7 +19,7 @@ deploy:
   file_glob: true
   file: dist/*.deb
   on:
-    repo: jarun/imgd
+    repo: jarun/imgp
     tags: true
     # Upload from only one job (doesn't matter which one because we're packaging the same thing throughout the matrix)
     python: "3.5"
