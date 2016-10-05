@@ -1,14 +1,16 @@
-# imgp
+<h1 align="center">imgp</h1>
 
-`imgp` (pronounced *imaged*) is a multiprocessing command line image resizer and rotator for JPEG and PNG images. If you have tons of images you would like to resize adaptively to a screen-size or rotate by an angle using a single command, `imgp` is the utility for you.
+<p align="center">
+<a href="https://github.com/jarun/imgp/releases/latest"><img src="https://img.shields.io/github/release/jarun/imgp.svg" alt="Latest release" /></a>
+<a href="https://aur.archlinux.org/packages/imgp"><img src="https://img.shields.io/aur/version/imgp.svg" alt="AUR" /></a>
+<a href="https://github.com/jarun/imgp/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-GPLv3-yellow.svg?maxAge=2592000" alt="License" /></a>
+</p>
 
-Resize and rotation are lossy operations. In most cases, `imgp` will save on storage while converting to smaller resolutions. There are additional optimization options too. Output image names are appended with **_IMGP** if overwrite option is not used. By default *_IMGP* files are not processed. Doing so may lead to potential race conditions when overwrite option is used.
+`imgp` is a command line image resizer and rotator for JPEG and PNG images. If you have tons of images you would like to resize adaptively to a screen-size or rotate by an angle using a single command, `imgp` is the utility for you.
 
-`imgp` intends to be a stronger replacement for the Nautilus Image Converter extension, not tied to any File Manager and much faster. The Nautilus Image Converter is essentially a GTK extension with a library of its own that calls the `convert` utility of the ImageMagick library. On desktop environments (like Xfce or LxQt) which do not integrate Nautilus, `imgp` will save your day.
+It comes with an intelligent adaptive algorithm, recursive operations, multiprocessing, shell completion scripts, EXIF preservation and more.
 
-Performance: imgp could resize 8823 images (~4.5GB in size) of mixed resolutions (high to regular) stored in an external USB 2.0 hard disk at an adaptive resolution of 1366x1000 in around 8 minutes. The resulting size was 897MB (~ 20%).
-
-`imgp` is **GPLv3** licensed.
+`imgp` intends to be a stronger replacement for the Nautilus Image Converter extension, not tied to any file manager and way faster. On desktop environments (like Xfce or LxQt) which do not integrate Nautilus, `imgp` will save your day.
 
 <p align="center">
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RMLTQ76JSXJ4Q"><img src="https://img.shields.io/badge/paypal-donate-orange.svg?maxAge=2592000" alt="Donate" /></a>
@@ -18,6 +20,7 @@ Performance: imgp could resize 8823 images (~4.5GB in size) of mixed resolutions
 
 - [Features](#features)
   - [Adaptive mode](#adaptive-mode)
+- [Performance](#performance)
 - [Installation](#installation)
   - [Dependencies](#dependencies)
   - [Installing from this repository](#installing-from-this-repository)
@@ -27,6 +30,7 @@ Performance: imgp could resize 8823 images (~4.5GB in size) of mixed resolutions
 - [Shell completion](#shell-completion)
 - [Usage](#usage)
   - [cmdline options](#cmdline-options)
+  - [Operational notes](#operational-notes)
 - [Examples](#examples)
 - [Copyright](#copyright)
 
@@ -55,11 +59,17 @@ For example, if an image has a resolution of 2048x1365 and is being resized to 1
 - In regular mode (default), output image resolution will be 1152x768
 - In adaptive mode, output image resolution will be 1366x910
 
+## Performance
+
+`imgp` could resize 8823 images (~4.5GB in size) of mixed resolutions (high to regular) stored in an external USB 2.0 hard disk at an adaptive resolution of 1366x1000 in around 8 minutes. The resulting size was 897MB (~ 20%).
+
+`imgp` uses Python PIL/Pillow library. Nautilus Image Converter calls the `convert` utility from ImageMagick. For a comparative benchmark, head [here](https://github.com/uploadcare/pillow-simd#benchmarks).
+
 ## Installation
 
 ### Dependencies
 
-`imgp` requires Python 3.5 or later. It uses the Python PIL/Pillow library.
+`imgp` requires Python 3.5 or later.
 
 To install PIL library on Ubuntu, run:
 
@@ -143,6 +153,11 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
       -w, --overwrite       overwrite source images [default: off]
       -z, --debug           enable debug logs [default: off]
 
+### Operational notes
+
+- Resize and rotate are lossy operations. For additional reductions in size try `--optimize` and `--eraseexif` options.
+- Output image names are appended with **_IMGP** if overwrite option is not used. By default *_IMGP* files are not processed. Doing so may lead to potential race conditions when `--overwrite` option is used.
+
 ## Examples
 
 1. Convert some images and directories:
@@ -178,7 +193,7 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
 
 4. Adapt the images in the current directory to 1366x1000 resolution. Visit all directories recursively, overwrite source images, ignore images with matching hres or vres but convert PNG images to JPEG.
 
-        $ imgp -x 1366x1000 -wrack .
+        $ imgp -x 1366x1000 -wrack
 
 5. Set hres=800 and adapt vres maintaining the ratio.
 
