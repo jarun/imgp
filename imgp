@@ -72,9 +72,8 @@ def lock_print(msg):
 
     global lock
 
-    lock.acquire()
-    print(msg)
-    lock.release()
+    with lock:
+        print(msg)
 
 
 def traverse_dir(path):
@@ -99,9 +98,8 @@ def traverse_dir(path):
             else:
                 pool.apply_async(resize_image, args=(entry.path,))
     except OSError as e:
-        lock.acquire()
-        print(e)
-        lock.release()
+        with lock:
+            print(e)
 
 
 def rotate_image(src):
@@ -130,9 +128,8 @@ def rotate_image(src):
             exifdata = b''
     except OSError as e:
         if not str(e).startswith('cannot identify image file'):
-            lock.acquire()
-            print(e)
-            lock.release()
+            with lock:
+                print(e)
         return
 
     # Image.rotate(angle, resample=0, expand=0) expand = True means
@@ -166,9 +163,8 @@ def rotate_image(src):
         if overwrite and converted:
             os.remove(src)
     except OSError as e:
-        lock.acquire()
-        print(e)
-        lock.release()
+        with lock:
+            print(e)
 
 
 def resize_image(src):
@@ -206,9 +202,8 @@ def resize_image(src):
             exifdata = b''
     except OSError as e:
         if not str(e).startswith('cannot identify image file'):
-            lock.acquire()
-            print(e)
-            lock.release()
+            with lock:
+                print(e)
         return
 
     hres = img.size[0]
@@ -376,9 +371,8 @@ def resize_image(src):
         if overwrite and converted:
             os.remove(src)
     except OSError as e:
-        lock.acquire()
-        print(e)
-        lock.release()
+        with lock:
+            print(e)
 
 
 class ExtendedArgumentParser(argparse.ArgumentParser):
