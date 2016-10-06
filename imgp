@@ -245,6 +245,8 @@ def resize_image(src):
     elif HRES == 0 or VRES == 0:
         if HRES:
             if not enlarge and HRES > hres:
+                if debug:
+                    lock_print('%s has lesser hres\n' % src)
                 return
 
             hratio = HRES/float(hres)
@@ -259,6 +261,8 @@ def resize_image(src):
 
         if VRES:
             if not enlarge and VRES > vres:
+                if debug:
+                    lock_print('%s has lesser vres\n' % src)
                 return
 
             vratio = VRES/float(vres)
@@ -287,6 +291,8 @@ def resize_image(src):
             # same orientation (H >= V and h > v) or
             # cross orientation (H < V and h >= v)
             if not enlarge and HRES > hres:
+                if debug:
+                    lock_print('%s has lesser hres\n' % src)
                 return
 
             if HRES != hres:
@@ -305,6 +311,8 @@ def resize_image(src):
             # same orientation (H < V and h < v) or
             # cross orientation (H >= V and h <= v)
             if not enlarge and VRES > vres:
+                if debug:
+                    lock_print('%s has lesser vres\n' % src)
                 return
 
             if VRES != vres:
@@ -324,6 +332,8 @@ def resize_image(src):
 
         if ratio_img >= ratio_target:
             if not enlarge and HRES > hres:
+                if debug:
+                    lock_print('%s has lesser hres\n' % src)
                 return
 
             # re-sample as per target horizontal resolution
@@ -339,6 +349,8 @@ def resize_image(src):
                            % (HRES, target_vres))
         else:
             if not enlarge and VRES > vres:
+                if debug:
+                    lock_print('%s has lesser vres\n' % src)
                 return
 
             # re-sample as per target vertical resolution
@@ -540,14 +552,15 @@ def main():
 
     # Process current directory if PATH is unspecified
     if len(args.keywords) == 0:
-        print('Source omitted. Processing current directory...\n')
+        if not quiet:
+            print('Source omitted. Processing current directory...\n')
         traverse_dir('.')
 
     pool.close()
     pool.join()
 
     if not quiet and count:
-        print(str(count) + ' images converted.')
+        print('%s images converted.' % count)
 
 if __name__ == '__main__':
     main()
