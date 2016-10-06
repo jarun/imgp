@@ -127,7 +127,7 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
 
     usage: imgp [OPTIONS] [PATH [PATH ...]]
 
-    Resize or rotate JPEG and PNG images.
+    Resize, rotate JPEG and PNG images.
 
     positional arguments:
       PATH                  source file or dir [default: current dir]

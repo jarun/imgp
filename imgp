@@ -418,7 +418,7 @@ def parse_args(args=None, namespace=None):
     '''
 
     argparser = ExtendedArgumentParser(
-                    description='Resize or rotate JPEG and PNG images.')
+                    description='Resize, rotate JPEG and PNG images.')
     addarg = argparser.add_argument
     addarg('-s', '--scale', dest='scale', type=int, metavar='%',
            help='scale image by percentage')
