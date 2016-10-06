@@ -49,6 +49,7 @@ _VERSION_ = '2.1'  # current program version
 # Globals for multiprocessing
 pool = None
 lock = Lock()
+count = 0
 
 
 def getres(res):
@@ -76,6 +77,13 @@ def lock_print(msg):
         print(msg)
 
 
+def cb(data):
+    global count
+
+    if data:
+        count += data
+
+
 def traverse_dir(path):
     '''Traverse a directory recursively'''
 
@@ -94,9 +102,9 @@ def traverse_dir(path):
                         continue
                     traverse_dir(entry.path)
             elif rotate is not None:
-                pool.apply_async(rotate_image, args=(entry.path,))
+                pool.apply_async(rotate_image, args=(entry.path,), callback=cb)
             else:
-                pool.apply_async(resize_image, args=(entry.path,))
+                pool.apply_async(resize_image, args=(entry.path,), callback=cb)
     except OSError as e:
         with lock:
             print(e)
@@ -162,6 +170,8 @@ def rotate_image(src):
 
         if overwrite and converted:
             os.remove(src)
+
+        return 1
     except OSError as e:
         with lock:
             print(e)
@@ -370,6 +380,8 @@ def resize_image(src):
 
         if overwrite and converted:
             os.remove(src)
+
+        return 1
     except OSError as e:
         with lock:
             print(e)
@@ -462,7 +474,7 @@ def parse_args(args=None, namespace=None):
 def main():
     global HRES, VRES, scale, rotate, adapt, convert, dot, eraseexif, \
            force, includeimgp, keep, enlarge, optimize, \
-           quiet, recurse, overwrite, debug, no_res_opt, pool
+           quiet, recurse, overwrite, debug, no_res_opt, pool, count
 
     args = parse_args()
 
@@ -486,7 +498,7 @@ def main():
     elif args.res is not None:
         HRES, VRES = getres(args.res[0])
         if HRES == 0 and VRES == 0:
-            print('resolution should be >= 0, hres and vres cannot be 0 together')
+            print('-ve values not allowed, hres and vres cannot be 0 together')
             return
     elif args.rotate is not None:
         if(args.rotate <= 0) or (args.rotate >= 360):
@@ -533,6 +545,9 @@ def main():
 
     pool.close()
     pool.join()
+
+    if not quiet and count:
+        print(str(count) + ' images converted.')
 
 if __name__ == '__main__':
     main()
