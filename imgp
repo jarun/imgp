@@ -546,9 +546,11 @@ def main():
         elif os.path.isdir(path):
             traverse_dir(path)
         elif args.rotate is not None:
-            rotate_image(path)
+            if rotate_image(path):
+                count += 1
         else:
-            resize_image(path)
+            if resize_image(path):
+                count += 1
 
     # Process current directory if PATH is unspecified
     if len(args.keywords) == 0:
