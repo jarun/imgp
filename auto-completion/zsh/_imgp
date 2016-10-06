@@ -22,9 +22,8 @@ args=(
     '(-p --optimize)'{-o,--optimize}'[optimize the output images]'
     '(-q --quiet)'{-q,--quiet}'[operate silently]'
     '(-r --recurse)'{-r,--recurse}'[process directories recursively]'
-    '(-s --scale)'{-s,--scale}'[scale image by percentage]:percent'
     '(-w --overwrite)'{-w,--overwrite}'[overwrite source images]'
-    '(-x --res)'{-x,--res}'[output resolution]:HxV'
+    '(-x --res)'{-x,--res}'[output resolution]:HxV or %'
     '(-z --debug)'{-z,--debug}'[enable debug logs]'
 )
 _arguments -S -s $args

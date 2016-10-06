@@ -136,8 +136,7 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
 
     optional arguments:
       -h, --help            show this help message and exit
-      -s %, --scale %       scale image by percentage
-      -x HxV, --res HxV     output resolution in HxV representation
+      -x res, --res res     output resolution in HxV or percentage
       -o deg, --rotate deg  rotate clockwise by angle (in degrees)
       -a, --adapt           adapt to resolution by orientation [default: off]
       -c, --convert         convert PNG to JPG format [default: off]
@@ -146,7 +145,7 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
       -f, --force           force to exact specified resolution [default: off]
       -i, --includeimgp     re-process _IMGP files. * RISKY: refer to docs
       -k, --keep            skip (but convert, if opted) images with matching
-                            specified hres or vres or scale=100 [default: off]
+                            specified hres or vres or --res=100 [default: off]
       -n, --enlarge         enlarge smaller images [default: off]
       -p, --optimize        optimize the output images [default: off]
       -q, --quiet           operate silently [default: verbose]
@@ -183,7 +182,7 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
 
 2. Scale an image by 75% and overwrite the source image:
 
-        $ imgp -s 75 -w ~/image.jpg
+        $ imgp -x 75 -w ~/image.jpg
         /home/testuser/image.jpg
         1366x767 -> 1025x575
         120968 bytes -> 45040 bytes

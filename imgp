@@ -42,7 +42,7 @@ quiet = False  # suppress additional information
 recurse = False  # recursively process subdirectories
 overwrite = False  # remove source images
 debug = False  # enable debug information
-no_res_opt = False  # --res and --scale options not specified
+no_res_opt = False  # --res is not specified
 pad = '_IMGP'  # output file suffix when --overwrite is unused
 _VERSION_ = '2.1'  # current program version
 
@@ -438,10 +438,8 @@ def parse_args(args=None, namespace=None):
     argparser = ExtendedArgumentParser(
                     description='Resize, rotate JPEG and PNG images.')
     addarg = argparser.add_argument
-    addarg('-s', '--scale', dest='scale', type=int, metavar='%',
-           help='scale image by percentage')
-    addarg('-x', '--res', dest='res', nargs=1, metavar='HxV',
-           help='output resolution in HxV representation')
+    addarg('-x', '--res', dest='res', nargs=1, metavar='res',
+           help='output resolution in HxV or percentage')
     addarg('-o', '--rotate', dest='rotate', type=int, metavar='deg',
            help='rotate clockwise by angle (in degrees)')
     addarg('-a', '--adapt', dest='adapt', action='store_true',
@@ -458,7 +456,7 @@ def parse_args(args=None, namespace=None):
            help='re-process _IMGP files. * RISKY: refer to docs')
     addarg('-k', '--keep', dest='keep', action='store_true',
            help='skip (but convert, if opted) images with matching specified \
-                 hres or vres or scale=100 [default: off]')
+                 hres or vres or --res=100 [default: off]')
     addarg('-n', '--enlarge', dest='enlarge', action='store_true',
            help='enlarge smaller images [default: off]')
     addarg('-p', '--optimize', dest='optimize', action='store_true',
@@ -490,28 +488,33 @@ def main():
 
     args = parse_args()
 
-    if (args.res is not None and args.scale is not None):
-        print('specify either resolution or scale')
+    if args.rotate is not None and args.res is not None:
+        print('options --rotate and --res cannot be used together')
         return
 
-    if args.rotate is not None and \
-            (args.res is not None or args.scale is not None):
-        print('option --rotate cannot be used with --scale or --res')
-        return
+    if args.res is not None:
+        if 'x' in args.res[0]:
+            HRES, VRES = getres(args.res[0])
+            if HRES == 0 and VRES == 0:
+                print('-ve values not allowed, \
+                       hres and vres cannot be 0 together')
+                return
+        else:
+            try:
+                if args.res[0].endswith('%'):
+                    scale = int(args.res[0][:-1])
+                else:
+                    scale = int(args.res[0])
 
-    if args.scale is not None:
-        if (args.scale <= 0):
-            print('scale should be > 0%')
-            return
-        if args.scale > 100 and not args.enlarge:
-            print('use --enlarge is to scale > 100%')
-            return
-        scale = args.scale
-    elif args.res is not None:
-        HRES, VRES = getres(args.res[0])
-        if HRES == 0 and VRES == 0:
-            print('-ve values not allowed, hres and vres cannot be 0 together')
-            return
+                if (scale <= 0):
+                    print('scale should be > 0%')
+                    return
+                if scale > 100 and not args.enlarge:
+                    print('use --enlarge is to scale > 100%')
+                    return
+            except Exception as e:
+                print('invalid value for --res')
+                return
     elif args.rotate is not None:
         if(args.rotate <= 0) or (args.rotate >= 360):
             print('the angle specified should be > 0 degree and < 360 degree')

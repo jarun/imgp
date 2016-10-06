@@ -40,11 +40,8 @@ For example, if an image has a resolution of 2048x1365 and is being resized to 1
 .BI "-h, --help"
 Show help text and exit.
 .TP
-.BI "-s, --scale=" %
-Scale image by percentage.
-.TP
-.BI "-x, --res=" HxV
-Output resolution in HRESxVRES representation.
+.BI "-x, --res=" res
+Output resolution in HRESxVRES or percentage.
 .TP
 .BI "-o, --rotate=" deg
 Rotate clockwise by a specified angle (in degrees).
@@ -68,7 +65,7 @@ Force to the exact specified resolution. Disabled by default.
 Process \fI_IMGP\fR files. Risky due to potential race conditions.
 .TP
 .B "-k, --keep"
-Do not process if image hres or vres matches specified hres or vres, or scale is 100. However, PNG images are converted to JPEG if --convert option is specified.
+Do not process if image hres or vres matches specified hres or vres, or --res is 100. However, PNG images are converted to JPEG if --convert option is specified.
 .TP
 .B "-n, --enlarge"
 Enlarge smaller images. By default smaller images are not scaled if specified resolution is greater.
@@ -120,7 +117,7 @@ Scale an image by 75% and overwrite the source image:
 .PP
 .EX
 .IP
-.B $ imgp -s 75 -w ~/image.jpg
+.B $ imgp -x 75 -w ~/image.jpg
 /home/testuser/image.jpg
 1366x767 -> 1025x575
 120968 bytes -> 45040 bytes
