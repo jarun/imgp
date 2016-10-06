@@ -141,7 +141,7 @@ def rotate_image(src):
         return
 
     # Image.rotate(angle, resample=0, expand=0) expand = True means
-    # the image will be enlarged to hold th entire rotated image
+    # the image will be enlarged to hold the entire rotated image
     img = img.rotate(-rotate, 0, True)
 
     if not quiet:
@@ -516,10 +516,10 @@ def main():
                 print('invalid value for --res')
                 return
     elif args.rotate is not None:
-        if(args.rotate <= 0) or (args.rotate >= 360):
-            print('the angle specified should be > 0 degree and < 360 degree')
+        rotate = args.rotate % 360
+        if not rotate:
+            print('cannot rotate by 0 degree')
             return
-        rotate = args.rotate
     elif args.convert or args.optimize:
         no_res_opt = True
         scale = 100
