@@ -565,7 +565,7 @@ def main():
     pool.join()
 
     if not quiet and count:
-        print('%s images converted.' % count)
+        print('%s converted.' % count)
 
 if __name__ == '__main__':
     main()
