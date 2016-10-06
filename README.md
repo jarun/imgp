@@ -79,6 +79,8 @@ or, using pip3:
 
     $ sudo pip3 install pillow
 
+To utilize the full power of modern CPUs with [SIMD](https://en.wikipedia.org/wiki/SIMD) support, replace pillow with [pillow-simd](https://github.com/uploadcare/pillow-simd).
+
 ### Installing from this repository
 
 If you have git installed, run:
