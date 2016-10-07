@@ -34,7 +34,7 @@ It comes with an intelligent adaptive algorithm, recursive operations, multiproc
 - [Examples](#examples)
 - [Copyright](#copyright)
 
-## Features
+## FEATURES
 
 - resize by percentage or resolution
 - rotate clockwise by specified angle
@@ -59,13 +59,13 @@ For example, if an image has a resolution of 2048x1365 and is being resized to 1
 - In regular mode (default), output image resolution will be 1152x768
 - In adaptive mode, output image resolution will be 1366x910
 
-## Performance
+## PERFORMANCE
 
 `imgp` could resize 8823 images (~4.5GB in size) of mixed resolutions (high to regular) stored in an external USB 2.0 hard disk at an adaptive resolution of 1366x1000 in around 8 minutes. The resulting size was 897MB (~ 20%).
 
 `imgp` uses Python PIL/Pillow library. Nautilus Image Converter calls the `convert` utility from ImageMagick. For a comparative benchmark, head [here](https://github.com/uploadcare/pillow-simd#benchmarks).
 
-## Installation
+## INSTALLATION
 
 ### Dependencies
 
@@ -119,11 +119,11 @@ If you are on an Arch based system you can use the following AUR packages:
 
 **Note**: If you're having trouble with the AUR packages please email the package maintainer at zach@zach-adams.com before creating an issue.
 
-## Shell completion
+## SHELL COMPLETION
 
 Shell completion scripts for Bash, Fish and Zsh can be found in respective subdirectories of [auto-completion/](https://github.com/jarun/imgp/blob/master/auto-completion). Please refer to your shell's manual for installation instructions.
 
-## Usage
+## USAGE
 
 ### cmdline options
 
@@ -159,7 +159,7 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
 - Resize and rotate are lossy operations. For additional reductions in size try `--optimize` and `--eraseexif` options.
 - Output image names are appended with **_IMGP** if overwrite option is not used. By default *_IMGP* files are not processed. Doing so may lead to potential race conditions when `--overwrite` option is used.
 
-## Examples
+## EXAMPLES
 
 1. Convert some images and directories:
 
@@ -209,6 +209,6 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
         1050x1400 -> 800x1067
         458092 bytes -> 78089 bytes
 
-## Copyright
+## COPYRIGHT
 
 Copyright (C) 2016 [Arun Prakash Jana](mailto:engineerarun@gmail.com)
