@@ -6,11 +6,15 @@
 <a href="https://github.com/jarun/imgp/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-GPLv3-yellow.svg?maxAge=2592000" alt="License" /></a>
 </p>
 
-`imgp` is a command line image resizer and rotator for JPEG and PNG images. If you have tons of images you would like to resize adaptively to a screen-size or rotate by an angle using a single command, `imgp` is the utility for you.
+<p align="center">
+<a href="https://asciinema.org/a/88448"><img src="https://asciinema.org/a/88448.png" alt="imgp_asciicast" width="734"/></a>
+</p>
 
-It comes with an intelligent adaptive algorithm, recursive operations, multiprocessing, shell completion scripts, EXIF preservation and more.
+`imgp` is a command line image resizer and rotator for JPEG and PNG images. If you have tons of images you want to resize adaptively to a screen resolution or rotate by an angle using a single command, `imgp` is the utility for you. It can save a lot on storage too.
 
-`imgp` intends to be a stronger replacement for the Nautilus Image Converter extension, not tied to any file manager and way faster. On desktop environments (like Xfce or LxQt) which do not integrate Nautilus, `imgp` will save your day.
+Powered by an intelligent adaptive algorithm, recursive operations, multiprocessing, shell completion scripts, EXIF preservation (and more), `imgp` is a very flexible utility with well-documented easy to use options.
+
+`imgp` intends to be a stronger replacement of the Nautilus Image Converter extension, not tied to any file manager and way faster. On desktop environments (like Xfce or LxQt) which do not integrate Nautilus, `imgp` will save your day.
 
 <p align="center">
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RMLTQ76JSXJ4Q"><img src="https://img.shields.io/badge/paypal-donate-orange.svg?maxAge=2592000" alt="Donate" /></a>
@@ -79,7 +83,7 @@ or, using pip3:
 
     $ sudo pip3 install pillow
 
-To utilize the full power of modern CPUs with [SIMD](https://en.wikipedia.org/wiki/SIMD) support, replace pillow with [pillow-simd](https://github.com/uploadcare/pillow-simd).
+pillow can be replaced by [pillow-simd](https://github.com/uploadcare/pillow-simd) on [SIMD](https://en.wikipedia.org/wiki/SIMD) processors.
 
 ### Installing from this repository
 
