@@ -21,6 +21,7 @@ import argparse
 import sys
 import os
 import PIL
+import time
 from PIL import Image, ImageFile
 from multiprocessing import Pool, Lock
 
@@ -44,6 +45,7 @@ overwrite = False  # remove source images
 debug = False  # enable debug information
 no_res_opt = False  # --res is not specified
 pad = '_IMGP'  # output file suffix when --overwrite is unused
+init_time = time.time()  # profile the total time taken
 _VERSION_ = '2.1'  # current program version
 
 # Globals for multiprocessing
@@ -483,8 +485,8 @@ def parse_args(args=None, namespace=None):
 
 def main():
     global HRES, VRES, scale, rotate, adapt, convert, dot, eraseexif, \
-           force, includeimgp, keep, enlarge, optimize, \
-           quiet, recurse, overwrite, debug, no_res_opt, pool, count
+           force, includeimgp, keep, enlarge, optimize, quiet, recurse, \
+           overwrite, debug, no_res_opt, pool, init_time, count
 
     args = parse_args()
 
@@ -512,7 +514,7 @@ def main():
                 if scale > 100 and not args.enlarge:
                     print('use --enlarge is to scale > 100%')
                     return
-            except Exception as e:
+            except Exception:
                 print('invalid value for --res')
                 return
     elif args.rotate is not None:
@@ -565,7 +567,8 @@ def main():
     pool.join()
 
     if not quiet and count:
-        print('%s converted.' % count)
+        print('%s converted in %.4f seconds.'
+              % (count, time.time() - init_time))
 
 if __name__ == '__main__':
     main()
