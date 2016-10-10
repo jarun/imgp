@@ -1,3 +1,15 @@
+imgp v2.2
+2016-10-10
+
+Modifications
+- Options --res and --scale unified as --res
+- Support negative degrees to rotate anti-clockwise
+- Show total converted images, if any
+- Show total execution time
+- Tested with pillow-simd on SIMD processor
+
+-------------------------------------------------------------------------------
+
 imgp v2.1
 2016-10-05
 
