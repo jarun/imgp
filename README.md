@@ -29,8 +29,8 @@ Powered by an intelligent adaptive algorithm, recursive operations, multiprocess
   - [Dependencies](#dependencies)
   - [Installing from this repository](#installing-from-this-repository)
   - [Running as a standalone utility](#running-as-a-standalone-utility)
+  - [Installing with a package manager](#installing-with-a-package-manager)
   - [Debian package](#debian-package)
-  - [Arch users](#arch-users)
 - [Shell completion](#shell-completion)
 - [Usage](#usage)
   - [cmdline options](#cmdline-options)
@@ -107,21 +107,19 @@ To remove, run:
 
     $ ./imgp
 
+### Installing with a package manager
+
+`imgp` is also available on
+ - [AUR](https://aur.archlinux.org/packages/imgp/) for Arch Linux
+ - [Debian Sid](https://packages.debian.org/sid/imgp)
+ - [Ubuntu PPA](https://launchpad.net/~twodopeshaggy/+archive/ubuntu/jarun/)
+
 ### Debian package
 
-If you are on a Debian based system (including Ubuntu), visit [the latest stable release](https://github.com/jarun/imgp/releases/latest) and download the.deb package. To install, run
+If you are on a Debian based system (including Ubuntu), visit [the latest stable release](https://github.com/jarun/imgp/releases/latest) and download the `.deb` package. To install, run
 
     $ sudo dpkg -i imgp-$version-all.deb
 Please substitute `$version` with the appropriate package version.
-
-### Arch users
-
-If you are on an Arch based system you can use the following AUR packages:
-
-* **Official Releases**: https://aur.archlinux.org/packages/imgp/
-* **Development Releases**: https://aur.archlinux.org/packages/imgp-git/
-
-**Note**: If you're having trouble with the AUR packages please email the package maintainer at zach@zach-adams.com before creating an issue.
 
 ## SHELL COMPLETION
 
