@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-<a href="https://asciinema.org/a/88448"><img src="https://asciinema.org/a/88448.png" alt="imgp_asciicast" width="734"/></a>
+<a href="https://asciinema.org/a/e5qa0mipgg23v70hdn6i99b8q"><img src="https://asciinema.org/a/e5qa0mipgg23v70hdn6i99b8q.png" alt="imgp_asciicast" width="734"/></a>
 </p>
 
 `imgp` is a command line image resizer and rotator for JPEG and PNG images. If you have tons of images you want to resize adaptively to a screen resolution or rotate by an angle using a single command, `imgp` is the utility for you. It can save a lot on storage too.
@@ -38,7 +38,7 @@ Powered by an intelligent adaptive algorithm, recursive operations, multiprocess
 - [Examples](#examples)
 - [Copyright](#copyright)
 
-## FEATURES
+## Features
 
 - resize by percentage or resolution
 - rotate clockwise by specified angle
@@ -63,13 +63,13 @@ For example, if an image has a resolution of 2048x1365 and is being resized to 1
 - In regular mode (default), output image resolution will be 1152x768
 - In adaptive mode, output image resolution will be 1366x910
 
-## PERFORMANCE
+## Performance
 
 `imgp` could resize 8823 images (~4.5GB in size) of mixed resolutions (high to regular) stored in an external USB 2.0 hard disk at an adaptive resolution of 1366x1000 in around 8 minutes. The resulting size was 897MB (~ 20%).
 
 `imgp` uses Python PIL/Pillow library. Nautilus Image Converter calls the `convert` utility from ImageMagick. For a comparative benchmark, head [here](https://github.com/uploadcare/pillow-simd#benchmarks).
 
-## INSTALLATION
+## Installation
 
 ### Dependencies
 
@@ -121,11 +121,11 @@ If you are on a Debian based system (including Ubuntu), visit [the latest stable
     $ sudo dpkg -i imgp-$version-all.deb
 Please substitute `$version` with the appropriate package version.
 
-## SHELL COMPLETION
+## Shell completion
 
 Shell completion scripts for Bash, Fish and Zsh can be found in respective subdirectories of [auto-completion/](https://github.com/jarun/imgp/blob/master/auto-completion). Please refer to your shell's manual for installation instructions.
 
-## USAGE
+## Usage
 
 ### cmdline options
 
@@ -161,7 +161,7 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
 - Resize and rotate are lossy operations. For additional reductions in size try `--optimize` and `--eraseexif` options.
 - Output image names are appended with **_IMGP** if overwrite option is not used. By default *_IMGP* files are not processed. Doing so may lead to potential race conditions when `--overwrite` option is used.
 
-## EXAMPLES
+## Examples
 
 1. Convert some images and directories:
 
@@ -211,6 +211,6 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
         1050x1400 -> 800x1067
         458092 bytes -> 78089 bytes
 
-## COPYRIGHT
+## Copyright
 
 Copyright (C) 2016 [Arun Prakash Jana](mailto:engineerarun@gmail.com)
