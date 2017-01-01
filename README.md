@@ -215,4 +215,4 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
 
 ## Copyright
 
-Copyright (C) 2016 [Arun Prakash Jana](mailto:engineerarun@gmail.com)
+Copyright © 2016-2017 [Arun Prakash Jana](mailto:engineerarun@gmail.com)
