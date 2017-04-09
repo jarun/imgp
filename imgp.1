@@ -28,7 +28,7 @@ is a multiprocessing command line image resizer and rotator for JPEG and PNG ima
 - In case of cross orientation [(H >= V and h <= v) or (H < V and h >= v)], the image is resized with the shorter specified side as reference. Same as non-adaptive.
 .PP
 For example, if an image has a resolution of 2048x1365 and is being resized to 1366x768:
-.PP
+.br
 - In regular mode (default), output image resolution will be 1152x768
 .br
 - In adaptive mode, output image resolution will be 1366x910
@@ -36,11 +36,11 @@ For example, if an image has a resolution of 2048x1365 and is being resized to 1
 .B Operational notes
 .PP
 - Multiple files and directories can be specified as source. If \fBPATH\fR is omitted, the current directory is processed.
-.PP
+.br
 - Output image names are appended with \fB_IMGP\fR if '--overwrite' option is not used. By default \fB_IMGP\fR files are not processed. Doing so may lead to potential race conditions when '--overwrite' option is used.
-.PP
+.br
 - PNG files with lower target hres/vres are not converted (even if '--convert' is used). Run 'imgp --convert' to convert those.
-.PP
+.br
 - Resize and rotate are lossy operations. For additional reductions in size try '--optimize' and '--eraseexif' options.
 .SH OPTIONS
 .TP
@@ -65,16 +65,16 @@ Include hidden files (Linux-specific). By default hidden files are skipped on Li
 .BI "-e, --eraseexif"
 Erase EXIF metadata of JPEG images. Preserved by default.
 .TP
-.B "-f, --force"
+.BI "-f, --force"
 Force to the exact specified resolution. Disabled by default.
 .TP
-.B "-i, --includeimgp"
+.BI "-i, --includeimgp"
 Process \fI_IMGP\fR files. Risky due to potential race conditions.
 .TP
-.B "-k, --keep"
+.BI "-k, --keep"
 Do not process if image hres or vres matches specified hres or vres, or --res is 100. However, PNG images are converted to JPEG if --convert option is specified.
 .TP
-.B "-n, --enlarge"
+.BI "-n, --enlarge"
 Enlarge smaller images. By default smaller images are not scaled if specified resolution is greater.
 .TP
 .BI "-p, --optimize"
@@ -83,10 +83,10 @@ Optimize output images using PIL library optimization algorithm. Disabled by def
 .BI "-q, --quiet"
 Do not show any operational output.
 .TP
-.B "-r, --recursive"
+.BI "-r, --recursive"
 Recursively process sub-directories. By default only the specified directory is processed. Symbolic links to directories are ignored to avoid recursive loops.
 .TP
-.B "-s, --recursive=" byte
+.BI "-s, --recursive=" byte
 Minimum size in bytes required to process an image. Acts as a guard against processing low-resolution images. Default 1024 bytes.
 .TP
 .BI "-w, --overwrite"
@@ -152,7 +152,6 @@ Visit all directories recursively, overwrite source images, ignore images with m
 .B $ imgp -x 1366x1000 -wrack
 .EE
 .PP
-.EX
 .IP 5. 4
 Set hres=800 and adapt vres maintaining the ratio.
 .PP
@@ -168,6 +167,14 @@ Source omitted. Processing current directory...
 \[char46]/image2.jpg
 1050x1400 -> 800x1067
 458092 bytes -> 78089 bytes
+.EE
+.PP
+.IP 6. 4
+Process images greater than 50KB (50*1024 bytes) only:
+.PP
+.EX
+.IP
+.B $ imgp -wrackx 1366x1000 -s 51200
 .SH AUTHORS
 Arun Prakash Jana <engineerarun@gmail.com>
 .SH HOME

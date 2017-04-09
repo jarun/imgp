@@ -14,25 +14,25 @@
 
 `imgp` is a command line image resizer and rotator for JPEG and PNG images. If you have tons of images you want to resize adaptively to a screen resolution or rotate by an angle using a single command, `imgp` is the utility for you. It can save a lot on storage too.
 
-Powered by an intelligent adaptive algorithm, recursive operations, multiprocessing, shell completion scripts, EXIF preservation (and more), `imgp` is a very flexible utility with well-documented easy to use options.
+Powered by multiprocessing, an intelligent adaptive algorithm, recursive operations, shell completion scripts, EXIF preservation (and more), `imgp` is a very flexible utility with well-documented easy to use options.
 
 `imgp` intends to be a stronger replacement of the Nautilus Image Converter extension, not tied to any file manager and way faster. On desktop environments (like Xfce or LxQt) which do not integrate Nautilus, `imgp` will save your day.
 
-<p align="center">
+<p align="right">
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RMLTQ76JSXJ4Q"><img src="https://tuxtricks.files.wordpress.com/2016/12/donate.png" alt="Donate via PayPal!" title="Donate via PayPal!" /></a>
 </p>
 
-## Table of Contents
+### Table of Contents
 
 - [Features](#features)
   - [Adaptive mode](#adaptive-mode)
 - [Performance](#performance)
 - [Installation](#installation)
   - [Dependencies](#dependencies)
-  - [Installing from this repository](#installing-from-this-repository)
-  - [Running as a standalone utility](#running-as-a-standalone-utility)
   - [Installing with a package manager](#installing-with-a-package-manager)
-  - [Debian package](#debian-package)
+  - [Installing from this repository](#installing-from-this-repository)
+    - [Running as a standalone utility](#running-as-a-standalone-utility)
+    - [Debian package](#debian-package)
 - [Shell completion](#shell-completion)
 - [Usage](#usage)
   - [cmdline options](#cmdline-options)
@@ -40,7 +40,7 @@ Powered by an intelligent adaptive algorithm, recursive operations, multiprocess
 - [Examples](#examples)
 - [Copyright](#copyright)
 
-## Features
+### Features
 
 - resize by percentage or resolution
 - rotate clockwise by specified angle
@@ -56,7 +56,7 @@ Powered by an intelligent adaptive algorithm, recursive operations, multiprocess
 - completion scripts for bash, fish, zsh
 - minimal dependencies
 
-### Adaptive mode
+#### Adaptive mode
 
 - If the specified and image orientations are same [(H >= V and h > v) or (H < V and h < v)], the image is resized with the longer specified side as reference.
 - In case of cross orientation [(H >= V and h <= v) or (H < V and h >= v)], the image is resized with the shorter specified side as reference. Same as non-adaptive.
@@ -66,15 +66,15 @@ For example, if an image has a resolution of 2048x1365 and is being resized to 1
 - In regular mode (default), output image resolution will be 1152x768
 - In adaptive mode, output image resolution will be 1366x910
 
-## Performance
+### Performance
 
-`imgp` could resize 8823 images (~4.5GB in size) of mixed resolutions (high to regular) stored in an external USB 2.0 hard disk at an adaptive resolution of 1366x1000 in around 8 minutes. The resulting size was 897MB (~ 20%).
+`imgp` could resize 8823 images (approx. 4.5GB in size) of mixed resolutions (high to regular) stored in a USB 2.0 external hard disk at an adaptive resolution of 1366x1000 in around 8 minutes. The resulting size was 897MB (approx. 20%).
 
 `imgp` uses Python PIL/Pillow library. Nautilus Image Converter calls the `convert` utility from ImageMagick. For a comparative benchmark, head [here](https://github.com/uploadcare/pillow-simd#benchmarks).
 
-## Installation
+### Installation
 
-### Dependencies
+#### Dependencies
 
 `imgp` requires Python 3.5 or later.
 
@@ -88,12 +88,16 @@ or, using pip3:
 
 pillow can be replaced by [pillow-simd](https://github.com/uploadcare/pillow-simd) on [SIMD](https://en.wikipedia.org/wiki/SIMD) processors.
 
-### Installing from this repository
+#### Installing with a package manager
 
-If you have git installed, run:
+- [AUR](https://aur.archlinux.org/packages/imgp/)
+- [Debian](https://packages.debian.org/search?keywords=imgp&searchon=names&exact=1)
+- [Ubuntu](http://packages.ubuntu.com/search?keywords=imgp&searchon=names&exact=1)
+- [Ubuntu PPA](https://launchpad.net/~twodopeshaggy/+archive/ubuntu/jarun/)
 
-    $ git clone https://github.com/jarun/imgp/
-or download the latest [stable release](https://github.com/jarun/imgp/releases/latest) or [development version](https://github.com/jarun/imgp/archive/master.zip).
+#### Installing from this repository
+
+If you have git installed, clone this repository. Otherwise download the latest [stable release](https://github.com/jarun/imgp/releases/latest) or [development version](https://github.com/jarun/imgp/archive/master.zip) (*risky*).
 
 Install to default location (`/usr/local`):
 
@@ -104,33 +108,26 @@ To remove, run:
     $ sudo make uninstall
 `PREFIX` is supported. You may need to use `sudo` with `PREFIX` depending on your permissions on destination directory.
 
-### Running as a standalone utility
+##### Running as a standalone utility
 
 `imgp` is a standalone utility. From the containing directory, run:
 
     $ ./imgp
 
-### Installing with a package manager
-
-- [AUR](https://aur.archlinux.org/packages/imgp/)
-- [Debian](https://packages.debian.org/search?keywords=imgp&searchon=names&exact=1)
-- [Ubuntu](http://packages.ubuntu.com/search?keywords=imgp&searchon=names&exact=1)
-- [Ubuntu PPA](https://launchpad.net/~twodopeshaggy/+archive/ubuntu/jarun/)
-
-### Debian package
+##### Debian package
 
 If you are on a Debian based system (including Ubuntu), visit [the latest stable release](https://github.com/jarun/imgp/releases/latest) and download the `.deb` package. To install, run
 
     $ sudo dpkg -i imgp-$version-all.deb
 Please substitute `$version` with the appropriate package version.
 
-## Shell completion
+### Shell completion
 
 Shell completion scripts for Bash, Fish and Zsh can be found in respective subdirectories of [auto-completion/](https://github.com/jarun/imgp/blob/master/auto-completion). Please refer to your shell's manual for installation instructions.
 
-## Usage
+### Usage
 
-### cmdline options
+#### cmdline options
 
     usage: imgp [OPTIONS] [PATH [PATH ...]]
 
@@ -160,14 +157,14 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
       -w, --overwrite       overwrite source images [default: off]
       -z, --debug           enable debug logs [default: off]
 
-### Operational notes
+#### Operational notes
 
 - Multiple files and directories can be specified as source. If `PATH` is omitted, the current directory is processed.
 - Output image names are appended with **_IMGP** if `--overwrite` option is not used. By default *_IMGP* files are not processed. Doing so may lead to potential race conditions when `--overwrite` option is used.
 - PNG files with lower target hres/vres are not converted (even if `--convert` is used). Run `imgp --convert` to convert those.
 - Resize and rotate are lossy operations. For additional reductions in size try `--optimize` and `--eraseexif` options.
 
-## Examples
+### Examples
 
 1. Convert some images and directories:
 
@@ -217,6 +214,10 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
         1050x1400 -> 800x1067
         458092 bytes -> 78089 bytes
 
-## Copyright
+6. Process images greater than 50KB (50*1024 bytes) only:
 
-Copyright © 2016-2017 [Arun Prakash Jana](mailto:engineerarun@gmail.com)
+        $ imgp -wrackx 1366x1000 -s 51200
+
+### Copyright
+
+Copyright © 2016-2017 [Arun Prakash Jana](https://github.com/jarun)
