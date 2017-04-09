@@ -20,10 +20,6 @@ is a multiprocessing command line image resizer and rotator for JPEG and PNG ima
   * process directories recursively
   * overwrite source image option
 .PP
-Multiple files and directories can be specified as source. If \fBPATH\fR is omitted, the current directory is processed.
-.PP
-Output image names are appended with \fB_IMGP\fR if overwrite option is not used. By default \fB_IMGP\fR files are not processed. Doing so may lead to potential race conditions when overwrite option is used.
-.PP
 .B Adaptive mode
 .PP
 - If the specified and image orientations are same [(H >= V and h > v) or (H < V and h < v)], the image is resized with the longer specified side as reference.
@@ -35,6 +31,16 @@ For example, if an image has a resolution of 2048x1365 and is being resized to 1
 - In regular mode (default), output image resolution will be 1152x768
 .br
 - In adaptive mode, output image resolution will be 1366x910
+.PP
+.B Operational notes
+.PP
+- Multiple files and directories can be specified as source. If \fBPATH\fR is omitted, the current directory is processed.
+.PP
+- Output image names are appended with \fB_IMGP\fR if '--overwrite' option is not used. By default \fB_IMGP\fR files are not processed. Doing so may lead to potential race conditions when '--overwrite' option is used.
+.PP
+- PNG files with lower target hres/vres are not converted (even if '--convert' is used). Run 'imgp --convert' to convert those.
+.PP
+- Resize and rotate are lossy operations. For additional reductions in size try '--optimize' and '--eraseexif' options.
 .SH OPTIONS
 .TP
 .BI "-h, --help"

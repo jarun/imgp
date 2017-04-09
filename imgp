@@ -51,7 +51,8 @@ _VERSION_ = '2.2'  # current program version
 # Globals for multiprocessing
 pool = None
 lock = Lock()
-count = 0
+count = 0  # successful conversion count
+count_lowres = 0  # no-op count due to low resolution
 
 
 def getres(res):
@@ -80,10 +81,11 @@ def lock_print(msg):
 
 
 def cb(data):
-    global count
+    global count, count_lowres
 
     if data:
-        count += data
+        count += data[0]
+        count_lowres += data[1]
 
 
 def traverse_dir(path):
@@ -173,7 +175,7 @@ def rotate_image(src):
         if overwrite and converted:
             os.remove(src)
 
-        return 1
+        return [1, 0]
     except OSError as e:
         with lock:
             print(e)
@@ -247,9 +249,9 @@ def resize_image(src):
     elif HRES == 0 or VRES == 0:
         if HRES:
             if not enlarge and HRES > hres:
-                if debug:
+                if not quiet:
                     lock_print('%s has lesser hres\n' % src)
-                return
+                return [0, 1]
 
             hratio = HRES/float(hres)
             target_vres = vres * hratio
@@ -263,9 +265,9 @@ def resize_image(src):
 
         if VRES:
             if not enlarge and VRES > vres:
-                if debug:
+                if not quiet:
                     lock_print('%s has lesser vres\n' % src)
-                return
+                return [0, 1]
 
             vratio = VRES/float(vres)
             target_hres = hres * vratio
@@ -293,9 +295,9 @@ def resize_image(src):
             # same orientation (H >= V and h > v) or
             # cross orientation (H < V and h >= v)
             if not enlarge and HRES > hres:
-                if debug:
+                if not quiet:
                     lock_print('%s has lesser hres\n' % src)
-                return
+                return [0, 1]
 
             if HRES != hres:
                 hratio = HRES/float(hres)
@@ -313,9 +315,9 @@ def resize_image(src):
             # same orientation (H < V and h < v) or
             # cross orientation (H >= V and h <= v)
             if not enlarge and VRES > vres:
-                if debug:
+                if not quiet:
                     lock_print('%s has lesser vres\n' % src)
-                return
+                return [0, 1]
 
             if VRES != vres:
                 vratio = VRES/float(vres)
@@ -334,9 +336,9 @@ def resize_image(src):
 
         if ratio_img >= ratio_target:
             if not enlarge and HRES > hres:
-                if debug:
+                if not quiet:
                     lock_print('%s has lesser hres\n' % src)
-                return
+                return [0, 1]
 
             # re-sample as per target horizontal resolution
             hratio = HRES/float(hres)
@@ -351,9 +353,9 @@ def resize_image(src):
                            % (HRES, target_vres))
         else:
             if not enlarge and VRES > vres:
-                if debug:
+                if not quiet:
                     lock_print('%s has lesser vres\n' % src)
-                return
+                return [0, 1]
 
             # re-sample as per target vertical resolution
             vratio = VRES/float(vres)
@@ -395,7 +397,7 @@ def resize_image(src):
         if overwrite and converted:
             os.remove(src)
 
-        return 1
+        return [1, 0]
     except OSError as e:
         with lock:
             print(e)
@@ -566,9 +568,15 @@ def main():
     pool.close()
     pool.join()
 
-    if not quiet and count:
-        print('%s converted in %.4f seconds.'
-              % (count, time.time() - init_time))
+    if not quiet:
+        # Show number of images converted
+        if count:
+            print('%s processed in %.4f seconds.'
+                  % (count, time.time() - init_time))
+
+        # Show number of images not ceonverted due to low resolution
+        if count_lowres:
+            print('%s not processed due to low resolution.' % count_lowres)
 
 if __name__ == '__main__':
     main()

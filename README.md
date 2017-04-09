@@ -160,8 +160,10 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
 
 ### Operational notes
 
+- Multiple files and directories can be specified as source. If `PATH` is omitted, the current directory is processed.
+- Output image names are appended with **_IMGP** if `--overwrite` option is not used. By default *_IMGP* files are not processed. Doing so may lead to potential race conditions when `--overwrite` option is used.
+- PNG files with lower target hres/vres are not converted (even if `--convert` is used). Run `imgp --convert` to convert those.
 - Resize and rotate are lossy operations. For additional reductions in size try `--optimize` and `--eraseexif` options.
-- Output image names are appended with **_IMGP** if overwrite option is not used. By default *_IMGP* files are not processed. Doing so may lead to potential race conditions when `--overwrite` option is used.
 
 ## Examples
 
