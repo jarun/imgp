@@ -41,6 +41,7 @@ enlarge = False  # enlarge images with smaller hres or vres
 optimize = False  # apply PIL library optimization when saving
 quiet = False  # suppress additional information
 recurse = False  # recursively process subdirectories
+size = 1024  # min byte size to process an image
 overwrite = False  # remove source images
 debug = False  # enable debug information
 no_res_opt = False  # --res is not specified
@@ -105,10 +106,14 @@ def traverse_dir(path):
                         lock_print(entry.path + ': no permission')
                         continue
                     traverse_dir(entry.path)
-            elif rotate is not None:
-                pool.apply_async(rotate_image, args=(entry.path,), callback=cb)
-            else:
-                pool.apply_async(resize_image, args=(entry.path,), callback=cb)
+            elif (entry.is_file(follow_symlinks=False) and
+                  entry.stat().st_size >= size):
+                if rotate is not None:
+                    pool.apply_async(rotate_image, args=(entry.path,),
+                                     callback=cb)
+                else:
+                    pool.apply_async(resize_image, args=(entry.path,),
+                                     callback=cb)
     except OSError as e:
         with lock:
             print(e)
@@ -470,6 +475,8 @@ def parse_args(args=None, namespace=None):
     addarg('-r', '--recurse', action='store_true',
            help='process directories recursively [default: off] \
                  symbolic links to directories are ignored')
+    addarg('-s', '--size', type=int, metavar='byte',
+           help='minimum size to process an image [default: 1024]')
     addarg('-w', '--overwrite', action='store_true',
            help='overwrite source images [default: off]')
     addarg('-z', '--debug', action='store_true',
@@ -488,7 +495,7 @@ def parse_args(args=None, namespace=None):
 def main():
     global HRES, VRES, scale, rotate, adapt, convert, dot, eraseexif, \
            force, includeimgp, keep, enlarge, optimize, quiet, recurse, \
-           overwrite, debug, no_res_opt, pool, init_time, count
+           size, overwrite, debug, no_res_opt, pool, init_time, count
 
     args = parse_args()
 
@@ -542,6 +549,8 @@ def main():
     optimize = args.optimize
     quiet = args.quiet
     recurse = args.recurse
+    if args.size is not None:
+        size = args.size
     overwrite = args.overwrite
     debug = args.debug
 
@@ -574,7 +583,7 @@ def main():
             print('%s processed in %.4f seconds.'
                   % (count, time.time() - init_time))
 
-        # Show number of images not ceonverted due to low resolution
+        # Show number of images not converted due to low resolution
         if count_lowres:
             print('%s not processed due to low resolution.' % count_lowres)
 

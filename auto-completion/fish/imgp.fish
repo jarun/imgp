@@ -17,6 +17,7 @@ complete -c imgp -s o -l rotate   -r --description 'rotate clockwise by angle (i
 complete -c imgp -s p -l optimize    --description 'optimize the output images'
 complete -c imgp -s q -l quiet       --description 'operate silently'
 complete -c imgp -s r -l recurse     --description 'process directories recursively'
+complete -c imgp -s s -l size     -r --description 'min byte size to process an image'
 complete -c imgp -s w -l overwrite   --description 'overwrite source images'
 complete -c imgp -s x -l res      -r --description 'output resolution in HxV or %'
 complete -c imgp -s z -l debug       --description 'enable debug logs'

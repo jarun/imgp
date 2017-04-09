@@ -22,6 +22,7 @@ args=(
     '(-p --optimize)'{-o,--optimize}'[optimize the output images]'
     '(-q --quiet)'{-q,--quiet}'[operate silently]'
     '(-r --recurse)'{-r,--recurse}'[process directories recursively]'
+    '(-s --size)'{-r,--size}'[min byte size to process an image]:bytes'
     '(-w --overwrite)'{-w,--overwrite}'[overwrite source images]'
     '(-x --res)'{-x,--res}'[output resolution]:HxV or %'
     '(-z --debug)'{-z,--debug}'[enable debug logs]'

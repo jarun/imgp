@@ -47,6 +47,7 @@ Powered by an intelligent adaptive algorithm, recursive operations, multiprocess
 - adaptive resize considering orientation
 - brute force to a resolution
 - optimize images to save more space
+- limit processing by minimum image size
 - convert PNG to JPEG
 - erase exif metadata
 - force smaller to larger resize
@@ -155,6 +156,7 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
       -q, --quiet           operate silently [default: verbose]
       -r, --recursive       process directories recursively [default: off]
                             symbolic links to directories are ignored
+      -s byte, --size byte  minimum size to process an image [default: 1024]
       -w, --overwrite       overwrite source images [default: off]
       -z, --debug           enable debug logs [default: off]
 
