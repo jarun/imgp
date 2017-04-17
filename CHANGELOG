@@ -1,3 +1,12 @@
+imgp v2.3
+2017-04-17
+
+Modifications
+- Show number of images not processed due to low resolution
+- Option `--size` to limit processing by minimum image size
+
+-------------------------------------------------------------------------------
+
 imgp v2.2
 2016-10-10
 
