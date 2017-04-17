@@ -94,6 +94,7 @@ pillow can be replaced by [pillow-simd](https://github.com/uploadcare/pillow-sim
 - [Debian](https://packages.debian.org/search?keywords=imgp&searchon=names&exact=1)
 - [Ubuntu](http://packages.ubuntu.com/search?keywords=imgp&searchon=names&exact=1)
 - [Ubuntu PPA](https://launchpad.net/~twodopeshaggy/+archive/ubuntu/jarun/)
+- [Homebrew *tap*](https://github.com/jarun/homebrew-imgp) [`brew install jarun/imgp/imgp`]
 
 #### Installing from this repository
 
