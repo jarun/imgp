@@ -38,7 +38,7 @@ force = False  # forced to exact specified resolution
 includeimgp = False  # process _IMGP files
 keep = False  # ignore images with matching hres or vres
 enlarge = False  # enlarge images with smaller hres or vres
-optimize = False  # apply PIL library optimization when saving
+optimal = False  # apply PIL library optimization when saving
 quiet = False  # suppress additional information
 recurse = False  # recursively process subdirectories
 size = 1024  # min byte size to process an image
@@ -169,10 +169,7 @@ def rotate_image(src):
         dest = name + suffix + ext
 
     try:
-        if not optimize:
-            img.save(dest, _format, exif=exifdata)
-        else:
-            img.save(dest, _format, optimize=True, exif=exifdata)
+        img.save(dest, _format, optimize=optimal, exif=exifdata)
 
         if not quiet:
             lock_print('%s %ld bytes\n' % (stats, os.path.getsize(dest)))
@@ -207,7 +204,7 @@ def resize_image(src):
 
         # if 'only' convert option is specified,
         # nothing to be done for non-PNG images
-        if no_res_opt and not optimize and _format != 'PNG':
+        if no_res_opt and not optimal and _format != 'PNG':
             if debug:
                 lock_print('resize_image: cannot convert non-PNG')
             return
@@ -391,10 +388,7 @@ def resize_image(src):
         dest = name + suffix + ext
 
     try:
-        if not optimize:
-            img.save(dest, _format, exif=exifdata)
-        else:
-            img.save(dest, _format, optimize=True, exif=exifdata)
+        img.save(dest, _format, optimize=optimal, exif=exifdata)
 
         if not quiet:
             lock_print('%s %ld bytes\n' % (stats, os.path.getsize(dest)))
@@ -494,7 +488,7 @@ def parse_args(args=None, namespace=None):
 
 def main():
     global HRES, VRES, scale, rotate, adapt, convert, dot, eraseexif, \
-           force, includeimgp, keep, enlarge, optimize, quiet, recurse, \
+           force, includeimgp, keep, enlarge, optimal, quiet, recurse, \
            size, overwrite, debug, no_res_opt, pool, init_time, count
 
     args = parse_args()
@@ -546,7 +540,7 @@ def main():
     includeimgp = args.includeimgp
     keep = args.keep
     enlarge = args.enlarge
-    optimize = args.optimize
+    optimal = args.optimize
     quiet = args.quiet
     recurse = args.recurse
     if args.size is not None:

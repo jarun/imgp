@@ -165,6 +165,7 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
 - Output image names are appended with **_IMGP** if `--overwrite` option is not used. By default *_IMGP* files are not processed. Doing so may lead to potential race conditions when `--overwrite` option is used.
 - PNG files with lower target hres/vres are not converted (even if `--convert` is used). Run `imgp --convert` to convert those.
 - Resize and rotate are lossy operations. For additional reductions in size try `--optimize` and `--eraseexif` options.
+- Option `--optimize` is slower, the encoder makes an extra pass over the image in order to select optimal encoder settings.
 
 ### Examples
 
