@@ -535,7 +535,6 @@ def main():
         print('missing image transformation')
         return
 
-
     adapt = args.adapt
     convert = args.convert
     dot = args.dot
