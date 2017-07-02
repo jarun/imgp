@@ -142,7 +142,7 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
       -h, --help            show this help message and exit
       -x res, --res res     output resolution in HxV or percentage
       -o deg, --rotate deg  rotate clockwise by angle (in degrees)
-      -q N, --quality N     save the image with a specified quality factor N(on
+      -q N, --quality N     save the image with the specified quality factor N(on
                             a scale of [1, 95]) [default: 75]
       -a, --adapt           adapt to resolution by orientation [default: off]
       -c, --convert         convert PNG to JPG format [default: off]
