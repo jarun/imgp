@@ -446,8 +446,7 @@ def parse_args(args=None, namespace=None):
            help='output resolution in HxV or percentage')
     addarg('-o', '--rotate', type=int, metavar='deg',
            help='rotate clockwise by angle (in degrees)')
-    #addarg('-q', '--quality', type=int, metavar='N',
-    addarg('-q', '--quality', type=int, choices=range(1, 95),
+    addarg('-q', '--quality', type=int, metavar='N', choices=range(1, 96),
            help='quality factor (scale 1-95, JPEG only) [default: 75]')
     addarg('-a', '--adapt', action='store_true',
            help='adapt to resolution by orientation [default: off]')
@@ -537,13 +536,6 @@ def main():
         return
 
 
-    # validating the quality factor if passed
-    if args.quality is not None:
-        qual = args.quality
-        if (qual < 1) or (qual > 95):
-            print('quality factor must lie in the range [1, 95]')
-            return
-
     adapt = args.adapt
     convert = args.convert
     dot = args.dot
@@ -557,6 +549,8 @@ def main():
     recurse = args.recurse
     if args.size is not None:
         size = args.size
+    if args.quality is not None:
+        qual = args.quality
     overwrite = args.overwrite
     debug = args.debug
 
