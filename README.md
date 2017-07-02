@@ -51,6 +51,7 @@ Powered by multiprocessing, an intelligent adaptive algorithm, recursive operati
 - limit processing by minimum image size
 - convert PNG to JPEG
 - erase exif metadata
+- specify output JPEG image quality
 - force smaller to larger resize
 - process directories recursively
 - overwrite source image option
