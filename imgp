@@ -447,7 +447,7 @@ def parse_args(args=None, namespace=None):
     addarg('-o', '--rotate', type=int, metavar='deg',
            help='rotate clockwise by angle (in degrees)')
     addarg('-q', '--quality', type=int, metavar='N',
-           help='save the image with the given quality factor N(on a scale of [1, 95]) [default: 75]')
+           help='save the image with the specified quality factor N(on a scale of [1, 95]) [default: 75]')
     addarg('-a', '--adapt', action='store_true',
            help='adapt to resolution by orientation [default: off]')
     addarg('-c', '--convert', action='store_true',
