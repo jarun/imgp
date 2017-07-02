@@ -42,6 +42,7 @@ optimal = False  # apply PIL library optimization when saving
 mute = False  # suppress additional information
 recurse = False  # recursively process subdirectories
 size = 1024  # min byte size to process an image
+qual = 75 # the default value of quality factor 
 overwrite = False  # remove source images
 debug = False  # enable debug information
 no_res_opt = False  # --res is not specified
@@ -169,7 +170,7 @@ def rotate_image(src):
         dest = name + suffix + ext
 
     try:
-        img.save(dest, _format, optimize=optimal, exif=exifdata)
+        img.save(dest, _format, quality=qual, optimize=optimal, exif=exifdata)
 
         if not mute:
             lock_print('%s %ld bytes\n' % (stats, os.path.getsize(dest)))
@@ -388,7 +389,7 @@ def resize_image(src):
         dest = name + suffix + ext
 
     try:
-        img.save(dest, _format, optimize=optimal, exif=exifdata)
+        img.save(dest, _format, quality=qual, optimize=optimal, exif=exifdata)
 
         if not mute:
             lock_print('%s %ld bytes\n' % (stats, os.path.getsize(dest)))
@@ -445,6 +446,8 @@ def parse_args(args=None, namespace=None):
            help='output resolution in HxV or percentage')
     addarg('-o', '--rotate', type=int, metavar='deg',
            help='rotate clockwise by angle (in degrees)')
+    addarg('-q', '--quality', type=int, metavar='N', choices=range(1, 96),
+           help='quality factor (scale 1-95, JPEG only) [default: 75]')
     addarg('-a', '--adapt', action='store_true',
            help='adapt to resolution by orientation [default: off]')
     addarg('-c', '--convert', action='store_true',
@@ -489,7 +492,7 @@ def parse_args(args=None, namespace=None):
 def main():
     global HRES, VRES, scale, rotate, adapt, convert, dot, eraseexif, \
            force, includeimgp, keep, enlarge, optimal, mute, recurse, \
-           size, overwrite, debug, no_res_opt, pool, init_time, count
+           size, qual, overwrite, debug, no_res_opt, pool, init_time, count
 
     args = parse_args()
 
@@ -545,6 +548,8 @@ def main():
     recurse = args.recurse
     if args.size is not None:
         size = args.size
+    if args.quality is not None:
+        qual = args.quality
     overwrite = args.overwrite
     debug = args.debug
 

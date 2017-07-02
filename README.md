@@ -142,6 +142,7 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
       -h, --help            show this help message and exit
       -x res, --res res     output resolution in HxV or percentage
       -o deg, --rotate deg  rotate clockwise by angle (in degrees)
+      -q N, --quality N     quality factor (scale 1-95, JPEG only) [ default: 75]
       -a, --adapt           adapt to resolution by orientation [default: off]
       -c, --convert         convert PNG to JPG format [default: off]
       -d, --dot             include hidden files (on Linux) [default: off]
