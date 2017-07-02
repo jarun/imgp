@@ -42,6 +42,8 @@ For example, if an image has a resolution of 2048x1365 and is being resized to 1
 - PNG files with lower target hres/vres are not converted (even if '--convert' is used). Run 'imgp --convert' to convert those.
 .br
 - Resize and rotate are lossy operations. For additional reductions in size try '--optimize' and '--eraseexif' options.
+.br
+- Option '--optimize' is slower, the encoder makes an extra pass over the image in order to select optimal encoder settings.
 .SH OPTIONS
 .TP
 .BI "-h, --help"
@@ -84,7 +86,7 @@ Optimize output images using PIL library optimization algorithm. Disabled by def
 Do not show any operational output.
 .TP
 .BI "-r, --recursive"
-Recursively process sub-directories. By default only the specified directory is processed. Symbolic links to directories are ignored to avoid recursive loops.
+Recursively process sub-directories. By default only the specified directory is processed. Symbolic links are ignored to avoid recursive loops.
 .TP
 .BI "-s, --recursive=" byte
 Minimum size in bytes required to process an image. Acts as a guard against processing low-resolution images. Default 1024 bytes.

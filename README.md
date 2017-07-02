@@ -154,7 +154,7 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
       -p, --optimize        optimize the output images [default: off]
       -q, --quiet           operate silently [default: verbose]
       -r, --recursive       process directories recursively [default: off]
-                            symbolic links to directories are ignored
+                            symbolic links are ignored
       -s byte, --size byte  minimum size to process an image [default: 1024]
       -w, --overwrite       overwrite source images [default: off]
       -z, --debug           enable debug logs [default: off]

@@ -468,7 +468,7 @@ def parse_args(args=None, namespace=None):
            help='operate silently [default: informative]')
     addarg('-r', '--recurse', action='store_true',
            help='process directories recursively [default: off] \
-                 symbolic links to directories are ignored')
+                 symbolic links are ignored')
     addarg('-s', '--size', type=int, metavar='byte',
            help='minimum size to process an image [default: 1024]')
     addarg('-w', '--overwrite', action='store_true',
