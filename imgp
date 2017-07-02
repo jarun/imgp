@@ -446,8 +446,6 @@ def parse_args(args=None, namespace=None):
            help='output resolution in HxV or percentage')
     addarg('-o', '--rotate', type=int, metavar='deg',
            help='rotate clockwise by angle (in degrees)')
-    addarg('-q', '--quality', type=int, metavar='N', choices=range(1, 96),
-           help='quality factor (scale 1-95, JPEG only) [default: 75]')
     addarg('-a', '--adapt', action='store_true',
            help='adapt to resolution by orientation [default: off]')
     addarg('-c', '--convert', action='store_true',
@@ -467,6 +465,8 @@ def parse_args(args=None, namespace=None):
            help='enlarge smaller images [default: off]')
     addarg('-p', '--optimize', action='store_true',
            help='optimize the output images [default: off]')
+    addarg('-q', '--quality', type=int, metavar='N', choices=range(1, 96),
+           help='quality factor (N=1-95, JPEG only) [default: 75]')
     addarg('-m', '--mute', action='store_true',
            help='operate silently [default: informative]')
     addarg('-r', '--recurse', action='store_true',
