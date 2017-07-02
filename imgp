@@ -446,9 +446,8 @@ def parse_args(args=None, namespace=None):
            help='output resolution in HxV or percentage')
     addarg('-o', '--rotate', type=int, metavar='deg',
            help='rotate clockwise by angle (in degrees)')
-    #addarg('-q', '--quality', type=int, choices=range(1, 95),
-    addarg('-q', '--quality', type=int, metavar='nm',
-           help='save the image with the quality factor on a scale of 1 to 95. As of now, only JPEG images support it')
+    addarg('-q', '--quality', type=int, metavar='N',
+           help='save the image with the given quality factor N(on a scale of [1, 95]) [default: 75]')
     addarg('-a', '--adapt', action='store_true',
            help='adapt to resolution by orientation [default: off]')
     addarg('-c', '--convert', action='store_true',
@@ -493,7 +492,7 @@ def parse_args(args=None, namespace=None):
 def main():
     global HRES, VRES, scale, rotate, adapt, convert, dot, eraseexif, \
            force, includeimgp, keep, enlarge, optimal, mute, recurse, \
-           size, quality, overwrite, debug, no_res_opt, pool, init_time, count
+           size, qual, overwrite, debug, no_res_opt, pool, init_time, count
 
     args = parse_args()
 
