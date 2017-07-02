@@ -152,7 +152,7 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
                             specified hres or vres or --res=100 [default: off]
       -n, --enlarge         enlarge smaller images [default: off]
       -p, --optimize        optimize the output images [default: off]
-      -q, --quiet           operate silently [default: verbose]
+      -m, --mute            operate silently [default: verbose]
       -r, --recursive       process directories recursively [default: off]
                             symbolic links are ignored
       -s byte, --size byte  minimum size to process an image [default: 1024]

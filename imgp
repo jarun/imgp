@@ -39,7 +39,7 @@ includeimgp = False  # process _IMGP files
 keep = False  # ignore images with matching hres or vres
 enlarge = False  # enlarge images with smaller hres or vres
 optimal = False  # apply PIL library optimization when saving
-quiet = False  # suppress additional information
+mute = False  # suppress additional information
 recurse = False  # recursively process subdirectories
 size = 1024  # min byte size to process an image
 overwrite = False  # remove source images
@@ -153,7 +153,7 @@ def rotate_image(src):
     # the image will be enlarged to hold the entire rotated image
     img = img.rotate(-rotate, 0, True)
 
-    if not quiet:
+    if not mute:
         stats = src + '\n%ld bytes ->' % os.path.getsize(src)
 
     if overwrite:
@@ -171,7 +171,7 @@ def rotate_image(src):
     try:
         img.save(dest, _format, optimize=optimal, exif=exifdata)
 
-        if not quiet:
+        if not mute:
             lock_print('%s %ld bytes\n' % (stats, os.path.getsize(dest)))
 
         if overwrite and converted:
@@ -251,7 +251,7 @@ def resize_image(src):
     elif HRES == 0 or VRES == 0:
         if HRES:
             if not enlarge and HRES > hres:
-                if not quiet:
+                if not mute:
                     lock_print('%s has lesser hres\n' % src)
                 return [0, 1]
 
@@ -267,7 +267,7 @@ def resize_image(src):
 
         if VRES:
             if not enlarge and VRES > vres:
-                if not quiet:
+                if not mute:
                     lock_print('%s has lesser vres\n' % src)
                 return [0, 1]
 
@@ -297,7 +297,7 @@ def resize_image(src):
             # same orientation (H >= V and h > v) or
             # cross orientation (H < V and h >= v)
             if not enlarge and HRES > hres:
-                if not quiet:
+                if not mute:
                     lock_print('%s has lesser hres\n' % src)
                 return [0, 1]
 
@@ -317,7 +317,7 @@ def resize_image(src):
             # same orientation (H < V and h < v) or
             # cross orientation (H >= V and h <= v)
             if not enlarge and VRES > vres:
-                if not quiet:
+                if not mute:
                     lock_print('%s has lesser vres\n' % src)
                 return [0, 1]
 
@@ -338,7 +338,7 @@ def resize_image(src):
 
         if ratio_img >= ratio_target:
             if not enlarge and HRES > hres:
-                if not quiet:
+                if not mute:
                     lock_print('%s has lesser hres\n' % src)
                 return [0, 1]
 
@@ -355,7 +355,7 @@ def resize_image(src):
                            % (HRES, target_vres))
         else:
             if not enlarge and VRES > vres:
-                if not quiet:
+                if not mute:
                     lock_print('%s has lesser vres\n' % src)
                 return [0, 1]
 
@@ -371,7 +371,7 @@ def resize_image(src):
                 lock_print('resize_image: hres calculated %dx%d'
                            % (target_hres, VRES))
 
-    if not quiet:
+    if not mute:
         stats = src + '\n%dx%d -> %dx%d\n%ld bytes ->' \
             % (hres, vres, img.size[0], img.size[1], os.path.getsize(src))
 
@@ -390,7 +390,7 @@ def resize_image(src):
     try:
         img.save(dest, _format, optimize=optimal, exif=exifdata)
 
-        if not quiet:
+        if not mute:
             lock_print('%s %ld bytes\n' % (stats, os.path.getsize(dest)))
 
         if overwrite and converted:
@@ -464,7 +464,7 @@ def parse_args(args=None, namespace=None):
            help='enlarge smaller images [default: off]')
     addarg('-p', '--optimize', action='store_true',
            help='optimize the output images [default: off]')
-    addarg('-q', '--quiet', action='store_true',
+    addarg('-m', '--mute', action='store_true',
            help='operate silently [default: informative]')
     addarg('-r', '--recurse', action='store_true',
            help='process directories recursively [default: off] \
@@ -488,7 +488,7 @@ def parse_args(args=None, namespace=None):
 
 def main():
     global HRES, VRES, scale, rotate, adapt, convert, dot, eraseexif, \
-           force, includeimgp, keep, enlarge, optimal, quiet, recurse, \
+           force, includeimgp, keep, enlarge, optimal, mute, recurse, \
            size, overwrite, debug, no_res_opt, pool, init_time, count
 
     args = parse_args()
@@ -541,7 +541,7 @@ def main():
     keep = args.keep
     enlarge = args.enlarge
     optimal = args.optimize
-    quiet = args.quiet
+    mute = args.mute
     recurse = args.recurse
     if args.size is not None:
         size = args.size
@@ -564,14 +564,14 @@ def main():
 
     # Process current directory if PATH is unspecified
     if len(args.keywords) == 0:
-        if not quiet:
+        if not mute:
             print('Source omitted. Processing current directory...\n')
         traverse_dir('.')
 
     pool.close()
     pool.join()
 
-    if not quiet:
+    if not mute:
         # Show number of images converted
         if count:
             print('%s processed in %.4f seconds.'
