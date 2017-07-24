@@ -9,6 +9,7 @@ addons:
     packages:
       - debhelper
       - devscripts
+      - fakeroot
       - zsh
 script:
   - git fetch --unshallow --tags origin
