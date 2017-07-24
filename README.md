@@ -39,7 +39,7 @@ Powered by multiprocessing, an intelligent adaptive algorithm, recursive operati
   - [cmdline options](#cmdline-options)
   - [Operational notes](#operational-notes)
 - [Examples](#examples)
-- [Copyright](#copyright)
+- [Developers](#developers)
 
 ### Features
 
@@ -223,6 +223,7 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
 
         $ imgp -wrackx 1366x1000 -s 51200
 
-### Copyright
+### Developers
 
-Copyright © 2016-2017 [Arun Prakash Jana](https://github.com/jarun)
+1. Copyright © 2016-2017 [Arun Prakash Jana](https://github.com/jarun)
+2. [Ananya Jana](https://github.com/ananyajana)

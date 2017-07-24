@@ -42,13 +42,13 @@ optimal = False  # apply PIL library optimization when saving
 mute = False  # suppress additional information
 recurse = False  # recursively process subdirectories
 size = 1024  # min byte size to process an image
-qual = 75 # the default value of quality factor 
+qual = 75 # the default value of quality factor
 overwrite = False  # remove source images
 debug = False  # enable debug information
 no_res_opt = False  # --res is not specified
 pad = '_IMGP'  # output file suffix when --overwrite is unused
 init_time = time.time()  # profile the total time taken
-_VERSION_ = '2.3'  # current program version
+_VERSION_ = '2.4'  # current program version
 
 # Globals for multiprocessing
 pool = None
