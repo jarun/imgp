@@ -470,14 +470,14 @@ def parse_args(args=None, namespace=None):
     addarg('-k', '--keep', action='store_true',
            help='skip (but convert, if opted) images with matching specified \
                  hres or vres or --res=100 [default: off]')
+    addarg('-m', '--mute', action='store_true',
+           help='operate silently [default: informative]')
     addarg('-n', '--enlarge', action='store_true',
            help='enlarge smaller images [default: off]')
     addarg('-p', '--optimize', action='store_true',
            help='optimize the output images [default: off]')
     addarg('-q', '--quality', type=int, metavar='N', choices=range(1, 96),
            help='quality factor (N=1-95, JPEG only) [default: 75]')
-    addarg('-m', '--mute', action='store_true',
-           help='operate silently [default: informative]')
     addarg('-r', '--recurse', action='store_true',
            help='process directories recursively [default: off] \
                  symbolic links are ignored')

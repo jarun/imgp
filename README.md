@@ -132,7 +132,9 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
 
 #### cmdline options
 
-    usage: imgp [OPTIONS] [PATH [PATH ...]]
+    usage: imgp [-h] [-x res] [-o deg] [-a] [-c] [-d] [-e] [-f] [-i] [-k] [-m]
+                [-n] [-p] [-q N] [-r] [-s byte] [-w] [-z]
+                            [PATH [PATH ...]]
 
     Resize, rotate JPEG and PNG images.
 
@@ -151,11 +153,11 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
       -i, --includeimgp     re-process _IMGP files. * RISKY: refer to docs
       -k, --keep            skip (but convert, if opted) images with matching
                             specified hres or vres or --res=100 [default: off]
+      -m, --mute            operate silently [default: informative]
       -n, --enlarge         enlarge smaller images [default: off]
       -p, --optimize        optimize the output images [default: off]
-      -q N, --quality N     quality factor (N=1-95, JPEG only) [ default: 75]
-      -m, --mute            operate silently [default: verbose]
-      -r, --recursive       process directories recursively [default: off]
+      -q N, --quality N     quality factor (N=1-95, JPEG only) [default: 75]
+      -r, --recurse         process directories recursively [default: off]
                             symbolic links are ignored
       -s byte, --size byte  minimum size to process an image [default: 1024]
       -w, --overwrite       overwrite source images [default: off]
