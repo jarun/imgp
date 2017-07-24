@@ -47,6 +47,7 @@ overwrite = False  # remove source images
 debug = False  # enable debug information
 no_res_opt = False  # --res is not specified
 pad = '_IMGP'  # output file suffix when --overwrite is unused
+fill_color = '#ffffff'  # BG color to strip alpha channel
 init_time = time.time()  # profile the total time taken
 _VERSION_ = '2.4'  # current program version
 
@@ -163,7 +164,6 @@ def rotate_image(src):
         suffix = pad
 
     if convert and _format == 'PNG':
-        fill_color = '#ffffff'
         if img.mode in ('RGBA', 'LA'):
             background = Image.new(img.mode[:-1], img.size, fill_color)
             background.paste(img, img.split()[-1])
@@ -387,7 +387,6 @@ def resize_image(src):
         suffix = pad
 
     if convert and _format == 'PNG':
-        fill_color = '#ffffff'
         if img.mode in ('RGBA', 'LA'):
             background = Image.new(img.mode[:-1], img.size, fill_color)
             background.paste(img, img.split()[-1])
