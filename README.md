@@ -33,7 +33,6 @@ Powered by multiprocessing, an intelligent adaptive algorithm, recursive operati
   - [Installing with a package manager](#installing-with-a-package-manager)
   - [Installing from this repository](#installing-from-this-repository)
     - [Running as a standalone utility](#running-as-a-standalone-utility)
-    - [Debian package](#debian-package)
 - [Shell completion](#shell-completion)
 - [Usage](#usage)
   - [cmdline options](#cmdline-options)
@@ -116,13 +115,6 @@ To remove, run:
 `imgp` is a standalone utility. From the containing directory, run:
 
     $ ./imgp
-
-##### Debian package
-
-If you are on a Debian based system (including Ubuntu), visit [the latest stable release](https://github.com/jarun/imgp/releases/latest) and download the `.deb` package. To install, run
-
-    $ sudo dpkg -i imgp-$version-all.deb
-Please substitute `$version` with the appropriate package version.
 
 ### Shell completion
 
