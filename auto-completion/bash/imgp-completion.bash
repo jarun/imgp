@@ -11,9 +11,10 @@ _imgp () {
     local cur=$2 prev=$3
     local -a opts opts_with_args
     opts=(-a --adapt -c --convert -d --dot -e --eraseexif -f --force -h --help
-          -i --includeimgp -k --keep -n --enlarge -o --rotate -p --optimize
-          -q --quiet -r --recurse -s --size -w --overwrite -x --res -z --debug)
-    opts_with_arg=(-o --rotate -s --size -x --res)
+          -i --includeimgp -k --keep -m --mute -n --enlarge -o --rotate
+          -p --optimize -q --quality -r --recurse -s --size -w --overwrite
+          -x --res -z --debug)
+    opts_with_arg=(-o --rotate -q --quality -s --size -x --res)
 
     # Do not complete non option names
     [[ $cur == -* ]] || return 1
