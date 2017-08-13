@@ -33,6 +33,7 @@ Powered by multiprocessing, an intelligent adaptive algorithm, recursive operati
   - [Installing with a package manager](#installing-with-a-package-manager)
   - [Installing from this repository](#installing-from-this-repository)
     - [Running as a standalone utility](#running-as-a-standalone-utility)
+    - [Release packages](#release-packages)
 - [Shell completion](#shell-completion)
 - [Usage](#usage)
   - [cmdline options](#cmdline-options)
@@ -93,13 +94,13 @@ pillow can be replaced by [pillow-simd](https://github.com/uploadcare/pillow-sim
 
 - [AUR](https://aur.archlinux.org/packages/imgp/)
 - [Debian](https://packages.debian.org/search?keywords=imgp&searchon=names&exact=1)
+- [Homebrew *tap*](https://github.com/jarun/homebrew-imgp) [`brew install jarun/imgp/imgp`]
 - [Ubuntu](http://packages.ubuntu.com/search?keywords=imgp&searchon=names&exact=1)
 - [Ubuntu PPA](https://launchpad.net/~twodopeshaggy/+archive/ubuntu/jarun/)
-- [Homebrew *tap*](https://github.com/jarun/homebrew-imgp) [`brew install jarun/imgp/imgp`]
 
 #### Installing from this repository
 
-If you have git installed, clone this repository. Otherwise download the latest [stable release](https://github.com/jarun/imgp/releases/latest) or [development version](https://github.com/jarun/imgp/archive/master.zip) (*risky*).
+If you have git installed, clone this repository. Otherwise download the [latest stable release](https://github.com/jarun/imgp/releases/latest) or [development version](https://github.com/jarun/imgp/archive/master.zip) (*risky*).
 
 Install to default location (`/usr/local`):
 
@@ -115,6 +116,10 @@ To remove, run:
 `imgp` is a standalone utility. From the containing directory, run:
 
     $ ./imgp
+
+##### Release packages
+
+Packages for Arch Linux, CentOS, Fedora and Ubuntu are available with the [latest stable release](https://github.com/jarun/imgp/releases/latest).
 
 ### Shell completion
 
