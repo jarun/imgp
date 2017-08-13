@@ -42,7 +42,7 @@ optimal = False  # apply PIL library optimization when saving
 mute = False  # suppress additional information
 recurse = False  # recursively process subdirectories
 size = 1024  # min byte size to process an image
-qual = 75 # the default value of quality factor
+qual = 75  # the default value of quality factor
 overwrite = False  # remove source images
 debug = False  # enable debug information
 no_res_opt = False  # --res is not specified
@@ -111,11 +111,9 @@ def traverse_dir(path):
             elif (entry.is_file(follow_symlinks=False) and
                   entry.stat().st_size >= size):
                 if rotate is not None:
-                    pool.apply_async(rotate_image, args=(entry.path,),
-                                     callback=cb)
+                    pool.apply_async(rotate_image, args=(entry.path,), callback=cb)
                 else:
-                    pool.apply_async(resize_image, args=(entry.path,),
-                                     callback=cb)
+                    pool.apply_async(resize_image, args=(entry.path,), callback=cb)
     except OSError as e:
         with lock:
             print(e)
@@ -292,14 +290,12 @@ def resize_image(src):
     elif force:
         img = img.resize((HRES, VRES), PIL.Image.ANTIALIAS)
         if debug:
-            lock_print('resize_image: brute force res to [%dx%d]'
-                       % (HRES, VRES))
+            lock_print('resize_image: brute force res to [%dx%d]' % (HRES, VRES))
     elif adapt:
         ratio_img = float(hres/vres)
         ratio_target = float(HRES/VRES)
 
-        if (ratio_target >= 1 and ratio_img > 1) \
-                or (ratio_target < 1 and ratio_img >= 1):
+        if (ratio_target >= 1 and ratio_img > 1) or (ratio_target < 1 and ratio_img >= 1):
             # same orientation (H >= V and h > v) or
             # cross orientation (H < V and h >= v)
             if not enlarge and HRES > hres:
@@ -316,10 +312,8 @@ def resize_image(src):
 
                 img = img.resize((HRES, target_vres), PIL.Image.ANTIALIAS)
                 if debug:
-                    lock_print('resize_image: vres adapted %dx%d'
-                               % (HRES, target_vres))
-        elif (ratio_target < 1 and ratio_img < 1) \
-                or (ratio_target >= 1 and ratio_img <= 1):
+                    lock_print('resize_image: vres adapted %dx%d' % (HRES, target_vres))
+        elif (ratio_target < 1 and ratio_img < 1) or (ratio_target >= 1 and ratio_img <= 1):
             # same orientation (H < V and h < v) or
             # cross orientation (H >= V and h <= v)
             if not enlarge and VRES > vres:
@@ -336,8 +330,7 @@ def resize_image(src):
 
                 img = img.resize((target_hres, VRES), PIL.Image.ANTIALIAS)
                 if debug:
-                    lock_print('resize_image: hres adapted %dx%d'
-                               % (target_hres, VRES))
+                    lock_print('resize_image: hres adapted %dx%d' % (target_hres, VRES))
     else:
         ratio_img = float(hres/vres)
         ratio_target = float(HRES/VRES)
@@ -357,8 +350,7 @@ def resize_image(src):
 
             img = img.resize((HRES, target_vres), PIL.Image.ANTIALIAS)
             if debug:
-                lock_print('resize_image: vres calculated %dx%d'
-                           % (HRES, target_vres))
+                lock_print('resize_image: vres calculated %dx%d' % (HRES, target_vres))
         else:
             if not enlarge and VRES > vres:
                 if not mute:
@@ -374,12 +366,10 @@ def resize_image(src):
 
             img = img.resize((target_hres, VRES), PIL.Image.ANTIALIAS)
             if debug:
-                lock_print('resize_image: hres calculated %dx%d'
-                           % (target_hres, VRES))
+                lock_print('resize_image: hres calculated %dx%d' % (target_hres, VRES))
 
     if not mute:
-        stats = src + '\n%dx%d -> %dx%d\n%ld bytes ->' \
-            % (hres, vres, img.size[0], img.size[1], os.path.getsize(src))
+        stats = src + '\n%dx%d -> %dx%d\n%ld bytes ->' % (hres, vres, img.size[0], img.size[1], os.path.getsize(src))
 
     if overwrite:
         suffix = ''
@@ -499,9 +489,8 @@ def parse_args(args=None, namespace=None):
 
 
 def main():
-    global HRES, VRES, scale, rotate, adapt, convert, dot, eraseexif, \
-           force, includeimgp, keep, enlarge, optimal, mute, recurse, \
-           size, qual, overwrite, debug, no_res_opt, pool, init_time, count
+    global HRES, VRES, scale, rotate, adapt, convert, dot, eraseexif, force, includeimgp, keep, enlarge, \
+           optimal, mute, recurse, size, qual, overwrite, debug, no_res_opt, pool, init_time, count
 
     args = parse_args()
 
@@ -588,8 +577,7 @@ def main():
     if not mute:
         # Show number of images converted
         if count:
-            print('%s processed in %.4f seconds.'
-                  % (count, time.time() - init_time))
+            print('%s processed in %.4f seconds.' % (count, time.time() - init_time))
 
         # Show number of images not converted due to low resolution
         if count_lowres:
