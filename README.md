@@ -30,10 +30,10 @@ Powered by multiprocessing, an intelligent adaptive algorithm, recursive operati
 - [Performance](#performance)
 - [Installation](#installation)
   - [Dependencies](#dependencies)
-  - [Installing with a package manager](#installing-with-a-package-manager)
-  - [Installing from this repository](#installing-from-this-repository)
-    - [Running as a standalone utility](#running-as-a-standalone-utility)
-    - [Release packages](#release-packages)
+  - [From a package manager](#from-a-package-manager)
+  - [Release packages](#release-packages)
+  - [From source](#from-source)
+  - [Running standalone](#running-standalone)
 - [Shell completion](#shell-completion)
 - [Usage](#usage)
   - [cmdline options](#cmdline-options)
@@ -90,7 +90,7 @@ or, using pip3:
 
 pillow can be replaced by [pillow-simd](https://github.com/uploadcare/pillow-simd) on [SIMD](https://en.wikipedia.org/wiki/SIMD) processors.
 
-#### Installing with a package manager
+#### From a package manager
 
 - [AUR](https://aur.archlinux.org/packages/imgp/)
 - [Debian](https://packages.debian.org/search?keywords=imgp&searchon=names&exact=1)
@@ -98,7 +98,11 @@ pillow can be replaced by [pillow-simd](https://github.com/uploadcare/pillow-sim
 - [Ubuntu](http://packages.ubuntu.com/search?keywords=imgp&searchon=names&exact=1)
 - [Ubuntu PPA](https://launchpad.net/~twodopeshaggy/+archive/ubuntu/jarun/)
 
-#### Installing from this repository
+#### Release packages
+
+Packages for Arch Linux, CentOS, Fedora and Ubuntu are available with the [latest stable release](https://github.com/jarun/imgp/releases/latest).
+
+#### From source
 
 If you have git installed, clone this repository. Otherwise download the [latest stable release](https://github.com/jarun/imgp/releases/latest) or [development version](https://github.com/jarun/imgp/archive/master.zip) (*risky*).
 
@@ -109,17 +113,14 @@ Install to default location (`/usr/local`):
 To remove, run:
 
     $ sudo make uninstall
-`PREFIX` is supported. You may need to use `sudo` with `PREFIX` depending on your permissions on destination directory.
 
-##### Running as a standalone utility
+`PREFIX` is supported, in case you want to install to a different location.
+
+#### Running standalone
 
 `imgp` is a standalone utility. From the containing directory, run:
 
     $ ./imgp
-
-##### Release packages
-
-Packages for Arch Linux, CentOS, Fedora and Ubuntu are available with the [latest stable release](https://github.com/jarun/imgp/releases/latest).
 
 ### Shell completion
 
