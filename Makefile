@@ -21,3 +21,5 @@ uninstall:
 	rm -f $(BINDIR)/imgp
 	rm -f $(MANDIR)/imgp.1.gz
 	rm -rf $(DOCDIR)
+
+test: ;
