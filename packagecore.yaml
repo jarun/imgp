@@ -2,7 +2,7 @@ name: imgp
 metadata:
   maintainer: Arun Prakash Jana <engineerarun@gmail.com>
   license: GPLv3
-  summary: Resize, rotate JPEG and PNG images..
+  summary: Resize, rotate JPEG and PNG images.
   homepage: https://github.com/jarun/imgp
 commands:
   install:
