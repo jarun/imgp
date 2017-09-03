@@ -12,6 +12,8 @@
 <a href="https://asciinema.org/a/e5qa0mipgg23v70hdn6i99b8q"><img src="https://asciinema.org/a/e5qa0mipgg23v70hdn6i99b8q.png" alt="imgp_asciicast" width="734"/></a>
 </p>
 
+<p align="center"><i>Watch imgp resize a directory of images in lightning speed!</i></p>
+
 `imgp` is a command line image resizer and rotator for JPEG and PNG images. If you have tons of images you want to resize adaptively to a screen resolution or rotate by an angle using a single command, `imgp` is the utility for you. It can save a lot on storage too.
 
 Powered by multiprocessing, an intelligent adaptive algorithm, recursive operations, shell completion scripts, EXIF preservation (and more), `imgp` is a very flexible utility with well-documented easy to use options.
