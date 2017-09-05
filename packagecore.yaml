@@ -1,9 +1,8 @@
 name: imgp
-metadata:
-  maintainer: Arun Prakash Jana <engineerarun@gmail.com>
-  license: GPLv3
-  summary: Resize, rotate JPEG and PNG images.
-  homepage: https://github.com/jarun/imgp
+maintainer: Arun Prakash Jana <engineerarun@gmail.com>
+license: GPLv3
+summary: Superfast batch image resizer and rotator.
+homepage: https://github.com/jarun/imgp
 commands:
   install:
     - make PREFIX="/usr" install DESTDIR="${BP_DESTDIR}"
