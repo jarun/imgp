@@ -40,7 +40,7 @@ For example, if an image has a resolution of 2048x1365 and is being resized to 1
 .br
 - Output image names are appended with \fB_IMGP\fR if '--overwrite' option is not used. By default \fB_IMGP\fR files are not processed. Doing so may lead to potential race conditions when '--overwrite' option is used.
 .br
-- PNG files with lower target hres/vres are not converted (even if '--convert' is used). Run 'imgp --convert' to convert those.
+- PNG files with lower target hres/vres are not converted (even if '--convert' is used). Run 'imgp --convert (*.png)' separately to convert those.
 .br
 - Resize and rotate are lossy operations. For additional reductions in size try '--optimize' and '--eraseexif' options.
 .br

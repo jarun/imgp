@@ -14,7 +14,7 @@
 
 <p align="center"><i>Watch imgp resize a directory of images in lightning speed!</i></p>
 
-`imgp` is a command line image resizer and rotator for JPEG and PNG images. If you have tons of images you want to resize adaptively to a screen resolution or rotate by an angle using a single command, `imgp` is the utility for you. It can save a lot on storage too.
+`imgp` is a command line image resizer and rotator for JPEG and PNG images. It can resize (or thumbnail) and rotate thousands of images in a go, at lightning speed, while saving significantly on storage.
 
 Powered by multiprocessing, an intelligent adaptive algorithm, recursive operations, shell completion scripts, EXIF preservation (and more), `imgp` is a very flexible utility with well-documented easy to use options.
 
@@ -167,7 +167,7 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
 
 - Multiple files and directories can be specified as source. If `PATH` is omitted, the current directory is processed.
 - Output image names are appended with **_IMGP** if `--overwrite` option is not used. By default *_IMGP* files are not processed. Doing so may lead to potential race conditions when `--overwrite` option is used.
-- PNG files with lower target hres/vres are not converted (even if `--convert` is used). Run `imgp --convert` to convert those.
+- PNG files with lower target hres/vres are not converted (even if `--convert` is used). Run `imgp --convert (*.png)` separately to convert those.
 - Resize and rotate are lossy operations. For additional reductions in size try `--optimize` and `--eraseexif` options.
 - Option `--optimize` is slower, the encoder makes an extra pass over the image in order to select optimal encoder settings.
 
