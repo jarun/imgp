@@ -134,36 +134,38 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
 
 #### cmdline options
 
-    usage: imgp [-h] [-x res] [-o deg] [-a] [-c] [-d] [-e] [-f] [-i] [-k] [-m]
-                [-n] [-p] [-q N] [-r] [-s byte] [-w] [-z]
-                            [PATH [PATH ...]]
+```
+usage: imgp [-h] [-x res] [-o deg] [-a] [-c] [-d] [-e] [-f] [-i] [-k] [-m]
+            [-n] [-p] [-q N] [-r] [-s byte] [-w] [-z]
+            [PATH [PATH ...]]
 
-    Resize, rotate JPEG and PNG images.
+Resize, rotate JPEG and PNG images.
 
-    positional arguments:
-      PATH                  source file or dir [default: current dir]
+positional arguments:
+  PATH                  source file or dir [default: current dir]
 
-    optional arguments:
-      -h, --help            show this help message and exit
-      -x res, --res res     output resolution in HxV or percentage
-      -o deg, --rotate deg  rotate clockwise by angle (in degrees)
-      -a, --adapt           adapt to resolution by orientation [default: off]
-      -c, --convert         convert PNG to JPG format [default: off]
-      -d, --dot             include hidden files (on Linux) [default: off]
-      -e, --eraseexif       erase exif metadata [default: off]
-      -f, --force           force to exact specified resolution [default: off]
-      -i, --includeimgp     re-process _IMGP files. * RISKY: refer to docs
-      -k, --keep            skip (but convert, if opted) images with matching
-                            specified hres or vres or --res=100 [default: off]
-      -m, --mute            operate silently [default: informative]
-      -n, --enlarge         enlarge smaller images [default: off]
-      -p, --optimize        optimize the output images [default: off]
-      -q N, --quality N     quality factor (N=1-95, JPEG only) [default: 75]
-      -r, --recurse         process directories recursively [default: off]
-                            symbolic links are ignored
-      -s byte, --size byte  minimum size to process an image [default: 1024]
-      -w, --overwrite       overwrite source images [default: off]
-      -z, --debug           enable debug logs [default: off]
+optional arguments:
+  -h, --help            show this help message and exit
+  -x res, --res res     output resolution in HxV or percentage
+  -o deg, --rotate deg  rotate clockwise by angle (in degrees)
+  -a, --adapt           adapt to resolution by orientation [default: off]
+  -c, --convert         convert PNG to JPG format [default: off]
+  -d, --dot             include hidden files (on Linux) [default: off]
+  -e, --eraseexif       erase exif metadata [default: off]
+  -f, --force           force to exact specified resolution [default: off]
+  -i, --includeimgp     re-process _IMGP files. * RISKY: refer to docs
+  -k, --keep            skip (but convert, if opted) images with matching
+                        specified hres or vres or --res=100 [default: off]
+  -m, --mute            operate silently [default: informative]
+  -n, --enlarge         enlarge smaller images [default: off]
+  -p, --optimize        optimize the output images [default: off]
+  -q N, --quality N     quality factor (N=1-95, JPEG only) [default: 75]
+  -r, --recurse         process directories recursively [default: off]
+                        symbolic links are ignored
+  -s byte, --size byte  minimum size to process an image [default: 1024]
+  -w, --overwrite       overwrite source images [default: off]
+  -z, --debug           enable debug logs [default: off]
+```
 
 #### Operational notes
 
@@ -177,55 +179,55 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
 
 1. Convert some images and directories:
 
-        $ imgp -x 1366x768 ~/ ~/Pictures/image3.png ~/Downloads/
-        /home/testuser/image1.png
-        3840x2160 -> 1365x768
-        11104999 bytes -> 1486426 bytes
+       $ imgp -x 1366x768 ~/ ~/Pictures/image3.png ~/Downloads/
+       /home/testuser/image1.png
+       3840x2160 -> 1365x768
+       11104999 bytes -> 1486426 bytes
 
-        /home/testuser/image2.jpg
-        2048x1365 -> 1152x768
-        224642 bytes -> 31421 bytes
+       /home/testuser/image2.jpg
+       2048x1365 -> 1152x768
+       224642 bytes -> 31421 bytes
 
-        /home/testuser/Pictures/image3.png
-        1920x1080 -> 1365x768
-        2811155 bytes -> 1657474 bytes
+       /home/testuser/Pictures/image3.png
+       1920x1080 -> 1365x768
+       2811155 bytes -> 1657474 bytes
 
-        /home/testuser/Downloads/image4
-        2048x1365 -> 1152x768
-        224642 bytes -> 31421 bytes
+       /home/testuser/Downloads/image4
+       2048x1365 -> 1152x768
+       224642 bytes -> 31421 bytes
 
 2. Scale an image by 75% and overwrite the source image:
 
-        $ imgp -x 75 -w ~/image.jpg
-        /home/testuser/image.jpg
-        1366x767 -> 1025x575
-        120968 bytes -> 45040 bytes
+       $ imgp -x 75 -w ~/image.jpg
+       /home/testuser/image.jpg
+       1366x767 -> 1025x575
+       120968 bytes -> 45040 bytes
 
 3. Rotate an image clockwise by 90 degrees:
 
-        $ imgp -o 90  ~/image.jpg
-        120968 bytes -> 72038 bytes
+       $ imgp -o 90  ~/image.jpg
+       120968 bytes -> 72038 bytes
 
 4. Adapt the images in the current directory to 1366x1000 resolution. Visit all directories recursively, overwrite source images, ignore images with matching hres or vres but convert PNG images to JPEG.
 
-        $ imgp -x 1366x1000 -wrack
+       $ imgp -x 1366x1000 -wrack
 
 5. Set hres=800 and adapt vres maintaining the ratio.
 
-        $ imgp -x 800x0
-        Source omitted. Processing current directory...
+       $ imgp -x 800x0
+       Source omitted. Processing current directory...
 
-        ./image1.jpg
-        1366x911 -> 800x534
-        69022 bytes -> 35123 bytes
+       ./image1.jpg
+       1366x911 -> 800x534
+       69022 bytes -> 35123 bytes
 
-        ./image2.jpg
-        1050x1400 -> 800x1067
-        458092 bytes -> 78089 bytes
+       ./image2.jpg
+       1050x1400 -> 800x1067
+       458092 bytes -> 78089 bytes
 
 6. Process images greater than 50KB (50*1024 bytes) only:
 
-        $ imgp -wrackx 1366x1000 -s 51200
+       $ imgp -wrackx 1366x1000 -s 51200
 
 ### Developers
 
