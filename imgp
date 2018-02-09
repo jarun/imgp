@@ -494,7 +494,7 @@ def parse_args(args=None, namespace=None):
 
 def main():
     global HRES, VRES, scale, rotate, adapt, convert, dot, eraseexif, force, includeimgp, keep, enlarge, \
-           optimal, mute, recurse, size, qual, overwrite, debug, no_res_opt, pool, init_time, count
+           optimal, mute, recurse, size, qual, overwrite, debug, no_res_opt, pool, init_time, count, nn_png
 
     args = parse_args()
 
