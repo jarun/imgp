@@ -47,6 +47,7 @@ overwrite = False  # remove source images
 debug = False  # enable debug information
 no_res_opt = False  # --res is not specified
 pad = '_IMGP'  # output file suffix when --overwrite is unused
+nn_png = False # if the image is a png, use nearest neighbour interpolation
 fill_color = '#ffffff'  # BG color to strip alpha channel
 init_time = time.time()  # profile the total time taken
 _VERSION_ = '2.4.1'  # current program version
@@ -230,6 +231,7 @@ def resize_image(src):
     vres = img.size[1]
     ImageFile.MAXBLOCK = hres * vres
 
+    antialias = PIL.Image.NEAREST if nn_png and _format == "PNG" else PIL.Image.ANTIALIAS
     if keep and (HRES == hres or VRES == vres or scale == 100):
         if not (_format == 'PNG' and convert):
             return
@@ -249,7 +251,7 @@ def resize_image(src):
                 _vres = _vres + 1
             _vres = int(_vres)
 
-        img = img.resize((_hres, _vres), PIL.Image.ANTIALIAS)
+        img = img.resize((_hres, _vres), antialias)
         if debug:
             lock_print('resize_image: scaled to [%dx%d]' % (HRES, VRES))
     elif HRES == 0 or VRES == 0:
@@ -265,7 +267,7 @@ def resize_image(src):
                 target_vres = target_vres + 1
             target_vres = int(target_vres)
 
-            img = img.resize((HRES, target_vres), PIL.Image.ANTIALIAS)
+            img = img.resize((HRES, target_vres), antialias)
             if debug:
                 lock_print('resize_image: 0 vres %dx%d' % (HRES, target_vres))
 
@@ -281,14 +283,14 @@ def resize_image(src):
                 target_hres = target_hres + 1
             target_hres = int(target_hres)
 
-            img = img.resize((target_hres, VRES), PIL.Image.ANTIALIAS)
+            img = img.resize((target_hres, VRES), antialias)
             if debug:
                 lock_print('resize_image: 0 hres %dx%d' % (target_hres, VRES))
     elif HRES == hres and VRES == vres:
         if debug:
             lock_print('resize_image: same res [%dx%d]' % (HRES, VRES))
     elif force:
-        img = img.resize((HRES, VRES), PIL.Image.ANTIALIAS)
+        img = img.resize((HRES, VRES), antialias)
         if debug:
             lock_print('resize_image: brute force res to [%dx%d]' % (HRES, VRES))
     elif adapt:
@@ -310,7 +312,7 @@ def resize_image(src):
                     target_vres = target_vres + 1
                 target_vres = int(target_vres)
 
-                img = img.resize((HRES, target_vres), PIL.Image.ANTIALIAS)
+                img = img.resize((HRES, target_vres), antialias)
                 if debug:
                     lock_print('resize_image: vres adapted %dx%d' % (HRES, target_vres))
         elif (ratio_target < 1 and ratio_img < 1) or (ratio_target >= 1 and ratio_img <= 1):
@@ -328,7 +330,7 @@ def resize_image(src):
                     target_hres = target_hres + 1
                 target_hres = int(target_hres)
 
-                img = img.resize((target_hres, VRES), PIL.Image.ANTIALIAS)
+                img = img.resize((target_hres, VRES), antialias)
                 if debug:
                     lock_print('resize_image: hres adapted %dx%d' % (target_hres, VRES))
     else:
@@ -348,7 +350,7 @@ def resize_image(src):
                 target_vres = target_vres + 1
             target_vres = int(target_vres)
 
-            img = img.resize((HRES, target_vres), PIL.Image.ANTIALIAS)
+            img = img.resize((HRES, target_vres), antialias)
             if debug:
                 lock_print('resize_image: vres calculated %dx%d' % (HRES, target_vres))
         else:
@@ -364,7 +366,7 @@ def resize_image(src):
                 target_hres = target_hres + 1
             target_hres = int(target_hres)
 
-            img = img.resize((target_hres, VRES), PIL.Image.ANTIALIAS)
+            img = img.resize((target_hres, VRES), antialias)
             if debug:
                 lock_print('resize_image: hres calculated %dx%d' % (target_hres, VRES))
 
@@ -449,6 +451,8 @@ def parse_args(args=None, namespace=None):
            help='adapt to resolution by orientation [default: off]')
     addarg('-c', '--convert', action='store_true',
            help='convert PNG to JPG format [default: off]')
+    addarg('-nn', '--nearest-neighbour', action='store_true',
+           help='If the image is a png, use nearest neighbour interpolation [default: off]')
     addarg('-d', '--dot', action='store_true',
            help='include hidden files (on Linux) [default: off]')
     addarg('-e', '--eraseexif', action='store_true',
@@ -550,6 +554,7 @@ def main():
         qual = args.quality
     overwrite = args.overwrite
     debug = args.debug
+    nn_png = args.nearest_neighbour
 
     pool = Pool()
 
