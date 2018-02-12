@@ -231,7 +231,7 @@ def resize_image(src):
     vres = img.size[1]
     ImageFile.MAXBLOCK = hres * vres
 
-    antialias = PIL.Image.NEAREST if nn_png and _format == "PNG" else PIL.Image.ANTIALIAS
+    antialias = PIL.Image.NEAREST if nn_png and _format == 'PNG' else PIL.Image.ANTIALIAS
     if keep and (HRES == hres or VRES == vres or scale == 100):
         if not (_format == 'PNG' and convert):
             return
@@ -451,8 +451,6 @@ def parse_args(args=None, namespace=None):
            help='adapt to resolution by orientation [default: off]')
     addarg('-c', '--convert', action='store_true',
            help='convert PNG to JPG format [default: off]')
-    addarg('-nn', '--nearest-neighbour', action='store_true',
-           help='If the image is a png, use nearest neighbour interpolation [default: off]')
     addarg('-d', '--dot', action='store_true',
            help='include hidden files (on Linux) [default: off]')
     addarg('-e', '--eraseexif', action='store_true',
@@ -468,6 +466,8 @@ def parse_args(args=None, namespace=None):
            help='operate silently [default: informative]')
     addarg('-n', '--enlarge', action='store_true',
            help='enlarge smaller images [default: off]')
+    addarg('-nn', action='store_true',
+           help='use nearest neighbour interpolation for PNG images [default: off]')
     addarg('-p', '--optimize', action='store_true',
            help='optimize the output images [default: off]')
     addarg('-q', '--quality', type=int, metavar='N', choices=range(1, 96),
