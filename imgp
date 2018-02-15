@@ -47,7 +47,7 @@ overwrite = False  # remove source images
 debug = False  # enable debug information
 no_res_opt = False  # --res is not specified
 pad = '_IMGP'  # output file suffix when --overwrite is unused
-nn_png = False # if the image is a png, use nearest neighbour interpolation
+png_ip = PIL.Image.ANTIALIAS  # default interpolation for PNG
 fill_color = '#ffffff'  # BG color to strip alpha channel
 init_time = time.time()  # profile the total time taken
 _VERSION_ = '2.4.1'  # current program version
@@ -231,7 +231,7 @@ def resize_image(src):
     vres = img.size[1]
     ImageFile.MAXBLOCK = hres * vres
 
-    antialias = PIL.Image.NEAREST if nn_png and _format == 'PNG' else PIL.Image.ANTIALIAS
+    antialias = png_ip if _format == 'PNG' else PIL.Image.ANTIALIAS
     if keep and (HRES == hres or VRES == vres or scale == 100):
         if not (_format == 'PNG' and convert):
             return
@@ -466,8 +466,8 @@ def parse_args(args=None, namespace=None):
            help='operate silently [default: informative]')
     addarg('-n', '--enlarge', action='store_true',
            help='enlarge smaller images [default: off]')
-    addarg('-nn', action='store_true',
-           help='use nearest neighbour interpolation for PNG images [default: off]')
+    addarg('--nn', action='store_true',
+           help='use nearest neighbour interpolation for PNG images [default: antialias]')
     addarg('-p', '--optimize', action='store_true',
            help='optimize the output images [default: off]')
     addarg('-q', '--quality', type=int, metavar='N', choices=range(1, 96),
@@ -494,7 +494,7 @@ def parse_args(args=None, namespace=None):
 
 def main():
     global HRES, VRES, scale, rotate, adapt, convert, dot, eraseexif, force, includeimgp, keep, enlarge, \
-           optimal, mute, recurse, size, qual, overwrite, debug, no_res_opt, pool, init_time, count, nn_png
+           optimal, mute, recurse, size, qual, overwrite, debug, no_res_opt, pool, init_time, count, png_ip
 
     args = parse_args()
 
@@ -554,7 +554,8 @@ def main():
         qual = args.quality
     overwrite = args.overwrite
     debug = args.debug
-    nn_png = args.nearest_neighbour
+    if args.nn:
+        png_ip = PIL.Image.NEAREST
 
     pool = Pool()
 

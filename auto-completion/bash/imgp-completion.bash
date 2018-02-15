@@ -21,6 +21,7 @@ _imgp () {
         -k --keep
         -m --mute
         -n --enlarge
+        --nn
         -o --rotate
         -p --optimize
         -q --quality

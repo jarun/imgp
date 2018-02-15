@@ -19,6 +19,7 @@ args=(
     '(-k --keep)'{-k,--keep}'[skip images with matching hres or vres]'
     '(-m --mute)'{-m,--mute}'[operate silently]'
     '(-n --enlarge)'{-n,--enlarge}'[enlarge smaller images]'
+    '(--nn)--n[use nearest neighbour interpolation for PNG]'
     '(-o --rotate)'{-o,--rotate}'[rotate clockwise by angle]:degree'
     '(-p --optimize)'{-p,--optimize}'[optimize the output images]'
     '(-q --quiet)'{-q,--quality}'[specify quality factor (1-95)]:factor'

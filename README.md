@@ -163,6 +163,8 @@ optional arguments:
                         specified hres or vres or --res=100 [default: off]
   -m, --mute            operate silently [default: informative]
   -n, --enlarge         enlarge smaller images [default: off]
+  --nn                  use nearest neighbour interpolation for PNG images
+                        [default: antialias]
   -p, --optimize        optimize the output images [default: off]
   -q N, --quality N     quality factor (N=1-95, JPEG only) [default: 75]
   -r, --recurse         process directories recursively [default: off]
