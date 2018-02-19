@@ -109,7 +109,7 @@ pillow can be replaced by [pillow-simd](https://github.com/uploadcare/pillow-sim
 
 #### Release packages
 
-Packages for Arch Linux, CentOS, Debian, Fedora and Ubuntu are available with the [latest stable release](https://github.com/jarun/imgp/releases/latest).
+Packages for Arch Linux, CentOS, Debian, Fedora, openSUSE Leap and Ubuntu are available with the [latest stable release](https://github.com/jarun/imgp/releases/latest).
 
 #### From source
 
