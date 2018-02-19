@@ -1,7 +1,7 @@
 name: imgp
 maintainer: Arun Prakash Jana <engineerarun@gmail.com>
 license: GPLv3
-summary: Superfast batch image resizer and rotator.
+summary: Multi-core batch image resizer and rotator.
 homepage: https://github.com/jarun/imgp
 commands:
   install:
@@ -13,12 +13,6 @@ packages:
     deps:
       - python-pillow
       - python
-  fedora26:
-    builddeps:
-      - make
-    deps:
-      - python3-pillow
-      - python3
   centos7.3:
     builddeps:
       - make
@@ -28,6 +22,30 @@ packages:
     commands:
       pre:
         - yum install epel-release
+  debian9:
+    builddeps:
+      - make
+    deps:
+      - python3-pillow
+      - python3
+  fedora26:
+    builddeps:
+      - make
+    deps:
+      - python3-pillow
+      - python3
+  fedora27:
+    builddeps:
+      - make
+    deps:
+      - python3-pillow
+      - python3
+  opensuse42.3:
+    builddeps:
+      - make
+    deps:
+      - python3-Pillow
+      - python3
   ubuntu16.04:
     builddeps:
       - make
@@ -35,12 +53,6 @@ packages:
       - python3-pillow
       - python3
   ubuntu17.10:
-    builddeps:
-      - make
-    deps:
-      - python3-pillow
-      - python3
-  debian9:
     builddeps:
       - make
     deps:
