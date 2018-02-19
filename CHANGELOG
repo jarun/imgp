@@ -1,3 +1,12 @@
+imgp v2.5
+2018-02-19
+
+What's in?
+- New option `--nn` to use nearest neighbour interpolation for PNG files
+- Identify Multi Picture Object (MPO) files
+
+-------------------------------------------------------------------------------
+
 imgp v2.4.1
 2017-08-29
 

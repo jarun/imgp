@@ -141,7 +141,7 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
 
 ```
 usage: imgp [-h] [-x res] [-o deg] [-a] [-c] [-d] [-e] [-f] [-i] [-k] [-m]
-            [-n] [-p] [-q N] [-r] [-s byte] [-w] [-z]
+            [-n] [--nn] [-p] [-q N] [-r] [-s byte] [-w] [-z]
             [PATH [PATH ...]]
 
 Resize, rotate JPEG and PNG images.
@@ -238,5 +238,5 @@ optional arguments:
 
 ### Developers
 
-1. Copyright © 2016-2017 [Arun Prakash Jana](https://github.com/jarun)
+1. Copyright © 2016-2018 [Arun Prakash Jana](https://github.com/jarun)
 2. [Ananya Jana](https://github.com/ananyajana)
