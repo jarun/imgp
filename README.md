@@ -5,8 +5,8 @@
 <a href="https://aur.archlinux.org/packages/imgp"><img src="https://img.shields.io/aur/version/imgp.svg?maxAge=600" alt="AUR" /></a>
 <a href="https://github.com/jarun/homebrew-imgp"><img src="https://img.shields.io/badge/homebrew-TAP-blue.svg?maxAge=2592000" alt="Homebrew TAP" /></a>
 <a href="https://packages.debian.org/search?keywords=imgp&searchon=names&exact=1"><img src="https://img.shields.io/badge/debian-9+-blue.svg?maxAge=2592000" alt="Debian Stretch+" /></a>
+<a href="https://software.opensuse.org/package/imgp"><img src="https://img.shields.io/badge/opensuse%20leap-15.0+-blue.svg?maxAge=2592000" alt="openSUSE Leap 15.0+" /></a>
 <a href="https://packages.ubuntu.com/search?keywords=imgp&searchon=names&exact=1"><img src="https://img.shields.io/badge/ubuntu-17.04+-blue.svg?maxAge=2592000" alt="Ubuntu Zesty+" /></a>
-<a href="https://launchpad.net/~twodopeshaggy/+archive/ubuntu/jarun/"><img src="https://img.shields.io/badge/ubuntu-PPA-blue.svg?maxAge=2592000" alt="Ubuntu PPA" /></a>
 <a href="https://github.com/jarun/imgp/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-GPLv3-yellow.svg?maxAge=2592000" alt="License" /></a>
 </p>
 
@@ -26,7 +26,7 @@ Powered by multiprocessing, an intelligent adaptive algorithm, recursive operati
 
 <p align="center">
 <a href="https://saythanks.io/to/jarun"><img src="https://img.shields.io/badge/say-thanks!-ff69b4.svg" /></a>
-<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RMLTQ76JSXJ4Q"><img src="https://img.shields.io/badge/Donate-$5-green.svg" alt="Donate via PayPal!" /></a>
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RMLTQ76JSXJ4Q"><img src="https://img.shields.io/badge/PayPal-donate-$5-green.svg" alt="Donate via PayPal!" /></a>
 </p>
 
 ### Table of Contents
