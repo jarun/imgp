@@ -5,6 +5,7 @@
 <a href="https://aur.archlinux.org/packages/imgp"><img src="https://img.shields.io/aur/version/imgp.svg?maxAge=600" alt="AUR" /></a>
 <a href="https://github.com/jarun/homebrew-imgp"><img src="https://img.shields.io/badge/homebrew-TAP-blue.svg?maxAge=2592000" alt="Homebrew TAP" /></a>
 <a href="https://packages.debian.org/search?keywords=imgp&searchon=names&exact=1"><img src="https://img.shields.io/badge/debian-9+-blue.svg?maxAge=2592000" alt="Debian Stretch+" /></a>
+<a href="https://apps.fedoraproject.org/packages/imgp"><img src="https://img.shields.io/badge/fedora-27+-blue.svg?maxAge=2592000" alt="Fedora 27+" /></a>
 <a href="https://software.opensuse.org/package/imgp"><img src="https://img.shields.io/badge/opensuse%20leap-15.0+-blue.svg?maxAge=2592000" alt="openSUSE Leap 15.0+" /></a>
 <a href="https://packages.ubuntu.com/search?keywords=imgp&searchon=names&exact=1"><img src="https://img.shields.io/badge/ubuntu-17.04+-blue.svg?maxAge=2592000" alt="Ubuntu Zesty+" /></a>
 <a href="https://github.com/jarun/imgp/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-GPLv3-yellow.svg?maxAge=2592000" alt="License" /></a>
@@ -26,7 +27,7 @@ Powered by multiprocessing, an intelligent adaptive algorithm, recursive operati
 
 <p align="center">
 <a href="https://saythanks.io/to/jarun"><img src="https://img.shields.io/badge/say-thanks!-ff69b4.svg" /></a>
-<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RMLTQ76JSXJ4Q"><img src="https://img.shields.io/badge/PayPal-donate-$5-green.svg" alt="Donate via PayPal!" /></a>
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RMLTQ76JSXJ4Q"><img src="https://img.shields.io/badge/PayPal-donate-green.svg" alt="Donate via PayPal!" /></a>
 </p>
 
 ### Table of Contents
@@ -100,6 +101,7 @@ pillow can be replaced by [pillow-simd](https://github.com/uploadcare/pillow-sim
 
 - [AUR](https://aur.archlinux.org/packages/imgp/)
 - [Debian](https://packages.debian.org/search?keywords=imgp&searchon=names&exact=1)
+- [Fedora](https://apps.fedoraproject.org/packages/imgp) (`dnf install imgp`)
 - [Homebrew *tap*](https://github.com/jarun/homebrew-imgp) (`brew install jarun/imgp/imgp`)
 - [openSUSE](https://software.opensuse.org/package/imgp)
 - [Slackware](http://slackbuilds.org/repository/14.2/graphics/imgp/)
