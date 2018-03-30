@@ -99,16 +99,16 @@ pillow can be replaced by [pillow-simd](https://github.com/uploadcare/pillow-sim
 
 #### From a package manager
 
-- [AUR](https://aur.archlinux.org/packages/imgp/)
-- [Debian](https://packages.debian.org/search?keywords=imgp&searchon=names&exact=1)
+- [AUR](https://aur.archlinux.org/packages/imgp/) (`pacman -S imgp`)
+- [Debian](https://packages.debian.org/search?keywords=imgp&searchon=names&exact=1) (`apt-get install imgp`)
 - [Fedora](https://apps.fedoraproject.org/packages/imgp) (`dnf install imgp`)
 - [Homebrew *tap*](https://github.com/jarun/homebrew-imgp) (`brew install jarun/imgp/imgp`)
-- [openSUSE](https://software.opensuse.org/package/imgp)
-- [Slackware](http://slackbuilds.org/repository/14.2/graphics/imgp/)
+- [openSUSE](https://software.opensuse.org/package/imgp) (`zypper in imgp`)
+- [Slackware](http://slackbuilds.org/repository/14.2/graphics/imgp/) (`slackpkg install imgp`)
 - [Source Mage](http://codex.sourcemage.org/test/graphics/imgp/) (`cast imgp`)
-- [Ubuntu](http://packages.ubuntu.com/search?keywords=imgp&searchon=names&exact=1)
-- [Ubuntu PPA](https://launchpad.net/~twodopeshaggy/+archive/ubuntu/jarun/)
-- [Void Linux](https://github.com/voidlinux/void-packages/tree/master/srcpkgs/imgp) (`sudo xbps-install -S imgp`)
+- [Ubuntu](http://packages.ubuntu.com/search?keywords=imgp&searchon=names&exact=1) (`apt-get install imgp`)
+- [Ubuntu PPA](https://launchpad.net/~twodopeshaggy/+archive/ubuntu/jarun/) (`apt-get install imgp`)
+- [Void Linux](https://github.com/voidlinux/void-packages/tree/master/srcpkgs/imgp) (`xbps-install -S imgp`)
 
 #### Release packages
 
