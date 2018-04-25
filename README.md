@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-<a href="https://asciinema.org/a/e5qa0mipgg23v70hdn6i99b8q"><img src="https://asciinema.org/a/e5qa0mipgg23v70hdn6i99b8q.png" alt="imgp_asciicast" width="734"/></a>
+<a href="https://asciinema.org/a/88448"><img src="https://asciinema.org/a/88448.png" alt="imgp_asciicast" width="734"/></a>
 </p>
 
 <p align="center"><i>Watch imgp resize a directory of images in lightning speed!</i></p>
