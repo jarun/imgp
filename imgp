@@ -520,7 +520,7 @@ def main():
                     print('scale should be > 0%')
                     return
                 if scale > 100 and not args.enlarge:
-                    print('use --enlarge is to scale > 100%')
+                    print('use --enlarge to scale > 100%')
                     return
             except Exception:
                 print('invalid value for --res')
