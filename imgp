@@ -133,9 +133,9 @@ def rotate_image(src):
     try:
         img = Image.open(src)
         _format = img.format
-        if not (_format == 'JPEG' or _format == 'PNG' or _format == 'MPO'):
+        if _format not in ['JPEG', 'PNG', 'MPO']:
             if debug:
-                lock_print(src + ': not JPEG or PNG image. format: ' + _format)
+                lock_print(src + ': not JPEG/PNG/MPO. format: ' + _format)
             return
         try:
             if eraseexif:
@@ -202,9 +202,9 @@ def resize_image(src):
         img = Image.open(src)
         _format = img.format
 
-        if not (_format == 'JPEG' or _format == 'PNG' or _format == 'MPO'):
+        if _format not in ['JPEG', 'PNG', 'MPO']:
             if debug:
-                lock_print(src + ': not JPEG or PNG image. format: ' + _format)
+                lock_print(src + ': not JPEG/PNG/MPO. format: ' + _format)
             return
 
         # if 'only' convert option is specified,
