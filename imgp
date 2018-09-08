@@ -34,6 +34,7 @@ adapt = False  # use adaptive resolution
 convert = False  # convert PNG to JPG
 dot = False  # process hidden files starting with .
 eraseexif = False  # erase EXIF metadata
+progressive = False # save as a progressive image
 force = False  # forced to exact specified resolution
 includeimgp = False  # process _IMGP files
 keep = False  # ignore images with matching hres or vres
@@ -126,6 +127,7 @@ def rotate_image(src):
     global lock
 
     converted = False
+    _progressive = progressive
     name, ext = os.path.splitext(src)
     if name.endswith(pad) and not includeimgp:
         return
@@ -137,6 +139,15 @@ def rotate_image(src):
             if debug:
                 lock_print(src + ': not JPEG/PNG/MPO. format: ' + _format)
             return
+
+        try:
+            if _format == 'JPEG' and not _progressive and img.info['progressive']:
+                if debug:
+                    lock_print('resize_image: progressive')
+                _progressive = True
+        except:
+            pass
+
         try:
             if eraseexif:
                 exifdata = b''
@@ -174,7 +185,7 @@ def rotate_image(src):
         dest = name + suffix + ext
 
     try:
-        img.save(dest, _format, quality=qual, optimize=optimal, exif=exifdata)
+        img.save(dest, _format, quality=qual, optimize=optimal, exif=exifdata, progressive=_progressive)
 
         if not mute:
             lock_print('%s %ld bytes\n' % (stats, os.path.getsize(dest)))
@@ -194,6 +205,7 @@ def resize_image(src):
     global HRES, VRES, lock
 
     converted = False
+    _progressive = progressive
     name, ext = os.path.splitext(src)
     if name.endswith(pad) and not includeimgp:
         return
@@ -213,6 +225,14 @@ def resize_image(src):
             if debug:
                 lock_print('resize_image: cannot convert non-PNG')
             return
+
+        try:
+            if _format == 'JPEG' and not _progressive and img.info['progressive']:
+                if debug:
+                    lock_print('resize_image: progressive')
+                _progressive = True
+        except:
+            pass
 
         try:
             if eraseexif:
@@ -253,7 +273,7 @@ def resize_image(src):
 
         img = img.resize((_hres, _vres), antialias)
         if debug:
-            lock_print('resize_image: scaled to [%dx%d]' % (HRES, VRES))
+            lock_print('resize_image: scaled to [%dx%d]' % (_hres, _vres))
     elif HRES == 0 or VRES == 0:
         if HRES:
             if not enlarge and HRES > hres:
@@ -390,7 +410,7 @@ def resize_image(src):
         dest = name + suffix + ext
 
     try:
-        img.save(dest, _format, quality=qual, optimize=optimal, exif=exifdata)
+        img.save(dest, _format, quality=qual, optimize=optimal, exif=exifdata, progressive=_progressive)
 
         if not mute:
             lock_print('%s %ld bytes\n' % (stats, os.path.getsize(dest)))
@@ -470,6 +490,8 @@ def parse_args(args=None, namespace=None):
            help='use nearest neighbour interpolation for PNG images [default: antialias]')
     addarg('-p', '--optimize', action='store_true',
            help='optimize the output images [default: off]')
+    addarg('--pr', '--progressive', action='store_true',
+           help='save JPEG images as progressive [default: off]')
     addarg('-q', '--quality', type=int, metavar='N', choices=range(1, 96),
            help='quality factor (N=1-95, JPEG only) [default: 75]')
     addarg('-r', '--recurse', action='store_true',
@@ -493,8 +515,9 @@ def parse_args(args=None, namespace=None):
 
 
 def main():
-    global HRES, VRES, scale, rotate, adapt, convert, dot, eraseexif, force, includeimgp, keep, enlarge, \
-           optimal, mute, recurse, size, qual, overwrite, debug, no_res_opt, pool, init_time, count, png_ip
+    global HRES, VRES, scale, rotate, adapt, convert, dot, eraseexif, force, \
+           includeimgp, keep, enlarge, optimal, progressive, mute, recurse, size, \
+           qual, overwrite, debug, no_res_opt, pool, init_time, count, png_ip
 
     args = parse_args()
 
@@ -546,6 +569,7 @@ def main():
     keep = args.keep
     enlarge = args.enlarge
     optimal = args.optimize
+    progressive = args.pr
     mute = args.mute
     recurse = args.recurse
     if args.size is not None:

@@ -169,6 +169,7 @@ optional arguments:
   --nn                  use nearest neighbour interpolation for PNG images
                         [default: antialias]
   -p, --optimize        optimize the output images [default: off]
+  --pr, --progressive   save JPEG images as progressive [default: off]
   -q N, --quality N     quality factor (N=1-95, JPEG only) [default: 75]
   -r, --recurse         process directories recursively [default: off]
                         symbolic links are ignored
@@ -184,6 +185,7 @@ optional arguments:
 - PNG files with lower target hres/vres are not converted (even if `--convert` is used). Run `imgp --convert (*.png)` separately to convert those.
 - Resize and rotate are lossy operations. For additional reductions in size try `--optimize` and `--eraseexif` options.
 - Option `--optimize` is slower, the encoder makes an extra pass over the image in order to select optimal encoder settings.
+- Progressive JPEG images are saved as progressive.
 
 ### Examples
 

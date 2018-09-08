@@ -45,6 +45,8 @@ For example, if an image has a resolution of 2048x1365 and is being resized to 1
 - Resize and rotate are lossy operations. For additional reductions in size try '--optimize' and '--eraseexif' options.
 .br
 - Option '--optimize' is slower, the encoder makes an extra pass over the image in order to select optimal encoder settings.
+.br
+- Progressive JPEG images are saved as progressive.
 .SH OPTIONS
 .TP
 .BI "-h, --help"
@@ -85,6 +87,9 @@ Use nearest neighbour interpolation for PNG images instead of default antialias.
 .TP
 .BI "-p, --optimize"
 Optimize output images using PIL library optimization algorithm. Disabled by default.
+.TP
+.BI "--pr, --progressive"
+Save all output JPEG images as progressive, even if the source is not.
 .TP
 .BI "-q, --quality=" N
 Save the image with a specified quality factor N (scale 1-95, default 75). JPEG only.

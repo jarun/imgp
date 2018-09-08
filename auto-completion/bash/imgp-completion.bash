@@ -24,6 +24,7 @@ _imgp () {
         --nn
         -o --rotate
         -p --optimize
+        --pr --progressive
         -q --quality
         -r --recurse
         -s --size

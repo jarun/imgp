@@ -22,6 +22,7 @@ args=(
     '(--nn)--n[use nearest neighbour interpolation for PNG]'
     '(-o --rotate)'{-o,--rotate}'[rotate clockwise by angle]:degree'
     '(-p --optimize)'{-p,--optimize}'[optimize the output images]'
+    '(--pr --progressive)'{--pr,--progressive}'[save JPEG as progressive]'
     '(-q --quiet)'{-q,--quality}'[specify quality factor (1-95)]:factor'
     '(-r --recurse)'{-r,--recurse}'[process directories recursively]'
     '(-s --size)'{-s,--size}'[min byte size to process an image]:bytes'
