@@ -144,7 +144,7 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
 
 ```
 usage: imgp [-h] [-x res] [-o deg] [-a] [-c] [-d] [-e] [-f] [-i] [-k] [-m]
-            [-n] [--nn] [-p] [-q N] [-r] [-s byte] [-w] [-z]
+            [-n] [--nn] [-p] [--pr] [-q N] [-r] [-s byte] [-w] [-z]
             [PATH [PATH ...]]
 
 Resize, rotate JPEG and PNG images.
@@ -162,8 +162,9 @@ optional arguments:
   -e, --eraseexif       erase exif metadata [default: off]
   -f, --force           force to exact specified resolution [default: off]
   -i, --includeimgp     re-process _IMGP files. * RISKY: refer to docs
-  -k, --keep            skip (but convert, if opted) images with matching
-                        specified hres or vres or --res=100 [default: off]
+  -k, --keep            skip (but convert or make progressive, if opted)
+                        images with matching specified hres or vres or
+                        --res=100 [default: off]
   -m, --mute            operate silently [default: informative]
   -n, --enlarge         enlarge smaller images [default: off]
   --nn                  use nearest neighbour interpolation for PNG images

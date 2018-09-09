@@ -77,7 +77,7 @@ Force to the exact specified resolution. Disabled by default.
 Process \fI_IMGP\fR files. Risky due to potential race conditions.
 .TP
 .BI "-k, --keep"
-Do not process if image hres or vres matches specified hres or vres, or --res is 100. However, PNG images are converted to JPEG if --convert option is specified.
+Do not process if image hres or vres matches specified hres or vres, or --res is 100. However, PNG images are converted to JPEG if --convert option is specified and JPEG images are made progressive is --progressive option is specified.
 .TP
 .BI "-n, --enlarge"
 Enlarge smaller images. By default smaller images are not scaled if specified resolution is greater.

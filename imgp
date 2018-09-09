@@ -219,12 +219,17 @@ def resize_image(src):
                 lock_print(src + ': not JPEG/PNG/MPO. format: ' + _format)
             return
 
-        # if 'only' convert option is specified,
-        # nothing to be done for non-PNG images
-        if no_res_opt and not optimal and _format != 'PNG':
-            if debug:
-                lock_print('resize_image: cannot convert non-PNG')
-            return
+        # check if convert or progressive is specified without any resolution option
+        if no_res_opt:
+            if convert and _format != 'PNG':
+                if debug:
+                    lock_print('resize_image: cannot convert non-PNG')
+                return
+
+            if progressive and _format not in ['JPEG', 'MPO']:
+                if debug:
+                    lock_print('resize_image: cannot make non-JPEG/MPO progressive')
+                return
 
         try:
             if _format == 'JPEG' and not _progressive and img.info['progressive']:
@@ -252,8 +257,12 @@ def resize_image(src):
     ImageFile.MAXBLOCK = hres * vres
 
     antialias = png_ip if _format == 'PNG' else PIL.Image.ANTIALIAS
+
     if keep and (HRES == hres or VRES == vres or scale == 100):
-        if not (_format == 'PNG' and convert):
+        if progressive and _format not in ['JPEG', 'MPO']:
+            return
+
+        if convert and _format != 'PNG':
             return
     elif scale:
         if scale == 100:
@@ -480,7 +489,7 @@ def parse_args(args=None, namespace=None):
     addarg('-i', '--includeimgp', action='store_true',
            help='re-process _IMGP files. * RISKY: refer to docs')
     addarg('-k', '--keep', action='store_true',
-           help='skip (but convert, if opted) images with matching specified \
+           help='skip (but convert or make progressive, if opted) images with matching specified \
                  hres or vres or --res=100 [default: off]')
     addarg('-m', '--mute', action='store_true',
            help='operate silently [default: informative]')
@@ -553,7 +562,7 @@ def main():
         if not rotate:
             print('cannot rotate by 0 degree')
             return
-    elif args.convert or args.optimize:
+    elif args.convert or args.pr or args.optimize:
         no_res_opt = True
         scale = 100
     else:
