@@ -120,7 +120,6 @@ def traverse_dir(path):
         with lock:
             print(e)
 
-
 def rotate_image(src):
     '''Rotate a source image'''
 
@@ -135,9 +134,15 @@ def rotate_image(src):
     try:
         img = Image.open(src)
         _format = img.format
+
         if _format not in ['JPEG', 'PNG', 'MPO']:
             if debug:
                 lock_print(src + ': not JPEG/PNG/MPO. format: ' + _format)
+            return
+
+        if convert and _format == 'PNG' and img.mode == 'P':
+            if debug:
+                lock_print('rotate_image: cannot convert PNG files in palette mode')
             return
 
         try:
@@ -217,6 +222,11 @@ def resize_image(src):
         if _format not in ['JPEG', 'PNG', 'MPO']:
             if debug:
                 lock_print(src + ': not JPEG/PNG/MPO. format: ' + _format)
+            return
+
+        if convert and _format == 'PNG' and img.mode == 'P':
+            if debug:
+                lock_print('resize_image: cannot convert PNG files in palette mode')
             return
 
         # check if convert or progressive is specified without any resolution option
