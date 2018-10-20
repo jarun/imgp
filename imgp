@@ -34,7 +34,7 @@ adapt = False  # use adaptive resolution
 convert = False  # convert PNG to JPG
 dot = False  # process hidden files starting with .
 eraseexif = False  # erase EXIF metadata
-progressive = False # save as a progressive image
+progressive = False  # save as a progressive image
 force = False  # forced to exact specified resolution
 includeimgp = False  # process _IMGP files
 keep = False  # ignore images with matching hres or vres
@@ -72,7 +72,7 @@ def getres(res):
 
     try:
         return(int(hxv[0]), int(hxv[1]))
-    except:
+    except Exception:
         return (0, 0)
 
 
@@ -150,7 +150,7 @@ def rotate_image(src):
                 if debug:
                     lock_print('resize_image: progressive')
                 _progressive = True
-        except:
+        except Exception:
             pass
 
         try:
@@ -158,7 +158,7 @@ def rotate_image(src):
                 exifdata = b''
             else:
                 exifdata = img.info['exif']
-        except:
+        except Exception:
             exifdata = b''
     except OSError as e:
         if not str(e).startswith('cannot identify image file'):
@@ -246,7 +246,7 @@ def resize_image(src):
                 if debug:
                     lock_print('resize_image: progressive')
                 _progressive = True
-        except:
+        except Exception:
             pass
 
         try:
@@ -254,7 +254,7 @@ def resize_image(src):
                 exifdata = b''
             else:
                 exifdata = img.info['exif']
-        except:
+        except Exception:
             exifdata = b''
     except OSError as e:
         if not str(e).startswith('cannot identify image file'):
