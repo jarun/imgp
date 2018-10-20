@@ -108,7 +108,7 @@ pillow can be replaced by [pillow-simd](https://github.com/uploadcare/pillow-sim
 - [Source Mage](http://codex.sourcemage.org/test/graphics/imgp/) (`cast imgp`)
 - [Ubuntu](http://packages.ubuntu.com/search?keywords=imgp&searchon=names&exact=1) (`apt-get install imgp`)
 - [Ubuntu PPA](https://launchpad.net/~twodopeshaggy/+archive/ubuntu/jarun/) (`apt-get install imgp`)
-- [Void Linux](https://github.com/voidlinux/void-packages/tree/master/srcpkgs/imgp) (`xbps-install -S imgp`)
+- [Void Linux](https://github.com/void-linux/void-packages/tree/master/srcpkgs/imgp) (`xbps-install -S imgp`)
 
 #### Release packages
 
