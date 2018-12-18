@@ -101,7 +101,7 @@ pillow can be replaced by [pillow-simd](https://github.com/uploadcare/pillow-sim
 - [AUR](https://aur.archlinux.org/packages/imgp/) (`yay -S imgp`)
 - [Debian](https://packages.debian.org/search?keywords=imgp&searchon=names&exact=1) (`apt-get install imgp`)
 - [Fedora](https://apps.fedoraproject.org/packages/imgp) (`dnf install imgp`)
-- [Homebrew *tap*](https://github.com/jarun/homebrew-imgp) (`brew install jarun/imgp/imgp`)
+- [macOS/Homebrew *tap*](https://github.com/jarun/homebrew-imgp) (`brew install jarun/imgp/imgp`)
 - [openSUSE](https://software.opensuse.org/package/imgp) (`zypper in imgp`)
 - [Raspbian Testing](https://archive.raspbian.org/raspbian/pool/main/i/imgp/) (`apt-get install imgp`)
 - [Slackware](http://slackbuilds.org/repository/14.2/graphics/imgp/) (`slackpkg install imgp`)
