@@ -2,7 +2,7 @@
 #
 # Resize or rotate JPEG and PNG images.
 #
-# Copyright © 2016-2018 Arun Prakash Jana <engineerarun@gmail.com>
+# Copyright © 2016-2019 Arun Prakash Jana <engineerarun@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -454,7 +454,7 @@ class ExtendedArgumentParser(argparse.ArgumentParser):
 
         file.write('''
 Version %s
-Copyright © 2016-2018 Arun Prakash Jana <engineerarun@gmail.com>
+Copyright © 2016-2019 Arun Prakash Jana <engineerarun@gmail.com>
 License: GPLv3
 Webpage: https://github.com/jarun/imgp
 ''' % _VERSION_)

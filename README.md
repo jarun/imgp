@@ -244,5 +244,5 @@ optional arguments:
 
 ### Developers
 
-1. Copyright © 2016-2018 [Arun Prakash Jana](https://github.com/jarun)
+1. Copyright © 2016-2019 [Arun Prakash Jana](https://github.com/jarun)
 2. [Ananya Jana](https://github.com/ananyajana)
