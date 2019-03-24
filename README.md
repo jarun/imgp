@@ -25,7 +25,7 @@
 
 Powered by multiprocessing, an intelligent adaptive algorithm, recursive operations, shell completion scripts, EXIF preservation (and more), `imgp` is a very flexible utility with well-documented easy to use options.
 
-`imgp` intends to be a stronger replacement of the Nautilus Image Converter extension, not tied to any file manager and way faster. On desktop environments (like Xfce or LxQt) which do not integrate Nautilus, `imgp` will save your day.
+`imgp` intends to be a stronger replacement of the Nautilus Image Converter extension, not tied to any file manager and way faster. On desktop environments (like Xfce or LxQt) which do not integrate Nautilus, `imgp` will save your day. File manager [nnn](https://github.com/jarun/nnn) provides a script to batch resize images with `imgp`.
 
 *Love smart and efficient utilities? Explore [my repositories](https://github.com/jarun?tab=repositories). Buy me a cup of coffee if they help you.*
 
@@ -166,9 +166,8 @@ optional arguments:
   -e, --eraseexif       erase exif metadata [default: off]
   -f, --force           force to exact specified resolution [default: off]
   -i, --includeimgp     re-process _IMGP files. * RISKY: refer to docs
-  -k, --keep            skip (but convert or make progressive, if opted)
-                        images with matching specified hres or vres or
-                        --res=100 [default: off]
+  -k, --keep            skip (honors -c or --pr) images matching specified
+                        hres or vres or --res=100 [default: off]
   -m, --mute            operate silently [default: informative]
   -n, --enlarge         enlarge smaller images [default: off]
   --nn                  use nearest neighbour interpolation for PNG images

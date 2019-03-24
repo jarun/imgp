@@ -499,7 +499,7 @@ def parse_args(args=None, namespace=None):
     addarg('-i', '--includeimgp', action='store_true',
            help='re-process _IMGP files. * RISKY: refer to docs')
     addarg('-k', '--keep', action='store_true',
-           help='skip (but convert or make progressive, if opted) images with matching specified \
+           help='skip (honors -c or --pr) images matching specified \
                  hres or vres or --res=100 [default: off]')
     addarg('-m', '--mute', action='store_true',
            help='operate silently [default: informative]')
