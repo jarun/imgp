@@ -13,24 +13,6 @@ packages:
     deps:
       - python-pillow
       - python
-  centos7.1:
-    builddeps:
-      - make
-    deps:
-      - python-pillow
-      - python
-    commands:
-      pre:
-        - yum install epel-release
-  centos7.2:
-    builddeps:
-      - make
-    deps:
-      - python-pillow
-      - python
-    commands:
-      pre:
-        - yum install epel-release
   centos7.3:
     builddeps:
       - make
@@ -78,18 +60,6 @@ packages:
       - make
     deps:
       - python3-pillow
-      - python3
-  opensuse42.1:
-    builddeps:
-      - make
-    deps:
-      - python3-Pillow
-      - python3
-  opensuse42.2:
-    builddeps:
-      - make
-    deps:
-      - python3-Pillow
       - python3
   opensuse42.3:
     builddeps:
