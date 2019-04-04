@@ -37,30 +37,14 @@ packages:
     deps:
       - python3-pillow
       - python3
-  fedora25:
-    builddeps:
-      - make
-    deps:
-      - python3-pillow
-      - python3
-  fedora26:
-    builddeps:
-      - make
-    deps:
-      - python3-pillow
-      - python3
-  fedora27:
-    builddeps:
-      - make
-    deps:
-      - python3-pillow
-      - python3
   fedora28:
     builddeps:
       - make
     deps:
       - python3-pillow
       - python3
+  fedora29:
+    builddeps:
   opensuse42.3:
     builddeps:
       - make
