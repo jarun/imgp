@@ -13,6 +13,7 @@ packages:
     deps:
       - python-pillow
       - python
+    container: "archlinux/base"
   centos7.3:
     builddeps:
       - make
