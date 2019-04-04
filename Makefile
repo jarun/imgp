@@ -22,4 +22,5 @@ uninstall:
 	rm -f $(MANDIR)/imgp.1.gz
 	rm -rf $(DOCDIR)
 
-test: ;
+test:
+	./imgp --help

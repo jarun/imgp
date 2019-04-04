@@ -8,9 +8,13 @@ test-template: &test-template
     - run:
         command: |
           apt update && apt install -y --no-install-recommends git make
-          pip install --upgrade setuptools pillow
+          pip install --upgrade setuptools flake8 pylint pillow
     - checkout
-    - run: make test
+    - run:
+        command: |
+          python -m flake8 imgp
+          echo imgp | xargs pylint
+          make test
 
 jobs:
   py35:

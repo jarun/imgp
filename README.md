@@ -13,6 +13,7 @@
 <p align="center">
 <a href="https://repology.org/metapackage/imgp"><img src="https://repology.org/badge/tiny-repos/imgp.svg" alt="Availability"></a>
 <a href="https://github.com/jarun/imgp/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-GPLv3-yellow.svg?maxAge=2592000" alt="License" /></a>
+<a href="https://circleci.com/gh/jarun/workflows/imgp"><img src="https://img.shields.io/circleci/project/github/jarun/imgp.svg" alt="Build Status" /></a>
 </p>
 
 <p align="center">
