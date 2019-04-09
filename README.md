@@ -24,7 +24,7 @@
 
 `imgp` is a command line image resizer and rotator for JPEG and PNG images. It can resize (or thumbnail) and rotate thousands of images in a go, at lightning speed, while saving significantly on storage.
 
-Powered by multiprocessing, an intelligent adaptive algorithm, recursive operations, shell completion scripts, EXIF preservation (and more), `imgp` is a very flexible utility with well-documented easy to use options.
+Powered by multiprocessing, SIMD parallelism (thanks to the Pillow-SIMD library), an intelligent adaptive algorithm, recursive operations, shell completion scripts, EXIF preservation (and more), `imgp` is a very flexible utility with well-documented easy to use options.
 
 `imgp` intends to be a stronger replacement of the Nautilus Image Converter extension, not tied to any file manager and way faster. On desktop environments (like Xfce or LxQt) which do not integrate Nautilus, `imgp` will save your day. File manager [nnn](https://github.com/jarun/nnn) provides a script to batch resize images with `imgp`.
 
