@@ -3,6 +3,7 @@ disable=
   broad-except,
   chained-comparison,
   global-statement,
+  inconsistent-return-statements,
   invalid-name,
   missing-docstring,
   no-self-use,

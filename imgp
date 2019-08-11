@@ -18,18 +18,18 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import argparse
-import sys
-import os
-import PIL
-import time
-from PIL import Image, ImageFile
 from multiprocessing import Pool, Lock
+import os
+import sys
+import time
+import PIL
+from PIL import Image, ImageFile
 
 # Globals
 HRES = 0  # specified horizontal resolution
 VRES = 0  # specified vertical resolution
 scale = None  # specified scale in percentage
-rotate = None  # specified rotation in degree
+rotate = 0  # specified rotation in degree
 adapt = False  # use adaptive resolution
 convert = False  # convert PNG to JPG
 dot = False  # process hidden files starting with .
@@ -480,8 +480,7 @@ def parse_args(args=None, namespace=None):
         Namespace with parsed arguments / options.
     '''
 
-    argparser = ExtendedArgumentParser(
-                    description='Resize, rotate JPEG and PNG images.')
+    argparser = ExtendedArgumentParser(description='Resize, rotate JPEG and PNG images.')
     addarg = argparser.add_argument
     addarg('-x', '--res', nargs=1, metavar='res',
            help='output resolution in HxV or percentage')
@@ -559,7 +558,7 @@ def main():
                 else:
                     scale = int(args.res[0])
 
-                if (scale <= 0):
+                if scale <= 0:
                     print('scale should be > 0%')
                     return
                 if scale > 100 and not args.enlarge:
@@ -616,7 +615,7 @@ def main():
                 count += 1
 
     # Process current directory if PATH is unspecified
-    if len(args.keywords) == 0:
+    if not args.keywords:
         if not mute:
             print('Source omitted. Processing current directory...\n')
         traverse_dir('.')
