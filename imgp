@@ -20,16 +20,16 @@
 import argparse
 import sys
 import os
-import time
-from multiprocessing import Pool, Lock
 import PIL
+import time
 from PIL import Image, ImageFile
+from multiprocessing import Pool, Lock
 
-# Global variables
+# Globals
 HRES = 0  # specified horizontal resolution
 VRES = 0  # specified vertical resolution
 scale = None  # specified scale in percentage
-rotate = -0  # specified rotation in degree
+rotate = None  # specified rotation in degree
 adapt = False  # use adaptive resolution
 convert = False  # convert PNG to JPG
 dot = False  # process hidden files starting with .
@@ -53,7 +53,7 @@ fill_color = '#ffffff'  # BG color to strip alpha channel
 init_time = time.time()  # profile the total time taken
 _VERSION_ = '2.6'  # current program version
 
-# Global variables for multiprocessing
+# Globals for multiprocessing
 pool = None
 lock = Lock()
 count = 0  # successful conversion count
@@ -120,7 +120,6 @@ def traverse_dir(path):
         with lock:
             print(e)
 
-
 def rotate_image(src):
     '''Rotate a source image'''
 
@@ -130,7 +129,7 @@ def rotate_image(src):
     _progressive = progressive
     name, ext = os.path.splitext(src)
     if name.endswith(pad) and not includeimgp:
-        return None
+        return
 
     try:
         img = Image.open(src)
@@ -139,12 +138,12 @@ def rotate_image(src):
         if _format not in ['JPEG', 'PNG', 'MPO']:
             if debug:
                 lock_print(src + ': not JPEG/PNG/MPO. format: ' + _format)
-            return None
+            return
 
         if convert and _format == 'PNG' and img.mode == 'P':
             if debug:
                 lock_print('rotate_image: cannot convert PNG files in palette mode')
-            return None
+            return
 
         try:
             if _format == 'JPEG' and not _progressive and img.info['progressive']:
@@ -165,7 +164,7 @@ def rotate_image(src):
         if not str(e).startswith('cannot identify image file'):
             with lock:
                 print(e)
-        return None
+        return
 
     # Image.rotate(angle, resample=0, expand=0) expand = True means
     # the image will be enlarged to hold the entire rotated image
@@ -204,20 +203,17 @@ def rotate_image(src):
         with lock:
             print(e)
 
-    return None
-
 
 def resize_image(src):
     '''Resize a source image'''
 
     global HRES, VRES, lock
-    global HRES, VRES, scale, rotate, no_res_opt
 
     converted = False
     _progressive = progressive
     name, ext = os.path.splitext(src)
     if name.endswith(pad) and not includeimgp:
-        return None
+        return
 
     try:
         img = Image.open(src)
@@ -226,24 +222,24 @@ def resize_image(src):
         if _format not in ['JPEG', 'PNG', 'MPO']:
             if debug:
                 lock_print(src + ': not JPEG/PNG/MPO. format: ' + _format)
-            return None
+            return
 
         if convert and _format == 'PNG' and img.mode == 'P':
             if debug:
                 lock_print('resize_image: cannot convert PNG files in palette mode')
-            return None
+            return
 
         # check if convert or progressive is specified without any resolution option
         if no_res_opt:
             if convert and _format != 'PNG':
                 if debug:
                     lock_print('resize_image: cannot convert non-PNG')
-                return None
+                return
 
             if progressive and _format not in ['JPEG', 'MPO']:
                 if debug:
                     lock_print('resize_image: cannot make non-JPEG/MPO progressive')
-                return None
+                return
 
         try:
             if _format == 'JPEG' and not _progressive and img.info['progressive']:
@@ -264,7 +260,7 @@ def resize_image(src):
         if not str(e).startswith('cannot identify image file'):
             with lock:
                 print(e)
-        return None
+        return
 
     hres = img.size[0]
     vres = img.size[1]
@@ -274,10 +270,10 @@ def resize_image(src):
 
     if keep and (HRES == hres or VRES == vres or scale == 100):
         if progressive and _format not in ['JPEG', 'MPO']:
-            return None
+            return
 
         if convert and _format != 'PNG':
-            return None
+            return
     elif scale:
         if scale == 100:
             _hres = hres
@@ -446,8 +442,6 @@ def resize_image(src):
         with lock:
             print(e)
 
-    return None
-
 
 class ExtendedArgumentParser(argparse.ArgumentParser):
     '''Extend classic argument parser'''
@@ -485,7 +479,8 @@ def parse_args(args=None, namespace=None):
         Namespace with parsed arguments / options.
     '''
 
-    argparser = ExtendedArgumentParser(description='Resize, rotate JPEG and PNG images.')
+    argparser = ExtendedArgumentParser(
+                    description='Resize, rotate JPEG and PNG images.')
     addarg = argparser.add_argument
     addarg('-x', '--res', nargs=1, metavar='res',
            help='output resolution in HxV or percentage')
@@ -538,10 +533,51 @@ def parse_args(args=None, namespace=None):
     return argparser.parse_args(args, namespace)
 
 
-def process(args):
-    global adapt, convert, dot, eraseexif, force, includeimgp, \
-           keep, enlarge, optimal, progressive, mute, recurse, size, \
-           qual, overwrite, debug, pool, init_time, count, png_ip
+def main():
+    global HRES, VRES, scale, rotate, adapt, convert, dot, eraseexif, force, \
+           includeimgp, keep, enlarge, optimal, progressive, mute, recurse, size, \
+           qual, overwrite, debug, no_res_opt, pool, init_time, count, png_ip
+
+    args = parse_args()
+
+    if args.rotate is not None and args.res is not None:
+        print('options --rotate and --res cannot be used together')
+        return
+
+    if args.res is not None:
+        if 'x' in args.res[0]:
+            HRES, VRES = getres(args.res[0])
+            if HRES == 0 and VRES == 0:
+                print('-ve values not allowed, \
+                       hres and vres cannot be 0 together')
+                return
+        else:
+            try:
+                if args.res[0].endswith('%'):
+                    scale = int(args.res[0][:-1])
+                else:
+                    scale = int(args.res[0])
+
+                if (scale <= 0):
+                    print('scale should be > 0%')
+                    return
+                if scale > 100 and not args.enlarge:
+                    print('use --enlarge to scale > 100%')
+                    return
+            except Exception:
+                print('invalid value for --res')
+                return
+    elif args.rotate is not None:
+        rotate = args.rotate % 360
+        if not rotate:
+            print('cannot rotate by 0 degree')
+            return
+    elif args.convert or args.pr or args.optimize:
+        no_res_opt = True
+        scale = 100
+    else:
+        print('missing image transformation')
+        return
 
     adapt = args.adapt
     convert = args.convert
@@ -579,7 +615,7 @@ def process(args):
                 count += 1
 
     # Process current directory if PATH is unspecified
-    if not args.keywords:
+    if len(args.keywords) == 0:
         if not mute:
             print('Source omitted. Processing current directory...\n')
         traverse_dir('.')
@@ -595,59 +631,6 @@ def process(args):
         # Show number of images not converted due to low resolution
         if count_lowres:
             print('%s not processed due to low resolution.' % count_lowres)
-
-
-def main():
-    global HRES, VRES, scale, rotate, no_res_opt
-
-    fail = False
-
-    args = parse_args()
-
-    if args.rotate is not None and args.res is not None:
-        print('options --rotate and --res cannot be used together')
-        return
-
-    if args.res is not None:
-        if 'x' in args.res[0]:
-            HRES, VRES = getres(args.res[0])
-            if HRES == 0 and VRES == 0:
-                print('-ve values not allowed, \
-                       hres and vres cannot be 0 together')
-                fail = True
-        else:
-            try:
-                if args.res[0].endswith('%'):
-                    scale = int(args.res[0][:-1])
-                else:
-                    scale = int(args.res[0])
-
-                if scale <= 0:
-                    print('scale should be > 0%')
-                    fail = True
-                elif scale > 100 and not args.enlarge:
-                    print('use --enlarge to scale > 100%')
-                    fail = True
-            except Exception:
-                print('invalid value for --res')
-                sys.exit()
-    elif args.rotate is not None:
-        rotate = args.rotate % 360
-        if not rotate:
-            print('cannot rotate by 0 degree')
-            fail = True
-    elif args.convert or args.pr or args.optimize:
-        no_res_opt = True
-        scale = 100
-    else:
-        print('missing image transformation')
-        fail = True
-
-    if fail:
-        sys.exit()
-
-    process(args)
-
 
 if __name__ == '__main__':
     main()

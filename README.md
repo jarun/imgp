@@ -83,7 +83,7 @@ For example, if an image has a resolution of 2048x1365 and is being resized to 1
 
 `imgp` could resize 8823 images (approx. 4.5GB in size) of mixed resolutions (high to regular) stored in a USB 2.0 external hard disk at an adaptive resolution of 1366x1000 in around 8 minutes. The resulting size was 897MB (approx. 20%).
 
-`imgp` uses Python PIL/Pillow/Pillow-SIMD library. Nautilus Image Converter calls the `convert` utility from ImageMagick. For a comparative benchmark, head [here](https://github.com/uploadcare/pillow-simd#benchmarks).
+`imgp` uses Python PIL/Pillow library. Nautilus Image Converter calls the `convert` utility from ImageMagick. For a comparative benchmark, head [here](https://github.com/uploadcare/pillow-simd#benchmarks).
 
 ### Installation
 
