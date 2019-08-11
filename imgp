@@ -120,6 +120,7 @@ def traverse_dir(path):
         with lock:
             print(e)
 
+
 def rotate_image(src):
     '''Rotate a source image'''
 
@@ -631,6 +632,7 @@ def main():
         # Show number of images not converted due to low resolution
         if count_lowres:
             print('%s not processed due to low resolution.' % count_lowres)
+
 
 if __name__ == '__main__':
     main()
