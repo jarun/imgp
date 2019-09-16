@@ -5,6 +5,7 @@ disable=
   global-statement,
   inconsistent-return-statements,
   invalid-name,
+  invalid-unary-operand-type,
   len-as-condition,
   missing-docstring,
   no-self-use,

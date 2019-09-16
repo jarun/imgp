@@ -29,7 +29,7 @@ from PIL import Image, ImageFile
 HRES = 0  # specified horizontal resolution
 VRES = 0  # specified vertical resolution
 scale = None  # specified scale in percentage
-rotate = 0  # specified rotation in degree
+rotate = None  # specified rotation in degree
 adapt = False  # use adaptive resolution
 convert = False  # convert PNG to JPG
 dot = False  # process hidden files starting with .
