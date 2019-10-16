@@ -7,7 +7,7 @@ test-template: &test-template
   steps:
     - run:
         command: |
-          apt update && apt install -y --no-install-recommends git make
+          apt update && apt install -y --no-install-recommends gcc git make libjpeg-dev zlib1g-dev
           pip install --upgrade setuptools flake8 pylint pillow
     - checkout
     - run:
