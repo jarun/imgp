@@ -184,11 +184,26 @@ Source omitted. Processing current directory...
 .EE
 .PP
 .IP 6. 4
-Process images greater than 50KB (50*1024 bytes) only:
+Process images greater than 50KiB only:
 .PP
 .EX
 .IP
 .B $ imgp -wrackx 1366x1000 -s 51200
+.EE
+.PP
+.IP 7. 4
+Generate thumbnail of the last modified file in the current dir:
+.PP
+.EX
+.IP
+.B #!/usr/bin/env sh
+
+thumb64 ()
+{
+    pop=$(ls -1t | head -1)
+    imgp -acx 64x64 "$pop"
+}
+.EE
 .SH AUTHORS
 Arun Prakash Jana <engineerarun@gmail.com>
 .SH HOME

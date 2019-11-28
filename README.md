@@ -241,9 +241,19 @@ optional arguments:
        1050x1400 -> 800x1067
        458092 bytes -> 78089 bytes
 
-6. Process images greater than 50KB (50*1024 bytes) only:
+6. Process images greater than 50KiB only:
 
        $ imgp -wrackx 1366x1000 -s 51200
+
+7. Generate thumbnail of the last modified file in the current dir:
+
+       #!/usr/bin/env sh
+
+       thumb64 ()
+       {
+           pop=$(ls -1t | head -1)
+           imgp -acx 64x64 "$pop"
+       }
 
 ### Developers
 
