@@ -3,8 +3,9 @@
 <p align="center">
 <a href="https://github.com/jarun/imgp/releases/latest"><img src="https://img.shields.io/github/release/jarun/imgp.svg?maxAge=600" alt="Latest release" /></a>
 <a href="https://repology.org/project/imgp/versions"><img src="https://repology.org/badge/tiny-repos/imgp.svg" alt="Availability"></a>
-<a href="https://github.com/jarun/imgp/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-GPLv3-yellow.svg?maxAge=2592000" alt="License" /></a>
+<a href="https://pypi.org/project/imgp/"><img src="https://img.shields.io/pypi/v/imgp.svg?maxAge=600" alt="PyPI" /></a>
 <a href="https://circleci.com/gh/jarun/workflows/imgp"><img src="https://img.shields.io/circleci/project/github/jarun/imgp.svg" alt="Build Status" /></a>
+<a href="https://github.com/jarun/imgp/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-GPLv3-yellow.svg?maxAge=2592000" alt="License" /></a>
 </p>
 
 <p align="center">
@@ -105,6 +106,7 @@ Unlisted packagers:
 <p>
 <br>
 ● <a href="https://github.com/jarun/homebrew-imgp">Homebrew TAP</a> (<code>brew install jarun/imgp/imgp</code>)<br>
+● <a href="https://pypi.org/project/imgp/">PyPI</a> (<code>pip3 install imgp</code>)<br>
 ● <a href="http://codex.sourcemage.org/test/graphics/imgp/">Source Mage</a> (<code>cast imgp</code>)<br>
 </p>
 </details>
