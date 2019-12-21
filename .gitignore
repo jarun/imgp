@@ -1,0 +1,8 @@
+.pytest_cache*
+__pycache__*
+
+# Distribution / packaging
+imgp.egg-info
+dist/
+build/
+imgp.py

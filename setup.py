@@ -5,6 +5,13 @@ import shutil
 import sys
 
 from setuptools import setup, find_packages
+from pkg_resources import get_distribution, DistributionNotFound
+
+def get_dist(pkgname):
+    try:
+        return get_distribution(pkgname)
+    except DistributionNotFound:
+        return None
 
 shutil.copyfile('imgp', 'imgp.py')
 
@@ -26,6 +33,7 @@ setup(
     author_email='engineerarun@gmail.com',
     url='https://github.com/jarun/imgp',
     license='GPLv3',
+    license_file='LICENSE',
     python_requires='>=3.5',  # requires pip>=9.0.0
     platforms=['any'],
     py_modules=['imgp'],

@@ -2,7 +2,7 @@
 #
 # Resize or rotate JPEG and PNG images.
 #
-# Copyright © 2016-2019 Arun Prakash Jana <engineerarun@gmail.com>
+# Copyright © 2016-2020 Arun Prakash Jana <engineerarun@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ pad = '_IMGP'  # output file suffix when --overwrite is unused
 png_ip = PIL.Image.ANTIALIAS  # default interpolation for PNG
 fill_color = '#ffffff'  # BG color to strip alpha channel
 init_time = time.time()  # profile the total time taken
-_VERSION_ = '2.6'  # current program version
+_VERSION_ = '2.7'  # current program version
 
 # Globals for multiprocessing
 pool = None
@@ -455,7 +455,7 @@ class ExtendedArgumentParser(argparse.ArgumentParser):
 
         file.write('''
 Version %s
-Copyright © 2016-2019 Arun Prakash Jana <engineerarun@gmail.com>
+Copyright © 2016-2020 Arun Prakash Jana <engineerarun@gmail.com>
 License: GPLv3
 Webpage: https://github.com/jarun/imgp
 ''' % _VERSION_)

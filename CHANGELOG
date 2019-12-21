@@ -1,3 +1,14 @@
+imgp v2.7
+2019-12-21
+
+What's in?
+- Code lint fixes
+- Package uploaded to PyPI
+- New auto-generated packages for - CentOS, Debian, Fedora
+- Update copyright year
+
+-------------------------------------------------------------------------------
+
 imgp v2.6
 2018-10-20
 

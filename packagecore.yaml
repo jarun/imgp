@@ -14,7 +14,7 @@ packages:
       - python-pillow
       - python
     container: "archlinux/base"
-  centos7.3:
+  centos7.5:
     builddeps:
       - make
     deps:
@@ -23,7 +23,7 @@ packages:
     commands:
       pre:
         - yum install epel-release
-  centos7.4:
+  centos7.6:
     builddeps:
       - make
     deps:
@@ -32,20 +32,39 @@ packages:
     commands:
       pre:
         - yum install epel-release
+#  centos8.0:
+#    builddeps:
+#      - make
+#    deps:
+#      - python-pillow
+#      - python
+#    commands:
+#      pre:
+#        - yum install epel-release
   debian9:
     builddeps:
       - make
     deps:
       - python3-pillow
       - python3
-  fedora28:
+  debian10:
     builddeps:
       - make
     deps:
       - python3-pillow
       - python3
-  fedora29:
+  fedora30:
     builddeps:
+      - make
+    deps:
+      - python3-pillow
+      - python3
+  fedora31:
+    builddeps:
+      - make
+    deps:
+      - python3-pillow
+      - python3
   opensuse42.3:
     builddeps:
       - make
