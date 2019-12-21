@@ -14,6 +14,8 @@ with open('imgp.py', encoding='utf-8') as f:
 with open('README.md', encoding='utf-8') as f:
     long_description = f.read()
 
+requirements = ['pillow-simd' if get_dist('pillow-simd') is not None else 'pillow']
+
 setup(
     name='imgp',
     version=version,
@@ -27,7 +29,7 @@ setup(
     python_requires='>=3.5',  # requires pip>=9.0.0
     platforms=['any'],
     py_modules=['imgp'],
-    install_requires=['Pillow'],
+    install_requires=requirements,
     include_package_data=True,
     entry_points={
         'console_scripts': ['imgp=imgp:main']
