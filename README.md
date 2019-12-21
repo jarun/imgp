@@ -2,16 +2,7 @@
 
 <p align="center">
 <a href="https://github.com/jarun/imgp/releases/latest"><img src="https://img.shields.io/github/release/jarun/imgp.svg?maxAge=600" alt="Latest release" /></a>
-<a href="https://aur.archlinux.org/packages/imgp"><img src="https://img.shields.io/aur/version/imgp.svg?maxAge=600" alt="AUR" /></a>
-<a href="https://github.com/jarun/homebrew-imgp"><img src="https://img.shields.io/badge/homebrew-TAP-blue.svg?maxAge=2592000" alt="Homebrew TAP" /></a>
-<a href="https://packages.debian.org/search?keywords=imgp&searchon=names&exact=1"><img src="https://img.shields.io/badge/debian-9+-blue.svg?maxAge=2592000" alt="Debian Stretch+" /></a>
-<a href="https://apps.fedoraproject.org/packages/imgp"><img src="https://img.shields.io/badge/fedora-27+-blue.svg?maxAge=2592000" alt="Fedora 27+" /></a>
-<a href="https://software.opensuse.org/package/imgp"><img src="https://img.shields.io/badge/opensuse%20leap-15.0+-blue.svg?maxAge=2592000" alt="openSUSE Leap 15.0+" /></a>
-<a href="https://packages.ubuntu.com/search?keywords=imgp&searchon=names&exact=1"><img src="https://img.shields.io/badge/ubuntu-17.04+-blue.svg?maxAge=2592000" alt="Ubuntu Zesty+" /></a>
-</p>
-
-<p align="center">
-<a href="https://repology.org/metapackage/imgp"><img src="https://repology.org/badge/tiny-repos/imgp.svg" alt="Availability"></a>
+<a href="https://repology.org/project/imgp/versions"><img src="https://repology.org/badge/tiny-repos/imgp.svg" alt="Availability"></a>
 <a href="https://github.com/jarun/imgp/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-GPLv3-yellow.svg?maxAge=2592000" alt="License" /></a>
 <a href="https://circleci.com/gh/jarun/workflows/imgp"><img src="https://img.shields.io/circleci/project/github/jarun/imgp.svg" alt="Build Status" /></a>
 </p>
@@ -103,16 +94,20 @@ pillow can be replaced by [pillow-simd](https://github.com/uploadcare/pillow-sim
 
 #### From a package manager
 
-- [AUR](https://aur.archlinux.org/packages/imgp/) (`yay -S imgp`)
-- [Debian](https://packages.debian.org/search?keywords=imgp&searchon=names&exact=1) (`apt-get install imgp`)
-- [Fedora](https://apps.fedoraproject.org/packages/imgp) (`dnf install imgp`)
-- [macOS/Homebrew *tap*](https://github.com/jarun/homebrew-imgp) (`brew install jarun/imgp/imgp`)
-- [openSUSE](https://software.opensuse.org/package/imgp) (`zypper in imgp`)
-- [Raspbian Testing](https://archive.raspbian.org/raspbian/pool/main/i/imgp/) (`apt-get install imgp`)
-- [Slackware](http://slackbuilds.org/repository/14.2/graphics/imgp/) (`slackpkg install imgp`)
-- [Source Mage](http://codex.sourcemage.org/test/graphics/imgp/) (`cast imgp`)
-- [Ubuntu](http://packages.ubuntu.com/search?keywords=imgp&searchon=names&exact=1) (`apt-get install imgp`)
-- [Void Linux](https://github.com/void-linux/void-packages/tree/master/srcpkgs/imgp) (`xbps-install -S imgp`)
+Install `imgp` from your package manager. If the version available is dated try an alternative installation method.
+
+<details><summary>Packaging status (expand)</summary>
+<p>
+<br>
+<a href="https://repology.org/project/imgp/versions"><img src="https://repology.org/badge/vertical-allrepos/imgp.svg" alt="Packaging status"></a>
+</p>
+Unlisted packagers:
+<p>
+<br>
+● <a href="https://github.com/jarun/homebrew-imgp">Homebrew TAP</a> (<code>brew install jarun/imgp/imgp</code>)<br>
+● <a href="http://codex.sourcemage.org/test/graphics/imgp/">Source Mage</a> (<code>cast imgp</code>)<br>
+</p>
+</details>
 
 #### Release packages
 
