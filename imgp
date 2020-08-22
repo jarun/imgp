@@ -462,7 +462,7 @@ Webpage: https://github.com/jarun/imgp
 
     # Help
     def print_help(self, file=None):
-        super(ExtendedArgumentParser, self).print_help(file)
+        super().print_help(file)
         self.print_extended_help(file)
 
 
