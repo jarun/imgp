@@ -1,7 +1,7 @@
 name: imgp
 maintainer: Arun Prakash Jana <engineerarun@gmail.com>
 license: GPLv3
-summary: Multi-core batch image resizer and rotator.
+summary: High-performance cli batch image resizer and rotator.
 homepage: https://github.com/jarun/imgp
 commands:
   install:
@@ -32,15 +32,24 @@ packages:
     commands:
       pre:
         - yum install epel-release
-#  centos8.0:
-#    builddeps:
-#      - make
-#    deps:
-#      - python-pillow
-#      - python
-#    commands:
-#      pre:
-#        - yum install epel-release
+  centos7.7:
+    builddeps:
+      - make
+    deps:
+      - python-pillow
+      - python
+    commands:
+      pre:
+        - yum install epel-release
+  centos8.0:
+    builddeps:
+      - make
+    deps:
+      - python3-pillow
+      - python3
+    commands:
+      precompile:
+        - dnf install python3
   debian9:
     builddeps:
       - make
@@ -53,19 +62,31 @@ packages:
     deps:
       - python3-pillow
       - python3
-  fedora30:
-    builddeps:
-      - make
-    deps:
-      - python3-pillow
-      - python3
   fedora31:
     builddeps:
       - make
     deps:
       - python3-pillow
       - python3
-  opensuse42.3:
+  fedora32:
+    builddeps:
+      - make
+    deps:
+      - python3-pillow
+      - python3
+  opensuse15.1:
+    builddeps:
+      - make
+    deps:
+      - python3-Pillow
+      - python3
+  opensuse15.2:
+    builddeps:
+      - make
+    deps:
+      - python3-Pillow
+      - python3
+  opensuse.tumbleweed:
     builddeps:
       - make
     deps:
@@ -78,6 +99,12 @@ packages:
       - python3-pillow
       - python3
   ubuntu18.04:
+    builddeps:
+      - make
+    deps:
+      - python3-pillow
+      - python3
+  ubuntu20.04:
     builddeps:
       - make
     deps:
