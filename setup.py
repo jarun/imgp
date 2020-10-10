@@ -34,7 +34,7 @@ setup(
     url='https://github.com/jarun/imgp',
     license='GPLv3',
     license_file='LICENSE',
-    python_requires='>=3.5',  # requires pip>=9.0.0
+    python_requires='>=3.6',  # requires pip>=9.0.0
     platforms=['any'],
     py_modules=['imgp'],
     install_requires=requirements,
@@ -56,10 +56,10 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3 :: Only',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
         'Topic :: Utilities'
     ]
 )
