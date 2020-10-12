@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-<a href="https://asciinema.org/a/88448"><img src="https://asciinema.org/a/88448.png" alt="imgp_asciicast" width="734"/></a>
+<a href="https://asciinema.org/a/88448"><img src="https://asciinema.org/a/88448.svg" alt="imgp_asciicast" width="734"/></a>
 </p>
 
 <p align="center"><i>Watch imgp resize a directory of images in lightning speed!</i></p>
@@ -23,7 +23,7 @@ Powered by multiprocessing, SIMD parallelism (thanks to the Pillow-SIMD library)
 *Love smart and efficient utilities? Explore [my repositories](https://github.com/jarun?tab=repositories). Buy me a cup of coffee if they help you.*
 
 <p align="center">
-<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RMLTQ76JSXJ4Q"><img src="https://img.shields.io/badge/PayPal-donate-1eb0fc.svg" alt="Donate via PayPal!" /></a>
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RMLTQ76JSXJ4Q"><img src="https://img.shields.io/badge/donate-@PayPal-1eb0fc.svg" alt="Donate via PayPal!" /></a>
 </p>
 
 ### Table of Contents
