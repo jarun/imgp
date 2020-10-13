@@ -11,10 +11,9 @@ local -a args
 args=(
     '(-a --adapt)'{-a,--adapt}'[adapt to resolution by orientation]'
     '(-c --convert)'{-c,--convert}'[convert PNG to JPG format]'
-    '(-d --dot)'{-d,--dot}'[include hidden files (on Linux)]'
     '(-e --eraseexif)'{-e,--eraseexif}'[erase exif metadata]'
     '(-f --force)'{-f,--force}'[force to exact specified resolution]'
-    '(-h --help)'{-h,--help}'[show help]'
+    '(-H --hidden)'{-H,--hidden}'[include hidden (dot) files]'
     '(-i --includeimgp)'{-i,--includeimgp}'[re-process _IMGP files]'
     '(-k --keep)'{-k,--keep}'[skip images with matching hres or vres]'
     '(-m --mute)'{-m,--mute}'[operate silently]'
@@ -28,6 +27,7 @@ args=(
     '(-s --size)'{-s,--size}'[min byte size to process an image]:bytes'
     '(-w --overwrite)'{-w,--overwrite}'[overwrite source images]'
     '(-x --res)'{-x,--res}'[output resolution]:HxV or %'
-    '(-z --debug)'{-z,--debug}'[enable debug logs]'
+    '(-d --debug)'{-z,--debug}'[enable debug logs]'
+    '(-h --help)'{-h,--help}'[show help]'
 )
 _arguments -S -s $args

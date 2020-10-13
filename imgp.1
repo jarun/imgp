@@ -64,15 +64,15 @@ Adapt to specified resolution considering the orientation of the image. Disabled
 .BI "-c, --convert"
 Convert PNG images to JPEG to save on space. The output image is saved with '.jpg' extension.
 .TP
-.BI "-d, --dot"
-Include hidden files (Linux-specific). By default hidden files are skipped on Linux.
-.TP
 .BI "-e, --eraseexif"
 Erase EXIF metadata of JPEG images. Preserved by default.
 .TP
 .BI "-f, --force"
 Force to the exact specified resolution. Disabled by default.
 .TP
+.TP
+.BI "-H, --hidden"
+Include hidden (dot) files. By default hidden files are skipped.
 .BI "-i, --includeimgp"
 Process \fI_IMGP\fR files. Risky due to potential race conditions.
 .TP
@@ -109,7 +109,7 @@ Overwrite the source images. By default an output image is saved with \fB_IMGP\f
 .B NOTE:
 If overwrite and convert options are used together, source PNG images are deleted.
 .TP
-.BI "-z, --debug"
+.BI "-d, --debug"
 Enable debugging.
 .SH EXAMPLES
 .PP

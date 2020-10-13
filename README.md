@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-<a href="https://asciinema.org/a/88448"><img src="https://asciinema.org/a/88448.svg" alt="imgp_asciicast" width="734"/></a>
+<a href="https://asciinema.org/a/88448"><img src="https://asciinema.org/a/88448.svg" alt="imgp_asciicast" width="600"/></a>
 </p>
 
 <p align="center"><i>Watch imgp resize a directory of images in lightning speed!</i></p>
@@ -144,8 +144,8 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
 #### cmdline options
 
 ```
-usage: imgp [-h] [-x res] [-o deg] [-a] [-c] [-d] [-e] [-f] [-i] [-k] [-m]
-            [-n] [--nn] [-p] [--pr] [-q N] [-r] [-s byte] [-w] [-z]
+usage: imgp [-h] [-x res] [-o deg] [-a] [-c] [-e] [-f] [-H] [-i] [-k]
+            [-m] [-n] [--nn] [-p] [--pr] [-q N] [-r] [-s byte] [-w] [-d]
             [PATH [PATH ...]]
 
 Resize, rotate JPEG and PNG images.
@@ -159,9 +159,9 @@ optional arguments:
   -o deg, --rotate deg  rotate clockwise by angle (in degrees)
   -a, --adapt           adapt to resolution by orientation [default: off]
   -c, --convert         convert PNG to JPG format [default: off]
-  -d, --dot             include hidden files (on Linux) [default: off]
   -e, --eraseexif       erase exif metadata [default: off]
   -f, --force           force to exact specified resolution [default: off]
+  -H, --hidden          include hidden (dot) files [default: off]
   -i, --includeimgp     re-process _IMGP files. * RISKY: refer to docs
   -k, --keep            skip (honors -c or --pr) images matching specified
                         hres or vres or --res=100 [default: off]
@@ -176,7 +176,7 @@ optional arguments:
                         symbolic links are ignored
   -s byte, --size byte  minimum size to process an image [default: 1024]
   -w, --overwrite       overwrite source images [default: off]
-  -z, --debug           enable debug logs [default: off]
+  -d, --debug           enable debug logs [default: off]
 ```
 
 #### Operational notes

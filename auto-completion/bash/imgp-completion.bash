@@ -13,10 +13,9 @@ _imgp () {
     opts=(
         -a --adapt
         -c --convert
-        -d --dot
         -e --eraseexif
         -f --force
-        -h --help
+        -H --hidden
         -i --includeimgp
         -k --keep
         -m --mute
@@ -30,7 +29,8 @@ _imgp () {
         -s --size
         -w --overwrite
         -x --res
-        -z --debug
+        -d --debug
+        -h --help
     )
     opts_with_arg=(
         -o --rotate

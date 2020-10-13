@@ -6,10 +6,9 @@
 #
 complete -c imgp -s a  -l adapt       --description 'adapt to resolution by orientation'
 complete -c imgp -s c  -l convert     --description 'convert PNG to JPG format'
-complete -c imgp -s d  -l dot         --description 'include hidden files (on Linux)'
 complete -c imgp -s e  -l eraseexif   --description 'erase exif metadata'
 complete -c imgp -s f  -l force       --description 'force to exact specified resolution'
-complete -c imgp -s h  -l help        --description 'show help'
+complete -c imgp -s H  -l hidden      --description 'include hidden (dot) files'
 complete -c imgp -s i  -l includeimgp --description 're-process _IMGP files'
 complete -c imgp -s k  -l keep        --description 'skip images with matching hres or vres'
 complete -c imgp -s m  -l mute        --description 'operate silently'
@@ -23,4 +22,5 @@ complete -c imgp -s r  -l recurse     --description 'process directories recursi
 complete -c imgp -s s  -l size     -r --description 'min byte size to process an image'
 complete -c imgp -s w  -l overwrite   --description 'overwrite source images'
 complete -c imgp -s x  -l res      -r --description 'output resolution in HxV or %'
-complete -c imgp -s z  -l debug       --description 'enable debug logs'
+complete -c imgp -s d  -l debug       --description 'enable debug logs'
+complete -c imgp -s h  -l help        --description 'show help'

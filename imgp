@@ -32,7 +32,7 @@ scale = None  # specified scale in percentage
 rotate = None  # specified rotation in degree
 adapt = False  # use adaptive resolution
 convert = False  # convert PNG to JPG
-dot = False  # process hidden files starting with .
+hidden = False  # process hidden files
 eraseexif = False  # erase EXIF metadata
 progressive = False  # save as a progressive image
 force = False  # forced to exact specified resolution
@@ -101,7 +101,7 @@ def traverse_dir(path):
     try:
         for entry in os.scandir(path):
             # Add check for hidden here
-            if not dot and entry.name.startswith('.'):
+            if not hidden and entry.name.startswith('.'):
                 continue
 
             if entry.is_dir(follow_symlinks=False):
@@ -490,12 +490,12 @@ def parse_args(args=None, namespace=None):
            help='adapt to resolution by orientation [default: off]')
     addarg('-c', '--convert', action='store_true',
            help='convert PNG to JPG format [default: off]')
-    addarg('-d', '--dot', action='store_true',
-           help='include hidden files (on Linux) [default: off]')
     addarg('-e', '--eraseexif', action='store_true',
            help='erase exif metadata [default: off]')
     addarg('-f', '--force', action='store_true',
            help='force to exact specified resolution [default: off]')
+    addarg('-H', '--hidden', action='store_true',
+           help='include hidden (dot) files [default: off]')
     addarg('-i', '--includeimgp', action='store_true',
            help='re-process _IMGP files. * RISKY: refer to docs')
     addarg('-k', '--keep', action='store_true',
@@ -520,7 +520,7 @@ def parse_args(args=None, namespace=None):
            help='minimum size to process an image [default: 1024]')
     addarg('-w', '--overwrite', action='store_true',
            help='overwrite source images [default: off]')
-    addarg('-z', '--debug', action='store_true',
+    addarg('-d', '--debug', action='store_true',
            help='enable debug logs [default: off]')
     addarg('keywords', nargs='*', metavar='PATH',
            help='source file or dir [default: current dir]')
@@ -534,7 +534,7 @@ def parse_args(args=None, namespace=None):
 
 
 def main():
-    global HRES, VRES, scale, rotate, adapt, convert, dot, eraseexif, force, \
+    global HRES, VRES, scale, rotate, adapt, convert, hidden, eraseexif, force, \
            includeimgp, keep, enlarge, optimal, progressive, mute, recurse, size, \
            qual, overwrite, debug, no_res_opt, pool, init_time, count, png_ip
 
@@ -581,7 +581,7 @@ def main():
 
     adapt = args.adapt
     convert = args.convert
-    dot = args.dot
+    hidden = args.hidden
     eraseexif = args.eraseexif
     force = args.force
     includeimgp = args.includeimgp
