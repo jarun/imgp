@@ -278,7 +278,7 @@ def resize_image(src):
         if convert and _format != 'PNG':
             return
 
-    if keep and (hres <= khres or vres <= kvres):
+    elif keep and (hres <= khres or vres <= kvres):
         return
 
     elif scale:
