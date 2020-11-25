@@ -164,7 +164,10 @@ optional arguments:
   -H, --hidden          include hidden (dot) files [default: off]
   -i, --includeimgp     re-process _IMGP files. * RISKY: refer to docs
   -k, --keep            skip (honors -c or --pr) images matching specified
-                        hres or vres or --res=100 [default: off]
+                        hres or vres or --res=100 or
+                        -k res: skip res matching that is less than or equal to hres/vres or
+                        -k hresxvres: skip hres/vres matching that are less than or equal hres and vres
+                        [default: off]
   -m, --mute            operate silently [default: informative]
   -n, --enlarge         enlarge smaller images [default: off]
   --nn                  use nearest neighbour interpolation for PNG images

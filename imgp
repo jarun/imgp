@@ -38,6 +38,8 @@ progressive = False  # save as a progressive image
 force = False  # forced to exact specified resolution
 includeimgp = False  # process _IMGP files
 keep = False  # ignore images with matching hres or vres
+khres = 0  # part of keep parameter to ignore images with matching less than or equal to hres
+kvres = 0  # part of keep parameter to ignore images with matching less than or equal to vres
 enlarge = False  # enlarge images with smaller hres or vres
 optimal = False  # apply PIL library optimization when saving
 mute = False  # suppress additional information
@@ -275,6 +277,10 @@ def resize_image(src):
 
         if convert and _format != 'PNG':
             return
+
+    if keep and (hres <= khres or vres <= kvres):
+        return
+
     elif scale:
         if scale == 100:
             _hres = hres
@@ -498,9 +504,13 @@ def parse_args(args=None, namespace=None):
            help='include hidden (dot) files [default: off]')
     addarg('-i', '--includeimgp', action='store_true',
            help='re-process _IMGP files. * RISKY: refer to docs')
-    addarg('-k', '--keep', action='store_true',
+    addarg('-k', '--keep', nargs='?', metavar='keep', default=False,
            help='skip (honors -c or --pr) images matching specified \
-                 hres or vres or --res=100 [default: off]')
+                 hres or vres or --res=100, \
+                -k res: skip res matching that is less than or equal hres/vres, \
+                -k hresxvres: skip hres/vres matching that are less than or equal hres/vres \
+                [default: off]'
+           )
     addarg('-m', '--mute', action='store_true',
            help='operate silently [default: informative]')
     addarg('-n', '--enlarge', action='store_true',
@@ -536,7 +546,7 @@ def parse_args(args=None, namespace=None):
 def main():
     global HRES, VRES, scale, rotate, adapt, convert, hidden, eraseexif, force, \
            includeimgp, keep, enlarge, optimal, progressive, mute, recurse, size, \
-           qual, overwrite, debug, no_res_opt, pool, init_time, count, png_ip
+           qual, overwrite, debug, no_res_opt, pool, init_time, count, png_ip, khres, kvres
 
     args = parse_args()
 
@@ -585,7 +595,9 @@ def main():
     eraseexif = args.eraseexif
     force = args.force
     includeimgp = args.includeimgp
-    keep = args.keep
+    if args.keep:
+        keep = True
+        khres, kvres = getres(args.keep) if 'x' in args.keep else getres('{}x{}'.format(args.keep, args.keep))
     enlarge = args.enlarge
     optimal = args.optimize
     progressive = args.pr
