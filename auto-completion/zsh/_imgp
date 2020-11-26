@@ -17,6 +17,7 @@ args=(
     '(-i --includeimgp)'{-i,--includeimgp}'[re-process _IMGP files]'
     '(-k --keep)'{-k,--keep}'[skip images with matching hres or vres]'
     '(-m --mute)'{-m,--mute}'[operate silently]'
+    '(-M --minres)'{-M,--minres}'[minimum resolution]:HxV or %'
     '(-n --enlarge)'{-n,--enlarge}'[enlarge smaller images]'
     '(-N --nearest)'{-N,--nearest}'[use nearest neighbour interpolation for PNG]'
     '(-o --rotate)'{-o,--rotate}'[rotate clockwise by angle]:degree'

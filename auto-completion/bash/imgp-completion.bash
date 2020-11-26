@@ -19,6 +19,7 @@ _imgp () {
         -i --includeimgp
         -k --keep
         -m --mute
+        -M --minres
         -n --enlarge
         -N --nearest
         -o --rotate
@@ -33,6 +34,7 @@ _imgp () {
         -h --help
     )
     opts_with_arg=(
+        -M --minres
         -o --rotate
         -q --quality
         -s --size

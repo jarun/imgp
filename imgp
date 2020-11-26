@@ -608,8 +608,8 @@ def main():
                     print('--minres should be > 0%')
                     return
 
-                minH = (HRES * minscale) / 100;
-                minV = (VRES * minscale) / 100;
+                minH = (HRES * minscale) / 100
+                minV = (VRES * minscale) / 100
             except Exception:
                 print('invalid value for --minres')
                 return
