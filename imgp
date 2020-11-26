@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import argparse
+import argparse, textwrap
 from multiprocessing import Pool, Lock
 import os
 import sys
@@ -275,7 +275,8 @@ def resize_image(src):
         if debug:
             lock_print('resize_image: hres < minH or vres < minV')
         return
-    elif keep and (HRES == hres or VRES == vres or scale == 100):
+
+    if keep and (HRES == hres or VRES == vres or scale == 100):
         if progressive and _format not in ['JPEG', 'MPO']:
             return
 
@@ -486,7 +487,8 @@ def parse_args(args=None, namespace=None):
         Namespace with parsed arguments / options.
     '''
 
-    argparser = ExtendedArgumentParser(description='Resize, rotate JPEG and PNG images.')
+    argparser = ExtendedArgumentParser(description='Resize, rotate JPEG and PNG images.',
+                                       formatter_class=argparse.RawTextHelpFormatter)
     addarg = argparser.add_argument
     addarg('-x', '--res', nargs=1, metavar='res',
            help='output resolution in HxV or percentage')
@@ -505,8 +507,9 @@ def parse_args(args=None, namespace=None):
     addarg('-i', '--includeimgp', action='store_true',
            help='re-process _IMGP files. * RISKY: refer to docs')
     addarg('-k', '--keep', action='store_true',
-           help='skip (honors -c or --pr) images matching specified \
-                 H or V or --res=100 [default: off]')
+           help=textwrap.dedent('''\
+                skip (honors -c or --pr) images matching specified
+                H or V or --res=100 [default: off]'''))
     addarg('-m', '--mute', action='store_true',
            help='operate silently [default: informative]')
     addarg('-M', '--minres', nargs=1, metavar='res',
