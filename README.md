@@ -144,8 +144,8 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
 #### cmdline options
 
 ```
-usage: imgp [-h] [-x res] [-o deg] [-a] [-c] [-e] [-f] [-H] [-i] [-k]
-            [-m] [-n] [--nn] [-p] [--pr] [-q N] [-r] [-s byte] [-w] [-d]
+usage: imgp [-h] [-x res] [-o deg] [-a] [-c] [-e] [-f] [-H] [-i] [-k] [-m] [-n] [-N] [-O] [-P] [-q N] [-r]
+            [-s byte] [-w] [-d]
             [PATH [PATH ...]]
 
 Resize, rotate JPEG and PNG images.
@@ -163,17 +163,15 @@ optional arguments:
   -f, --force           force to exact specified resolution [default: off]
   -H, --hidden          include hidden (dot) files [default: off]
   -i, --includeimgp     re-process _IMGP files. * RISKY: refer to docs
-  -k, --keep            skip (honors -c or --pr) images matching specified
-                        hres or vres or --res=100 [default: off]
+  -k, --keep            skip (honors -c or --pr) images matching specified hres or vres or --res=100 [default:
+                        off]
   -m, --mute            operate silently [default: informative]
   -n, --enlarge         enlarge smaller images [default: off]
-  --nn                  use nearest neighbour interpolation for PNG images
-                        [default: antialias]
-  -p, --optimize        optimize the output images [default: off]
-  --pr, --progressive   save JPEG images as progressive [default: off]
+  -N, --nearest         use nearest neighbour interpolation for PNG images [default: antialias]
+  -O, --optimize        optimize the output images [default: off]
+  -P, --progressive     save JPEG images as progressive [default: off]
   -q N, --quality N     quality factor (N=1-95, JPEG only) [default: 75]
-  -r, --recurse         process directories recursively [default: off]
-                        symbolic links are ignored
+  -r, --recurse         process directories recursively [default: off] symbolic links are ignored
   -s byte, --size byte  minimum size to process an image [default: 1024]
   -w, --overwrite       overwrite source images [default: off]
   -d, --debug           enable debug logs [default: off]

@@ -20,10 +20,10 @@ _imgp () {
         -k --keep
         -m --mute
         -n --enlarge
-        --nn
+        -N --nearest
         -o --rotate
-        -p --optimize
-        --pr --progressive
+        -O --optimize
+        -P --progressive
         -q --quality
         -r --recurse
         -s --size

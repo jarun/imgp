@@ -505,11 +505,11 @@ def parse_args(args=None, namespace=None):
            help='operate silently [default: informative]')
     addarg('-n', '--enlarge', action='store_true',
            help='enlarge smaller images [default: off]')
-    addarg('--nn', action='store_true',
+    addarg('-N', '--nearest', action='store_true',
            help='use nearest neighbour interpolation for PNG images [default: antialias]')
-    addarg('-p', '--optimize', action='store_true',
+    addarg('-O', '--optimize', action='store_true',
            help='optimize the output images [default: off]')
-    addarg('--pr', '--progressive', action='store_true',
+    addarg('-P', '--progressive', action='store_true',
            help='save JPEG images as progressive [default: off]')
     addarg('-q', '--quality', type=int, metavar='N', choices=range(1, 96),
            help='quality factor (N=1-95, JPEG only) [default: 75]')
@@ -572,7 +572,7 @@ def main():
         if not rotate:
             print('cannot rotate by 0 degree')
             return
-    elif args.convert or args.pr or args.optimize:
+    elif args.convert or args.progressive or args.optimize:
         no_res_opt = True
         scale = 100
     else:
@@ -588,7 +588,7 @@ def main():
     keep = args.keep
     enlarge = args.enlarge
     optimal = args.optimize
-    progressive = args.pr
+    progressive = args.progressive
     mute = args.mute
     recurse = args.recurse
     if args.size is not None:
@@ -597,7 +597,7 @@ def main():
         qual = args.quality
     overwrite = args.overwrite
     debug = args.debug
-    if args.nn:
+    if args.nearest:
         png_ip = PIL.Image.NEAREST
 
     pool = Pool()
