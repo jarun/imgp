@@ -38,6 +38,8 @@ progressive = False  # save as a progressive image
 force = False  # forced to exact specified resolution
 includeimgp = False  # process _IMGP files
 keep = False  # ignore images with matching hres or vres
+minH = 0  # min horizontal resolution to convert
+minV = 0  # min vertical resolution to convert
 enlarge = False  # enlarge images with smaller hres or vres
 optimal = False  # apply PIL library optimization when saving
 mute = False  # suppress additional information
@@ -208,7 +210,7 @@ def rotate_image(src):
 def resize_image(src):
     '''Resize a source image'''
 
-    global HRES, VRES, lock
+    global HRES, VRES, minH, minV, lock
 
     converted = False
     _progressive = progressive
@@ -269,7 +271,11 @@ def resize_image(src):
 
     antialias = png_ip if _format == 'PNG' else PIL.Image.ANTIALIAS
 
-    if keep and (HRES == hres or VRES == vres or scale == 100):
+    if hres < minH or vres < minV:
+        if debug:
+            lock_print('resize_image: hres < minH or vres < minV')
+        return
+    elif keep and (HRES == hres or VRES == vres or scale == 100):
         if progressive and _format not in ['JPEG', 'MPO']:
             return
 
@@ -500,13 +506,15 @@ def parse_args(args=None, namespace=None):
            help='re-process _IMGP files. * RISKY: refer to docs')
     addarg('-k', '--keep', action='store_true',
            help='skip (honors -c or --pr) images matching specified \
-                 hres or vres or --res=100 [default: off]')
+                 H or V or --res=100 [default: off]')
     addarg('-m', '--mute', action='store_true',
            help='operate silently [default: informative]')
+    addarg('-M', '--minres', nargs=1, metavar='res',
+           help='min resolution in HxV or percentage of --res to resize')
     addarg('-n', '--enlarge', action='store_true',
            help='enlarge smaller images [default: off]')
     addarg('-N', '--nearest', action='store_true',
-           help='use nearest neighbour interpolation for PNG images [default: antialias]')
+           help='use nearest neighbour interpolation for PNG [default: antialias]')
     addarg('-O', '--optimize', action='store_true',
            help='optimize the output images [default: off]')
     addarg('-P', '--progressive', action='store_true',
@@ -514,8 +522,7 @@ def parse_args(args=None, namespace=None):
     addarg('-q', '--quality', type=int, metavar='N', choices=range(1, 96),
            help='quality factor (N=1-95, JPEG only) [default: 75]')
     addarg('-r', '--recurse', action='store_true',
-           help='process directories recursively [default: off] \
-                 symbolic links are ignored')
+           help='process non-symbolic dirs recursively [default: off]')
     addarg('-s', '--size', type=int, metavar='byte',
            help='minimum size to process an image [default: 1024]')
     addarg('-w', '--overwrite', action='store_true',
@@ -536,7 +543,7 @@ def parse_args(args=None, namespace=None):
 def main():
     global HRES, VRES, scale, rotate, adapt, convert, hidden, eraseexif, force, \
            includeimgp, keep, enlarge, optimal, progressive, mute, recurse, size, \
-           qual, overwrite, debug, no_res_opt, pool, init_time, count, png_ip
+           qual, overwrite, debug, no_res_opt, pool, init_time, count, png_ip, minH, minV
 
     args = parse_args()
 
@@ -548,7 +555,7 @@ def main():
         if 'x' in args.res[0]:
             HRES, VRES = getres(args.res[0])
             if HRES == 0 and VRES == 0:
-                print('-ve values not allowed, \
+                print('-ve values not allowed in --res, \
                        hres and vres cannot be 0 together')
                 return
         else:
@@ -578,6 +585,34 @@ def main():
     else:
         print('missing image transformation')
         return
+
+    if args.minres is not None:
+        if 'x' in args.minres[0]:
+            minH, minV = getres(args.minres[0])
+            if minH == 0 or minV == 0:
+                print('-ve values not allowed in --minres, \
+                       H or V cannot be 0')
+                return
+        else:
+            if scale is not None:
+                print('both --res and --minres cannot be in percentage')
+                return
+
+            try:
+                if args.minres[0].endswith('%'):
+                    minscale = int(args.minres[0][:-1])
+                else:
+                    minscale = int(args.minres[0])
+
+                if minscale <= 0:
+                    print('--minres should be > 0%')
+                    return
+
+                minH = (HRES * minscale) / 100;
+                minV = (VRES * minscale) / 100;
+            except Exception:
+                print('invalid value for --minres')
+                return
 
     adapt = args.adapt
     convert = args.convert
