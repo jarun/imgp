@@ -62,6 +62,23 @@ count = 0  # successful conversion count
 count_lowres = 0  # no-op count due to low resolution
 
 
+def try_int(value: str) -> int:
+    """
+    :param value: str
+    :return: integer of value or 0 on exception
+    >>> try_int('123')
+    123
+    >>> try_int('ab30')
+    0
+    >>> try_int('abc')
+    0
+    """
+    try:
+        return int(value)
+    except ValueError:
+        return 0
+
+
 def getres(res):
     '''Retrieve hres and vres as a tuple
 
@@ -70,12 +87,8 @@ def getres(res):
 
     hxv = res.split('x')
     if len(hxv) != 2:
-        return (0, 0)
-
-    try:
-        return(int(hxv[0]), int(hxv[1]))
-    except Exception:
-        return (0, 0)
+        return 0, 0
+    return try_int(hxv[0]), try_int(hxv[1])
 
 
 def lock_print(msg):
@@ -271,16 +284,12 @@ def resize_image(src):
 
     antialias = png_ip if _format == 'PNG' else PIL.Image.ANTIALIAS
 
-    if keep and (HRES == hres or VRES == vres or scale == 100):
+    if keep and (scale == 100 or hres <= khres or vres <= kvres):
         if progressive and _format not in ['JPEG', 'MPO']:
             return
 
         if convert and _format != 'PNG':
             return
-
-    elif keep and (hres <= khres or vres <= kvres):
-        return
-
     elif scale:
         if scale == 100:
             _hres = hres
@@ -505,10 +514,9 @@ def parse_args(args=None, namespace=None):
     addarg('-i', '--includeimgp', action='store_true',
            help='re-process _IMGP files. * RISKY: refer to docs')
     addarg('-k', '--keep', nargs='?', metavar='keep', default=False,
-           help='skip (honors -c or --pr) images matching specified \
-                 hres or vres or --res=100, \
-                -k res: skip res matching that is less than or equal hres/vres, \
-                -k hresxvres: skip hres/vres matching that are less than or equal hres/vres \
+           help='-k: skip (honors -c or --pr) images matching specified hres or vres or --res=100, \
+                 -k res: skip images that are less than or equal to hres and vres, \
+                -k hresxvres: skip images that are less than or equal to hres and vres, \
                 [default: off]'
            )
     addarg('-m', '--mute', action='store_true',
@@ -597,7 +605,12 @@ def main():
     includeimgp = args.includeimgp
     if args.keep:
         keep = True
-        khres, kvres = getres(args.keep) if 'x' in args.keep else getres('{}x{}'.format(args.keep, args.keep))
+        if 'x' in args.keep:
+            khres, kvres = getres(args.keep)
+        else:
+            khres = kvres = try_int(args.keep)
+    else:
+        khres, kvres = HRES, VRES
     enlarge = args.enlarge
     optimal = args.optimize
     progressive = args.pr

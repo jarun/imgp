@@ -163,10 +163,10 @@ optional arguments:
   -f, --force           force to exact specified resolution [default: off]
   -H, --hidden          include hidden (dot) files [default: off]
   -i, --includeimgp     re-process _IMGP files. * RISKY: refer to docs
-  -k, --keep            skip (honors -c or --pr) images matching specified
-                        hres or vres or --res=100 or
-                        -k res: skip res matching that is less than or equal to hres/vres or
-                        -k hresxvres: skip hres/vres matching that are less than or equal hres and vres
+  -k, --keep [res|hresxvres]           
+                        -k: skip (honors -c or --pr) images matching specified hres or vres or --res=100
+                        -k res: skip images that are less than or equal to hres and vres
+                        -k hresxvres: skip images that are less than or equal to hres and vres
                         [default: off]
   -m, --mute            operate silently [default: informative]
   -n, --enlarge         enlarge smaller images [default: off]
