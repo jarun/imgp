@@ -7,13 +7,6 @@ commands:
   install:
     - make PREFIX="/usr" install DESTDIR="${BP_DESTDIR}"
 packages:
-  archlinux:
-    builddeps:
-      - make
-    deps:
-      - python-pillow
-      - python
-    container: "archlinux/base"
   centos7.5:
     builddeps:
       - make

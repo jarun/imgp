@@ -1,3 +1,14 @@
+imgp v2.8
+2020-12-01
+
+- option `-M` to specify minimum resolution of iamges to process
+- option `-H` (process hidden files) replaces `-d`
+- option `-d` (debug mode) replaces `-z`
+- option `-N` and `--nearest` (nearest neighbour for PNG) replace `--nn`
+- option `-P` (save JPEG as progressive) replaces `--pr`
+
+-------------------------------------------------------------------------------
+
 imgp v2.7
 2019-12-21
 
