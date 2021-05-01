@@ -2,6 +2,7 @@
 disable=
   broad-except,
   chained-comparison,
+  consider-using-with,
   global-statement,
   inconsistent-return-statements,
   invalid-name,
