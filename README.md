@@ -20,8 +20,6 @@ Powered by multiprocessing, SIMD parallelism (thanks to the Pillow-SIMD library)
 
 `imgp` intends to be a stronger replacement of the Nautilus Image Converter extension, not tied to any file manager and way faster. On desktop environments (like Xfce or LxQt) which do not integrate Nautilus, `imgp` will save your day. File manager [nnn](https://github.com/jarun/nnn) provides a script to batch resize images with `imgp`.
 
-*Love smart and efficient utilities? Explore [my repositories](https://github.com/jarun?tab=repositories). Buy me a cup of coffee if they help you.*
-
 <p align="center">
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RMLTQ76JSXJ4Q"><img src="https://img.shields.io/badge/donate-@PayPal-1eb0fc.svg" alt="Donate via PayPal!" /></a>
 </p>
