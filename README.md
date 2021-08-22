@@ -238,7 +238,7 @@ optional arguments:
 
        $ imgp -wrackx 1366x1000 -s 51200
 
-7. Generate thumbnail of the last modified file in the current dir:
+7. Generate a 64px adapative thumbnail of the last modified file in the current dir:
 
        #!/usr/bin/env sh
 
