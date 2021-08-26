@@ -25,6 +25,9 @@ import sys
 import time
 import PIL
 from PIL import Image, ImageFile
+import cv2
+import numpy as np
+import math
 
 # Globals
 HRES = 0  # specified horizontal resolution
@@ -55,6 +58,7 @@ png_ip = PIL.Image.ANTIALIAS  # default interpolation for PNG
 fill_color = '#ffffff'  # BG color to strip alpha channel
 init_time = time.time()  # profile the total time taken
 _VERSION_ = '2.8'  # current program version
+reseam= None 
 
 # Globals for multiprocessing
 pool = None
@@ -119,6 +123,7 @@ def traverse_dir(path):
                     pool.apply_async(rotate_image, args=(entry.path,), callback=cb)
                 else:
                     pool.apply_async(resize_image, args=(entry.path,), callback=cb)
+                    pool.apply_async(resize_seam, args=(entry.path,), callback=cb)
     except OSError as e:
         with lock:
             print(e)
@@ -452,6 +457,362 @@ def resize_image(src):
             print(e)
 
 
+def resize_seam(src):
+
+    image = cv2.imread(src)
+    saliency = cv2.saliency.StaticSaliencyFineGrained_create()
+    (success, saliencyMap) = saliency.computeSaliency(image)
+    saliencyMap = (saliencyMap*255).astype(np.float32)
+    '''cv2.imshow('img', image)
+    cv2.imshow('saliencymap', saliencyMap)
+    cv2.waitKey(0)'''
+
+    G = image.copy()
+    gpA = [G]
+    for i in range(3):
+        G = cv2.pyrDown(G)
+        gpA.append(G)
+    G = saliencyMap.copy()
+    gpB = [G]
+    for i in range(3):
+        G = cv2.pyrDown(G)
+        gpB.append(G)
+
+    def numberseams(numfinal):
+        numseams = []
+        nfinal = numfinal
+        n = [nfinal]
+        nout = [nfinal]
+        for i in range(len(gpA)):
+            if i == 0:
+                continue
+            ni = 0
+            sum = 0
+            for j in range(1, len(n)):
+                sum = sum+n[j]*(2**(len(gpA)-(j+1)))
+            ni = math.floor((nfinal-sum)/(2**(len(gpA)-(i+1))))
+            n.append(ni)
+            nout.append(ni)
+        return nout
+
+    def showim(name, img, den):
+        print(0)
+        cv2_imshow(name, img/den)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+
+    def grad_x(img):
+        a = np.copy(img)
+
+        for r in range(img.shape[1]):
+            for c in range(1, img.shape[0]):
+                a[c, r] -= img[c-1, r]
+        #return np.abs(a[:,:,0])+np.abs(+a[:,:,1])+np.abs(a[:,:,2])
+        return np.abs(a)
+
+    def saliency(img):
+        saliency = cv2.saliency.StaticSaliencyFineGrained_create()
+        (success, saliencyMap) = saliency.computeSaliency(img)
+        saliencyMap = (saliencyMap*255).astype(np.float32)
+        return saliencyMap
+
+    def grad_y(img):
+        a = np.copy(img)
+        for r in range(1, img.shape[1]):
+            for c in range(img.shape[0]):
+
+                a[c, r] -= img[c, r-1]
+
+        return np.abs(a)
+
+    def grad(img):
+        return grad_x(img)+grad_y(img)
+
+    def min_vertical_pixels(img, g):
+        dp = np.zeros((img.shape[0], img.shape[1]))
+        dp[0, :] = g[0, :]
+        for r in range(1, dp.shape[0]):
+
+            for c in range(dp.shape[1]):
+                m = float('inf')
+
+                m = min(g[r, c]+dp[r-1, c], m)
+
+                if(c-1 >= 0):
+                    m = min(g[r, c]+dp[r-1, c-1], m)
+
+                if(c+1 < dp.shape[1]):
+                    m = min(g[r, c]+dp[r-1, c+1], m)
+                dp[r, c] = m
+
+        pixels = []
+        index = np.argmin(dp[-1, :])
+        pixels.append(index)
+        for i in reversed(range(img.shape[0]-1)):
+            m = dp[i, index]
+            temp = index
+
+            if(index-1 >= 0 and dp[i, index-1] < m):
+                temp = index-1
+                m = dp[i, index-1]
+
+            if(index+1 < img.shape[1] and dp[i, index+1] < m):
+                temp = index+1
+                m = dp[i, index+1]
+            index = temp
+            pixels.append(index)
+
+        pixels = list(reversed(pixels))
+        return pixels
+
+    def vertical_seam_rem(img, energy, obj_rem=False):
+        img_g = cv2.cvtColor(img.astype(np.float32)/255., cv2.COLOR_BGR2GRAY)
+
+        #showim('original',img,255.)
+
+        g = energy(img_g)
+        #showim('energy',g,1.)
+        if obj_rem == True:
+            for r in range(img.shape[0]):
+                for c in range(img.shape[1]):
+                    if np.array_equal(img[r, c], np.array([0, 0, 255])):
+
+                        g[r, c] = -1000
+
+        pixels = min_vertical_pixels(img_g, g)
+        image_hat = np.zeros((img.shape[0], img.shape[1]-1, img.shape[2]))
+        image = np.copy(img)
+
+        for r in range(img.shape[0]):
+
+            if(pixels[r] != 0):
+                image_hat[r, :pixels[r]] = img[r, :pixels[r]]
+
+            if(pixels[r] < image_hat.shape[1]):
+
+                image_hat[r, pixels[r]:] = img[r, pixels[r]+1:]
+
+            '''
+            c_hat=0
+            for c in range(img.shape[1]):
+                
+                if(c==pixels[r]):
+
+                    continue
+                #if(r==1):
+                #   print(c_hat,c)
+                image_hat[r,c_hat]=img[r,c]   
+                c_hat+=1
+            '''
+        #showim('final',image_hat,255.)
+
+        return image_hat, pixels
+
+    def algo(num_cols, energy):
+        imp = gpA[len(gpA)-1]
+        imk = gpA[len(gpA)-3]
+        seamp, pixels = vertical_seam_rem(imp, energy, obj_rem=False)
+        for i in reversed(range(len(gpA)-1)):
+            if i+1 != len(gpA):
+                imk = gpA[i+1]
+            seampdash = cv2.pyrUp(seamp)
+            '''cv2_imshow(seampdash)
+            cv2.waitKey(0)
+            cv2.destroyAllWindows()'''
+            gpA[i], pixels = vertical_seam_rem(seampdash, energy, obj_rem=False)
+            '''seamj=scj+seampdash
+            gpA[i]=reduce_cols(imh,num_cols,energy,obj_rem=False)'''
+            seamp = gpA[i]
+            imp = gpA[i]
+        return gpA[0]
+
+    
+    n = numberseams(50)
+
+    def fast_vertical_seam_rem(img, energy, seams, obj_rem=False):
+        img_g = cv2.cvtColor(img.astype(np.float32)/255., cv2.COLOR_BGR2GRAY)
+
+        #showim('original',img,255.)
+
+        g = energy(img_g)
+        for seam in seams:
+            for r in range(img.shape[0]):
+                c = seam[r]
+                g[r, c] = +100
+
+        #showim('energy',g,1.)
+        if obj_rem == True:
+            for r in range(img.shape[0]):
+                for c in range(img.shape[1]):
+                    if np.array_equal(img[r, c], np.array([0, 0, 255])):
+
+                        g[r, c] = -1000
+
+        pixels = min_vertical_pixels(img_g, g)
+        image_hat = np.zeros((img.shape[0], img.shape[1]-1, img.shape[2]))
+        image = np.copy(img)
+
+        for r in range(img.shape[0]):
+
+            if(pixels[r] != 0):
+                image_hat[r, :pixels[r]] = img[r, :pixels[r]]
+
+            if(pixels[r] < image_hat.shape[1]):
+
+                image_hat[r, pixels[r]:] = img[r, pixels[r]+1:]
+
+            '''
+            c_hat=0
+            for c in range(img.shape[1]):
+                
+                if(c==pixels[r]):
+
+                    continue
+                #if(r==1):
+                #   print(c_hat,c)
+                image_hat[r,c_hat]=img[r,c]   
+                c_hat+=1
+            '''
+        #showim('final',image_hat,255.)
+
+        return image_hat, pixels
+
+    def fast_reduce_cols(img, num_cols, energy, main_seams, obj_rem=False, opt=False):
+
+        image_hat = np.copy(img)
+        image = np.copy(img)
+        main_seams = []
+        seams = []
+
+        for i in range(num_cols):
+            if(not opt):
+                image_hat, pixels = fast_vertical_seam_rem(image_hat, energy, main_seams, obj_rem)
+                seams.append(pixels)
+            else:
+                image_hat, pixels, _ = fast_vertical_seam_rem(image_hat, energy, obj_rem, opt)
+                seams.append(pixels)
+
+            for j in range(len(pixels)):
+                image = cv2.circle(image, (pixels[j], j), radius=0, color=(0, 0, 255), thickness=-1)
+
+        if(not opt):
+            #showim('seams',image,255.)
+            return image_hat, np.array(seams)
+        if(opt):
+            return image_hat, _
+
+    def algotwo(num_cols, energy):
+        imp = gpA[len(gpA)-1]
+        imk = gpA[len(gpA)-3]
+        mainhelp = []
+        dot, seamp = fast_reduce_cols(imp, n[1], energy, mainhelp, obj_rem=False, opt=False)
+        #return seamp
+        ft = np.zeros((imp.shape[0], imp.shape[1]))
+        for i in range(2, 3):
+            if i+1 != len(gpA):
+                imk = gpA[i+1]
+            if seamp != []:
+                y = min(2*seamp.shape[1], image.shape[1])
+                seampdash = np.zeros((2*seamp.shape[0], y))
+            else:
+                seampdash = []
+            #print(seampdash.shape)
+            if seamp != []:
+                if (seamp.shape[0]) == 1:
+                    yt = 0
+                    for j in range(len(seamp)):
+                        seampdash[0][yt] = 2*seamp[0][j]
+                        seampdash[0][yt+1] = 2*seamp[0][j]
+                        seampdash[1][yt] = 2*seamp[0][j]+1
+                        seampdash[1][yt+1] = 2*seamp[0][j]+1
+                        yt = yt+2
+                else:
+                    yt = 0
+                    ut = 0
+                    for j in range(seamp.shape[0]-1):
+                        for k in range(seamp.shape[1]-1):
+                            seampdash[yt][ut] = 2*seamp[j][k]
+                            seampdash[yt][ut+1] = 2*seamp[j][k]
+                            seampdash[yt+1][ut] = 2*seamp[j][k]+1
+                            seampdash[yt+1][ut+1] = 2*seamp[j][k]+1
+                    yt = yt+2
+                    ut = ut+2
+
+            #print(seampdash.shape)
+            dot, seamp = fast_reduce_cols(gpA[i], n[i], energy, seampdash, obj_rem=False, opt=False)
+            #print(seamp.shape,seampdash.shape)
+            '''seamj=scj+seampdash
+            gpA[i]=reduce_cols(imh,num_cols,energy,obj_rem=False)'''
+            ry = []
+            if seamp == [] and seampdash == []:
+                ry = []
+            elif seamp == [] and seampdash != []:
+                ry = seampdash
+            elif seamp != [] and seampdash != []:
+                y = min(seamp.shape[1], image.shape[1])
+                ry = np.zeros((seamp.shape[0]+seampdash.shape[0], y))
+                ry[0:seamp.shape[0]] = seamp
+            #if seampdash!=[]:
+                ry[seamp.shape[0]:] = seampdash
+            elif seamp != [] and seampdash == []:
+                ry = seamp
+            #seamp=ry
+            seamp = ry
+            imp = gpA[i]
+        #print(seamp.shape)
+        #out=final(gpA[0],seamp,num_cols)
+        return seamp
+
+    '''def final(img,seamp,num_cols):
+    out=np.zeros((img.shape[0],img.shape[1]-num_cols,img.shape[2]))
+    t=0
+    check=0
+    for i in range(img.shape[0]):
+        for j in range(img.shape[1]):
+        for l in range(seamp.shape[0]):
+            if seamp[l][i]!=j:
+                for k in range(img.shape[2]):        
+                out[i][t][k]=img[i][j][k]
+                t=t+1
+                if t>=361:
+                t=360   
+            #else:
+                #print(seamp[l][i],j)   
+        check=0
+        t=0  
+    return out'''
+    g = algotwo(50, energy=saliency)
+
+    def final(img, seamp, num_cols):
+        out = np.zeros((img.shape[0], img.shape[1]-num_cols, img.shape[2]))
+        t = 0
+        check = 0
+        for i in range(img.shape[0]):
+            t = 0
+            for j in range(img.shape[1]):
+                a = True
+                #print(t,j)
+                for l in range(seamp.shape[0]-1):
+
+                    if i < 35 and seamp[l][i] == j:
+                        a = False
+                        break
+                if(a):
+                    for k in range(img.shape[2]):
+                        out[i][t][k] = img[i][j][k]
+                    t = t+1
+                    if t >= 361:
+                        t = 360
+                    #else:
+                    #print(seamp[l][i],j)
+                check = 0
+            t = 0
+        return out
+    out=final(gpA[0],g,50)
+    #print(g.reshape((279,-1))[0])
+    return out
+
+
 class ExtendedArgumentParser(argparse.ArgumentParser):
     '''Extend classic argument parser'''
 
@@ -535,6 +896,7 @@ def parse_args(args=None, namespace=None):
            help='enable debug logs [default: off]')
     addarg('keywords', nargs='*', metavar='PATH',
            help='source file or dir [default: current dir]')
+    
 
     # Show help and exit if no arguments
     if len(sys.argv) < 2:
@@ -546,8 +908,8 @@ def parse_args(args=None, namespace=None):
 
 def main():
     global HRES, VRES, scale, rotate, adapt, convert, hidden, eraseexif, force, \
-           includeimgp, keep, enlarge, optimal, progressive, mute, recurse, size, \
-           qual, overwrite, debug, no_res_opt, pool, init_time, count, png_ip, minH, minV
+        includeimgp, keep, enlarge, optimal, progressive, mute, recurse, size, \
+        qual, overwrite, debug, no_res_opt, pool, init_time, count, png_ip, minH, minV
 
     args = parse_args()
 
@@ -650,7 +1012,7 @@ def main():
             if rotate_image(path):
                 count += 1
         else:
-            if resize_image(path):
+            if resize_image(path) and resize_seam(path):
                 count += 1
 
     # Process current directory if PATH is unspecified
