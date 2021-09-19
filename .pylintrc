@@ -2,8 +2,10 @@
 disable=
   broad-except,
   chained-comparison,
+  consider-using-f-string,
   consider-using-with,
   global-statement,
+  global-variable-not-assigned,
   inconsistent-return-statements,
   invalid-name,
   invalid-unary-operand-type,
