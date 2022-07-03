@@ -51,7 +51,7 @@ overwrite = False  # remove source images
 debug = False  # enable debug information
 no_res_opt = False  # --res is not specified
 pad = '_IMGP'  # output file suffix when --overwrite is unused
-png_ip = PIL.Image.ANTIALIAS  # default interpolation for PNG
+png_ip = Image.Resampling.LANCZOS  # default interpolation for PNG
 fill_color = '#ffffff'  # BG color to strip alpha channel
 init_time = time.time()  # profile the total time taken
 _VERSION_ = '2.8'  # current program version
@@ -270,7 +270,7 @@ def resize_image(src):
     vres = img.size[1]
     ImageFile.MAXBLOCK = hres * vres
 
-    antialias = png_ip if _format == 'PNG' else PIL.Image.ANTIALIAS
+    antialias = png_ip if _format == 'PNG' else Image.Resampling.LANCZOS
 
     if hres < minH or vres < minV:
         if debug:
