@@ -26,6 +26,9 @@ import time
 import PIL
 from PIL import Image, ImageFile
 
+if not hasattr(PIL.Image, 'Resampling'):  # Pillow<9.0
+    PIL.Image.Resampling = PIL.Image
+
 # Globals
 HRES = 0  # specified horizontal resolution
 VRES = 0  # specified vertical resolution
