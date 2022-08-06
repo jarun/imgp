@@ -77,7 +77,7 @@ def getres(res):
         return (0, 0)
 
     try:
-        return(int(hxv[0]), int(hxv[1]))
+        return (int(hxv[0]), int(hxv[1]))
     except Exception:
         return (0, 0)
 
