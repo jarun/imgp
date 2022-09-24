@@ -190,6 +190,8 @@ def rotate_image(src):
             background = Image.new(img.mode[:-1], img.size, fill_color)
             background.paste(img, img.split()[-1])
             img = background
+        elif img.mode == "P":
+            img.convert("RGBA")
         dest = name + suffix + '.jpg'
         _format = 'JPEG'
         converted = True
@@ -434,6 +436,8 @@ def resize_image(src):
             background = Image.new(img.mode[:-1], img.size, fill_color)
             background.paste(img, img.split()[-1])
             img = background
+        elif img.mode == "P":
+            img = img.convert("RGBA")
         dest = name + suffix + '.jpg'
         _format = 'JPEG'
         converted = True
