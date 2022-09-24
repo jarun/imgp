@@ -147,11 +147,6 @@ def rotate_image(src):
                 lock_print(src + ': not JPEG/PNG/MPO. format: ' + _format)
             return
 
-        if convert and _format == 'PNG' and img.mode == 'P':
-            if debug:
-                lock_print('rotate_image: cannot convert PNG files in palette mode')
-            return
-
         try:
             if _format == 'JPEG' and not _progressive and img.info['progressive']:
                 if debug:
@@ -190,6 +185,8 @@ def rotate_image(src):
             background = Image.new(img.mode[:-1], img.size, fill_color)
             background.paste(img, img.split()[-1])
             img = background
+        elif img.mode == "P":
+            img.convert("RGBA")
         dest = name + suffix + '.jpg'
         _format = 'JPEG'
         converted = True
@@ -229,11 +226,6 @@ def resize_image(src):
         if _format not in ['JPEG', 'PNG', 'MPO']:
             if debug:
                 lock_print(src + ': not JPEG/PNG/MPO. format: ' + _format)
-            return
-
-        if convert and _format == 'PNG' and img.mode == 'P':
-            if debug:
-                lock_print('resize_image: cannot convert PNG files in palette mode')
             return
 
         # check if convert or progressive is specified without any resolution option
@@ -434,6 +426,8 @@ def resize_image(src):
             background = Image.new(img.mode[:-1], img.size, fill_color)
             background.paste(img, img.split()[-1])
             img = background
+        elif img.mode == "P":
+            img = img.convert("RGBA")
         dest = name + suffix + '.jpg'
         _format = 'JPEG'
         converted = True
