@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import re
+import os.path
 import shutil
 import sys
 
@@ -13,7 +14,8 @@ def get_dist(pkgname):
     except DistributionNotFound:
         return None
 
-shutil.copyfile('imgp', 'imgp.py')
+if os.path.isfile('imgp'):
+    shutil.copyfile('imgp', 'imgp.py')
 
 with open('imgp.py', encoding='utf-8') as f:
     version = re.search('_VERSION_ = \'([^\']+)\'', f.read()).group(1)
