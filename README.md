@@ -246,5 +246,5 @@ optional arguments:
 
 ### Developers
 
-1. Copyright © 2016-2022 [Arun Prakash Jana](https://github.com/jarun)
+1. Copyright © 2016-2023 [Arun Prakash Jana](https://github.com/jarun)
 2. [Ananya Jana](https://github.com/ananyajana)
