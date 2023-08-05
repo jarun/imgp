@@ -11,7 +11,6 @@ disable=
   invalid-unary-operand-type,
   len-as-condition,
   missing-docstring,
-  no-self-use,
   protected-access,
   too-few-public-methods,
   too-many-arguments,

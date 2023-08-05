@@ -634,7 +634,7 @@ def main():
     overwrite = args.overwrite
     debug = args.debug
     if args.nearest:
-        png_ip = PIL.Image.NEAREST
+        png_ip = PIL.Image.Resampling.NEAREST
 
     pool = Pool()
 
