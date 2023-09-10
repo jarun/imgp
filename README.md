@@ -79,11 +79,11 @@ For example, if an image has a resolution of 2048x1365 and is being resized to 1
 
 To install PIL library on Ubuntu, run:
 
-    $ sudo apt-get install python3-pil
+    sudo apt-get install python3-pil
 
 or, using pip3:
 
-    $ sudo pip3 install pillow
+    sudo pip3 install pillow
 
 pillow can be replaced by [pillow-simd](https://github.com/uploadcare/pillow-simd) on [SIMD](https://en.wikipedia.org/wiki/SIMD) processors.
 
@@ -115,11 +115,11 @@ If you have git installed, clone this repository. Otherwise download the [latest
 
 Install to default location (`/usr/local`):
 
-    $ sudo make install
+    sudo make install
 
 To remove, run:
 
-    $ sudo make uninstall
+    sudo make uninstall
 
 `PREFIX` is supported, in case you want to install to a different location.
 
@@ -127,7 +127,7 @@ To remove, run:
 
 `imgp` is a standalone utility. From the containing directory, run:
 
-    $ ./imgp
+    ./imgp
 
 ### Shell completion
 
@@ -234,7 +234,7 @@ optional arguments:
 
        $ imgp -wrackx 1366x1000 -s 51200
 
-7. Generate a 64px adapative thumbnail of the last modified file in the current dir:
+7. Generate a 64px adaptive thumbnail of the last modified file in the current dir:
 
        #!/usr/bin/env sh
 
