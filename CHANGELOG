@@ -1,3 +1,14 @@
+imgp v2.9
+2023-09-10
+
+- Support converting P mode PNGs
+- Fix AttributeError: module 'PIL.Image' has no attribute 'Resampling'
+- Fix ANTIALIAS is deprecated and will be removed in Pillow 10
+- Add Python 3.11 support
+- Remove support for Python 3.7 (EOL)
+
+-------------------------------------------------------------------------------
+
 imgp v2.8
 2020-12-01
 
