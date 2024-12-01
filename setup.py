@@ -34,7 +34,7 @@ setup(
     author='Arun Prakash Jana',
     author_email='engineerarun@gmail.com',
     url='https://github.com/jarun/imgp',
-    license='GPLv3',
+    license='GPL-3.0-or-later',
     license_file='LICENSE',
     python_requires='>=3.8',  # requires pip>=9.0.0
     platforms=['any'],
@@ -53,7 +53,7 @@ setup(
         'Environment :: Console',
         'Intended Audience :: Developers',
         'Intended Audience :: End Users/Desktop',
-        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
+        'License :: OSI Approved :: GNU General Public License v3 or later (GPL-3.0-or-later)',
         'Natural Language :: English',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 3',

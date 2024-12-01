@@ -461,7 +461,7 @@ class ExtendedArgumentParser(argparse.ArgumentParser):
         file.write('''
 Version %s
 Copyright © 2016-2023 Arun Prakash Jana <engineerarun@gmail.com>
-License: GPLv3
+License: GPL-3.0-or-later
 Webpage: https://github.com/jarun/imgp
 ''' % _VERSION_)
 

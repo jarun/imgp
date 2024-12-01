@@ -1,6 +1,6 @@
 name: imgp
 maintainer: Arun Prakash Jana <engineerarun@gmail.com>
-license: GPLv3
+license: GPL-3.0-or-later
 summary: High-performance cli batch image resizer and rotator.
 homepage: https://github.com/jarun/imgp
 commands:
