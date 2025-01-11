@@ -2,7 +2,7 @@
 
 <p align="center">
 <a href="https://github.com/jarun/imgp/releases/latest"><img src="https://img.shields.io/github/release/jarun/imgp.svg?maxAge=600" alt="Latest release" /></a>
-<a href="https://repology.org/project/imgp/versions"><img src="https://repology.org/badge/tiny-repos/imgp.svg" alt="Availability"></a>
+<a href="https://repology.org/project/imgp/versions"><img src="https://repology.org/badge/tiny-repos/imgp.svg?header=repos" alt="Availability"></a>
 <a href="https://pypi.org/project/imgp/"><img src="https://img.shields.io/pypi/v/imgp.svg?maxAge=600" alt="PyPI" /></a>
 <a href="https://circleci.com/gh/jarun/workflows/imgp"><img src="https://img.shields.io/circleci/project/github/jarun/imgp.svg" alt="Build Status" /></a>
 <a href="https://github.com/jarun/imgp/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-GPLv3+-yellowgreen.svg?maxAge=2592000" alt="License" /></a>
