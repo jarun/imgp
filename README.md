@@ -40,7 +40,7 @@ Powered by multiprocessing, SIMD parallelism (thanks to the Pillow-SIMD library)
 
 ### Features
 
-- resize by percentage or resolution
+- resize by percentage or resolution or megapixel target
 - rotate clockwise by specified angle
 - adaptive resize considering orientation
 - brute force to a resolution
@@ -148,7 +148,7 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
-  -x res, --res res     output resolution in HxV or percentage
+  -x res, --res res     output resolution in HxV or percentage ("%" suffix) or megapixel ("MP" suffix)
   -o deg, --rotate deg  rotate clockwise by angle (in degrees)
   -a, --adapt           adapt to resolution by orientation [default: off]
   -c, --convert         convert PNG to JPG format [default: off]
@@ -208,16 +208,23 @@ optional arguments:
        1366x767 -> 1025x575
        120968 bytes -> 45040 bytes
 
-3. Rotate an image clockwise by 90 degrees:
+3. Ensure all images in folder `testphotos/` (contains 4 images) are 12MP at maximum:
 
-       $ imgp -o 90  ~/image.jpg
+       $ imgp --res 12MP -w testphotos/
+       testphotos/20250111_193949_ILCE-7M3.jpg
+       6000x4000 -> 4243x2828
+       8355840 bytes -> 3545149 bytes
+
+4. Rotate an image clockwise by 90 degrees:
+
+       $ imgp -o 90 ~/image.jpg
        120968 bytes -> 72038 bytes
 
-4. Adapt the images in the current directory to 1366x1000 resolution. Visit all directories recursively, overwrite source images, ignore images with matching hres or vres but convert PNG images to JPEG.
+5. Adapt the images in the current directory to 1366x1000 resolution. Visit all directories recursively, overwrite source images, ignore images with matching hres or vres but convert PNG images to JPEG.
 
        $ imgp -x 1366x1000 -wrack
 
-5. Set hres=800 and adapt vres maintaining the ratio.
+6. Set hres=800 and adapt vres maintaining the ratio.
 
        $ imgp -x 800x0
        Source omitted. Processing current directory...
@@ -230,11 +237,11 @@ optional arguments:
        1050x1400 -> 800x1067
        458092 bytes -> 78089 bytes
 
-6. Process images greater than 50KiB only:
+7. Process images greater than 50KiB only:
 
        $ imgp -wrackx 1366x1000 -s 51200
 
-7. Generate a 64px adaptive thumbnail of the last modified file in the current dir:
+8. Generate a 64px adaptive thumbnail of the last modified file in the current dir:
 
        #!/usr/bin/env sh
 

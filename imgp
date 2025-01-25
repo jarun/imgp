@@ -23,6 +23,7 @@ from multiprocessing import Pool, Lock
 import os
 import sys
 import time
+import math
 import PIL
 from PIL import Image, ImageFile
 
@@ -32,6 +33,7 @@ if not hasattr(PIL.Image, 'Resampling'):  # Pillow<9.0
 # Globals
 HRES = 0  # specified horizontal resolution
 VRES = 0  # specified vertical resolution
+megapixel = None  # specified megapixel target
 scale = None  # specified scale in percentage
 rotate = None  # specified rotation in degree
 adapt = False  # use adaptive resolution
@@ -71,21 +73,16 @@ def getres(res):
 
     :param res: resolution in hresxvres format
     '''
-
-    hxv = res.split('x')
-    if len(hxv) != 2:
-        return (0, 0)
-
     try:
-        return (int(hxv[0]), int(hxv[1]))
+        hxv = res.split('x')
+        assert len(hxv) == 2
+        return map(int, hxv)
     except Exception:
         return (0, 0)
 
 
 def lock_print(msg):
     '''Acquire lock and print a message'''
-
-    global lock
 
     with lock:
         print(msg)
@@ -101,8 +98,6 @@ def cb(data):
 
 def traverse_dir(path):
     '''Traverse a directory recursively'''
-
-    global lock, pool
 
     try:
         for entry in os.scandir(path):
@@ -123,14 +118,11 @@ def traverse_dir(path):
                 else:
                     pool.apply_async(resize_image, args=(entry.path,), callback=cb)
     except OSError as e:
-        with lock:
-            print(e)
+        lock_print(e)
 
 
 def rotate_image(src):
     '''Rotate a source image'''
-
-    global lock
 
     converted = False
     _progressive = progressive
@@ -164,8 +156,7 @@ def rotate_image(src):
             exifdata = b''
     except OSError as e:
         if not str(e).startswith('cannot identify image file'):
-            with lock:
-                print(e)
+            lock_print(e)
         return
 
     # Image.rotate(angle, resample=0, expand=0) expand = True means
@@ -182,7 +173,7 @@ def rotate_image(src):
 
     if convert and _format == 'PNG':
         if img.mode in ('RGBA', 'LA'):
-            background = Image.new(img.mode[:-1], img.size, fill_color)
+            background = Image.new(img.mode.rstrip('A'), img.size, fill_color)
             background.paste(img, img.split()[-1])
             img = background
         elif img.mode == "P":
@@ -204,14 +195,11 @@ def rotate_image(src):
 
         return [1, 0]
     except OSError as e:
-        with lock:
-            print(e)
+        lock_print(e)
 
 
 def resize_image(src):
     '''Resize a source image'''
-
-    global HRES, VRES, minH, minV, lock
 
     converted = False
     _progressive = progressive
@@ -257,12 +245,10 @@ def resize_image(src):
             exifdata = b''
     except OSError as e:
         if not str(e).startswith('cannot identify image file'):
-            with lock:
-                print(e)
+            lock_print(e)
         return
 
-    hres = img.size[0]
-    vres = img.size[1]
+    hres, vres = img.size
     ImageFile.MAXBLOCK = hres * vres
 
     antialias = png_ip if _format == 'PNG' else Image.Resampling.LANCZOS
@@ -278,6 +264,24 @@ def resize_image(src):
 
         if convert and _format != 'PNG':
             return
+
+    elif megapixel:
+        img_mp = hres * vres / 1e6
+
+        shrink_factor = math.sqrt(megapixel / img_mp)
+        if shrink_factor >= 1 and not enlarge:
+            return
+
+        _hres = round(hres * shrink_factor)
+        _vres = round(vres * shrink_factor)
+
+        if debug:
+            lock_print(f"{img_mp} * {shrink_factor} → {_hres}x{_vres} ({_hres*_vres/1e6}MP)")
+
+        img = img.resize((_hres, _vres), antialias)
+        if debug:
+            lock_print('resize_image: scaled to [%dx%d]' % (_hres, _vres))
+
     elif scale:
         if scale == 100:
             _hres = hres
@@ -297,6 +301,7 @@ def resize_image(src):
         img = img.resize((_hres, _vres), antialias)
         if debug:
             lock_print('resize_image: scaled to [%dx%d]' % (_hres, _vres))
+
     elif HRES == 0 or VRES == 0:
         if HRES:
             if not enlarge and HRES > hres:
@@ -329,13 +334,16 @@ def resize_image(src):
             img = img.resize((target_hres, VRES), antialias)
             if debug:
                 lock_print('resize_image: 0 hres %dx%d' % (target_hres, VRES))
+
     elif HRES == hres and VRES == vres:
         if debug:
             lock_print('resize_image: same res [%dx%d]' % (HRES, VRES))
+
     elif force:
         img = img.resize((HRES, VRES), antialias)
         if debug:
             lock_print('resize_image: brute force res to [%dx%d]' % (HRES, VRES))
+
     elif adapt:
         ratio_img = float(hres/vres)
         ratio_target = float(HRES/VRES)
@@ -376,6 +384,7 @@ def resize_image(src):
                 img = img.resize((target_hres, VRES), antialias)
                 if debug:
                     lock_print('resize_image: hres adapted %dx%d' % (target_hres, VRES))
+
     else:
         ratio_img = float(hres/vres)
         ratio_target = float(HRES/VRES)
@@ -423,7 +432,7 @@ def resize_image(src):
 
     if convert and _format == 'PNG':
         if img.mode in ('RGBA', 'LA'):
-            background = Image.new(img.mode[:-1], img.size, fill_color)
+            background = Image.new(img.mode.rstrip('A'), img.size, fill_color)
             background.paste(img, img.split()[-1])
             img = background
         elif img.mode == "P":
@@ -445,8 +454,7 @@ def resize_image(src):
 
         return [1, 0]
     except OSError as e:
-        with lock:
-            print(e)
+        lock_print(e)
 
 
 class ExtendedArgumentParser(argparse.ArgumentParser):
@@ -489,7 +497,7 @@ def parse_args(args=None, namespace=None):
                                        formatter_class=argparse.RawTextHelpFormatter)
     addarg = argparser.add_argument
     addarg('-x', '--res', nargs=1, metavar='res',
-           help='output resolution in HxV or percentage')
+           help='output resolution in HxV or percentage ("%%" suffix) or megapixel ("MP" suffix)')
     addarg('-o', '--rotate', type=int, metavar='deg',
            help='rotate clockwise by angle (in degrees)')
     addarg('-a', '--adapt', action='store_true',
@@ -521,11 +529,11 @@ def parse_args(args=None, namespace=None):
     addarg('-P', '--progressive', action='store_true',
            help='save JPEG images as progressive [default: off]')
     addarg('-q', '--quality', type=int, metavar='N', choices=range(1, 96),
-           help='quality factor (N=1-95, JPEG only) [default: 75]')
+           help=f'quality factor (N=1-95, JPEG only) [default: {qual}]')
     addarg('-r', '--recurse', action='store_true',
            help='process non-symbolic dirs recursively [default: off]')
     addarg('-s', '--size', type=int, metavar='byte',
-           help='minimum size to process an image [default: 1024]')
+           help=f'minimum size to process an image [default: {size}]')
     addarg('-w', '--overwrite', action='store_true',
            help='overwrite source images [default: off]')
     addarg('-d', '--debug', action='store_true',
@@ -542,7 +550,7 @@ def parse_args(args=None, namespace=None):
 
 
 def main():
-    global HRES, VRES, scale, rotate, adapt, convert, hidden, eraseexif, force, \
+    global HRES, VRES, megapixel, scale, rotate, adapt, convert, hidden, eraseexif, force, \
            includeimgp, keep, enlarge, optimal, progressive, mute, recurse, size, \
            qual, overwrite, debug, no_res_opt, pool, init_time, count, png_ip, minH, minV
 
@@ -556,15 +564,18 @@ def main():
         if 'x' in args.res[0]:
             HRES, VRES = getres(args.res[0])
             if HRES == 0 and VRES == 0:
-                print('-ve values not allowed in --res, \
-                       hres and vres cannot be 0 together')
+                print('-ve values not allowed in --res, '
+                      'hres and vres cannot be 0 together')
+                return
+        elif args.res[0].upper().endswith("MP"):
+            try:
+                megapixel = float(args.res[0].upper().rstrip("MP"))
+            except ValueError:
+                print(f'failed parsing megapixel value from "{args.res[0]}"')
                 return
         else:
             try:
-                if args.res[0].endswith('%'):
-                    scale = int(args.res[0][:-1])
-                else:
-                    scale = int(args.res[0])
+                scale = int(args.res[0].rstrip("%"))
 
                 if scale <= 0:
                     print('scale should be > 0%')
@@ -572,8 +583,8 @@ def main():
                 if scale > 100 and not args.enlarge:
                     print('use --enlarge to scale > 100%')
                     return
-            except Exception:
-                print('invalid value for --res')
+            except ValueError:
+                print(f'invalid value for --res: "{args.res[0]}"')
                 return
     elif args.rotate is not None:
         rotate = args.rotate % 360
@@ -591,8 +602,8 @@ def main():
         if 'x' in args.minres[0]:
             minH, minV = getres(args.minres[0])
             if minH == 0 or minV == 0:
-                print('-ve values not allowed in --minres, \
-                       H or V cannot be 0')
+                print('-ve values not allowed in --minres, '
+                      'H or V cannot be 0')
                 return
         else:
             if scale is not None:
@@ -600,10 +611,7 @@ def main():
                 return
 
             try:
-                if args.minres[0].endswith('%'):
-                    minscale = int(args.minres[0][:-1])
-                else:
-                    minscale = int(args.minres[0])
+                minscale = int(args.minres[0].rstrip('%'))
 
                 if minscale <= 0:
                     print('--minres should be > 0%')
@@ -662,7 +670,7 @@ def main():
     if not mute:
         # Show number of images converted
         if count:
-            print('%s processed in %.4f seconds.' % (count, time.time() - init_time))
+            print('%s images processed in %.4f seconds.' % (count, time.time() - init_time))
 
         # Show number of images not converted due to low resolution
         if count_lowres:

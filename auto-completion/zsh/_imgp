@@ -27,7 +27,7 @@ args=(
     '(-r --recurse)'{-r,--recurse}'[process directories recursively]'
     '(-s --size)'{-s,--size}'[min byte size to process an image]:bytes'
     '(-w --overwrite)'{-w,--overwrite}'[overwrite source images]'
-    '(-x --res)'{-x,--res}'[output resolution]:HxV or %'
+    '(-x --res)'{-x,--res}'[output resolution]:HxV or % or MP'
     '(-d --debug)'{-z,--debug}'[enable debug logs]'
     '(-h --help)'{-h,--help}'[show help]'
 )

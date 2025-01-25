@@ -53,7 +53,7 @@ For example, if an image has a resolution of 2048x1365 and is being resized to 1
 Show help text and exit.
 .TP
 .BI "-x, --res=" res
-Output resolution in HRESxVRES or percentage.
+Output resolution in HRESxVRES or percentage ("%" suffix) or megapixel ("MP" suffix).
 .TP
 .BI "-o, --rotate=" deg
 Rotate clockwise by a specified angle (in degrees). Negative inputs rotate anti-clockwise. Rotation by 0 degree is not allowed.
@@ -151,6 +151,17 @@ Scale an image by 75% and overwrite the source image:
 .EE
 .PP
 .IP 3. 4
+Ensure all images in folder `testphotos/` (contains 4 images) are 12MP at maximum:
+.PP
+.EX
+.IP
+.B $ imgp --res 12MP -w testphotos/
+testphotos/20250111_193949_ILCE-7M3.jpg
+6000x4000 -> 4243x2828
+8355840 bytes -> 3545149 bytes
+.EE
+.PP
+.IP 4. 4
 Rotate an image clockwise by 90 degrees:
 .PP
 .EX
@@ -159,7 +170,7 @@ Rotate an image clockwise by 90 degrees:
 120968 bytes -> 72038 bytes
 .EE
 .PP
-.IP 4. 4
+.IP 5. 4
 Adapt the images in the current directory to 1366x1000 resolution.
 .br
 Visit all directories recursively, overwrite source images, ignore images with matching hres or vres but convert PNG images to JPEG.
@@ -169,7 +180,7 @@ Visit all directories recursively, overwrite source images, ignore images with m
 .B $ imgp -x 1366x1000 -wrack
 .EE
 .PP
-.IP 5. 4
+.IP 6. 4
 Set hres=800 and adapt vres maintaining the ratio.
 .PP
 .EX
@@ -186,7 +197,7 @@ Source omitted. Processing current directory...
 458092 bytes -> 78089 bytes
 .EE
 .PP
-.IP 6. 4
+.IP 7. 4
 Process images greater than 50KiB only:
 .PP
 .EX
@@ -194,7 +205,7 @@ Process images greater than 50KiB only:
 .B $ imgp -wrackx 1366x1000 -s 51200
 .EE
 .PP
-.IP 7. 4
+.IP 8. 4
 Generate a 64px adaptive thumbnail of the last modified file in the current dir:
 .PP
 .EX

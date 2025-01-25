@@ -22,6 +22,6 @@ complete -c imgp -s q  -l quality  -r --description 'specify quality factor (1-9
 complete -c imgp -s r  -l recurse     --description 'process directories recursively'
 complete -c imgp -s s  -l size     -r --description 'min byte size to process an image'
 complete -c imgp -s w  -l overwrite   --description 'overwrite source images'
-complete -c imgp -s x  -l res      -r --description 'output resolution in HxV or %'
+complete -c imgp -s x  -l res      -r --description 'output resolution in HxV or % or MP'
 complete -c imgp -s d  -l debug       --description 'enable debug logs'
 complete -c imgp -s h  -l help        --description 'show help'
