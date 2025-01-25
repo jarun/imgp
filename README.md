@@ -36,6 +36,7 @@ Powered by multiprocessing, SIMD parallelism (thanks to the Pillow-SIMD library)
   - [cmdline options](#cmdline-options)
   - [Operational notes](#operational-notes)
 - [Examples](#examples)
+- [Troubleshooting](#troubleshooting)
 - [Developers](#developers)
 
 ### Features
@@ -250,6 +251,12 @@ optional arguments:
            pop=$(ls -1t | head -1)
            imgp -acx 64x64 "$pop"
        }
+
+### Troubleshooting
+
+1. To lift the pixel limit (e.g. error `'PIL.Image.DecompressionBombError' when resizing large image`) for _trusted_ input files, uncomment the following line in the source code:
+
+       # Image.MAX_IMAGE_PIXELS = None
 
 ### Developers
 

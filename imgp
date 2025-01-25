@@ -27,6 +27,9 @@ import math
 import PIL
 from PIL import Image, ImageFile
 
+# Uncomment the below line to lift pixel limit for _trusted_ input files
+# Image.MAX_IMAGE_PIXELS = None
+
 if not hasattr(PIL.Image, 'Resampling'):  # Pillow<9.0
     PIL.Image.Resampling = PIL.Image
 
