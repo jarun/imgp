@@ -61,7 +61,6 @@ no_res_opt = False  # --res is not specified
 pad = '_IMGP'  # output file suffix when --overwrite is unused
 png_ip = Image.Resampling.LANCZOS  # default interpolation for PNG
 fill_color = '#ffffff'  # BG color to strip alpha channel
-init_time = time.time()  # profile the total time taken
 _VERSION_ = '2.9'  # current program version
 
 # Globals for multiprocessing
@@ -555,8 +554,9 @@ def parse_args(args=None, namespace=None):
 def main():
     global HRES, VRES, megapixel, scale, rotate, adapt, convert, hidden, eraseexif, force, \
            includeimgp, keep, enlarge, optimal, progressive, mute, recurse, size, \
-           qual, overwrite, debug, no_res_opt, pool, init_time, count, png_ip, minH, minV
+           qual, overwrite, debug, no_res_opt, pool, count, png_ip, minH, minV
 
+    init_time = time.time()  # profile the total time taken
     args = parse_args()
 
     if args.rotate is not None and args.res is not None:
