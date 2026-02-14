@@ -83,6 +83,68 @@ def getres(res):
         return (0, 0)
 
 
+def gamma_aware_resize(img, isize, resample):
+    '''Resize image with gamma correction for better quality
+
+    Converts to linear color space before resizing, then converts back.
+    This prevents the common error of resizing in gamma-corrected space.
+
+    Fixes issue #60: https://github.com/jarun/imgp/issues/60
+    See also: http://www.ericbrasseur.org/gamma.html
+
+    :param img: PIL Image object
+    :param isize: tuple of (width, height) for target size
+    :param resample: resampling filter to use
+    :return: resized PIL Image object
+    '''
+    # For images without color (e.g., 'L', '1'), no gamma correction needed
+    if img.mode in ('L', '1', 'P'):
+        return img.resize(isize, resample)
+
+    # Handle alpha channel separately if present
+    has_alpha = img.mode in ('RGBA', 'LA')
+    if has_alpha:
+        # Split into color and alpha
+        if img.mode == 'RGBA':
+            r, g, b, a = img.split()
+            rgb_img = Image.merge('RGB', (r, g, b))
+        else:  # LA
+            l, a = img.split()
+            rgb_img = Image.merge('RGB', (l, l, l))
+
+        # Resize alpha separately (no gamma correction needed for alpha)
+        resized_alpha = a.resize(isize, resample)
+    else:
+        rgb_img = img.convert('RGB') if img.mode != 'RGB' else img
+
+    # Apply gamma correction: convert from sRGB to linear
+    # Using simplified sRGB gamma of 2.2 (actual sRGB is more complex but 2.2 is close)
+    gamma = 2.2
+    linear_img = rgb_img.point(lambda x: pow(x / 255.0, gamma) * 255.0)
+
+    # Resize in linear space
+    resized_linear = linear_img.resize(isize, resample)
+
+    # Convert back to sRGB: apply inverse gamma
+    inv_gamma = 1.0 / gamma
+    resized_rgb = resized_linear.point(lambda x: pow(x / 255.0, inv_gamma) * 255.0)
+
+    # Reattach alpha if it was present
+    if has_alpha:
+        if img.mode == 'RGBA':
+            r, g, b = resized_rgb.split()
+            result = Image.merge('RGBA', (r, g, b, resized_alpha))
+        else:  # LA - 8-bit pixels, grayscale with alpha
+            result = Image.merge('LA', (resized_rgb.split()[0], resized_alpha))
+        return result
+
+    if img.mode != 'RGB':
+        # Convert back to original mode if needed
+        return resized_rgb.convert(img.mode)
+
+    return resized_rgb
+
+
 def lock_print(msg):
     '''Acquire lock and print a message'''
 
@@ -280,7 +342,7 @@ def resize_image(src):
         if debug:
             lock_print(f"{img_mp} * {shrink_factor} → {_hres}x{_vres} ({_hres*_vres/1e6}MP)")
 
-        img = img.resize((_hres, _vres), antialias)
+        img = gamma_aware_resize(img, (_hres, _vres), antialias)
         if debug:
             lock_print('resize_image: scaled to [%dx%d]' % (_hres, _vres))
 
@@ -300,7 +362,7 @@ def resize_image(src):
                 _vres = _vres + 1
             _vres = int(_vres)
 
-        img = img.resize((_hres, _vres), antialias)
+        img = gamma_aware_resize(img, (_hres, _vres), antialias)
         if debug:
             lock_print('resize_image: scaled to [%dx%d]' % (_hres, _vres))
 
@@ -317,7 +379,7 @@ def resize_image(src):
                 target_vres = target_vres + 1
             target_vres = int(target_vres)
 
-            img = img.resize((HRES, target_vres), antialias)
+            img = gamma_aware_resize(img, (HRES, target_vres), antialias)
             if debug:
                 lock_print('resize_image: 0 vres %dx%d' % (HRES, target_vres))
 
@@ -333,7 +395,7 @@ def resize_image(src):
                 target_hres = target_hres + 1
             target_hres = int(target_hres)
 
-            img = img.resize((target_hres, VRES), antialias)
+            img = gamma_aware_resize(img, (target_hres, VRES), antialias)
             if debug:
                 lock_print('resize_image: 0 hres %dx%d' % (target_hres, VRES))
 
@@ -342,7 +404,7 @@ def resize_image(src):
             lock_print('resize_image: same res [%dx%d]' % (HRES, VRES))
 
     elif force:
-        img = img.resize((HRES, VRES), antialias)
+        img = gamma_aware_resize(img, (HRES, VRES), antialias)
         if debug:
             lock_print('resize_image: brute force res to [%dx%d]' % (HRES, VRES))
 
@@ -365,7 +427,7 @@ def resize_image(src):
                     target_vres = target_vres + 1
                 target_vres = int(target_vres)
 
-                img = img.resize((HRES, target_vres), antialias)
+                img = gamma_aware_resize(img, (HRES, target_vres), antialias)
                 if debug:
                     lock_print('resize_image: vres adapted %dx%d' % (HRES, target_vres))
         elif (ratio_target < 1 and ratio_img < 1) or (ratio_target >= 1 and ratio_img <= 1):
@@ -383,7 +445,7 @@ def resize_image(src):
                     target_hres = target_hres + 1
                 target_hres = int(target_hres)
 
-                img = img.resize((target_hres, VRES), antialias)
+                img = gamma_aware_resize(img, (target_hres, VRES), antialias)
                 if debug:
                     lock_print('resize_image: hres adapted %dx%d' % (target_hres, VRES))
 
@@ -404,7 +466,7 @@ def resize_image(src):
                 target_vres = target_vres + 1
             target_vres = int(target_vres)
 
-            img = img.resize((HRES, target_vres), antialias)
+            img = gamma_aware_resize(img, (HRES, target_vres), antialias)
             if debug:
                 lock_print('resize_image: vres calculated %dx%d' % (HRES, target_vres))
         else:
@@ -420,7 +482,7 @@ def resize_image(src):
                 target_hres = target_hres + 1
             target_hres = int(target_hres)
 
-            img = img.resize((target_hres, VRES), antialias)
+            img = gamma_aware_resize(img, (target_hres, VRES), antialias)
             if debug:
                 lock_print('resize_image: hres calculated %dx%d' % (target_hres, VRES))
 
