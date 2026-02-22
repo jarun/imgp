@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-<a href="https://asciinema.org/a/88448"><img src="https://asciinema.org/a/88448.svg" alt="imgp_asciicast" width="600"/></a>
+<a href="https://github.com/user-attachments/assets/5ff3bcd6-3d22-49f4-8b5f-7fdace1c95de"><img src="https://github.com/user-attachments/assets/b7efb760-b5f8-4118-beee-69ce9efd8de4" alt="imgp_asciicast" width="600"/></a>  
 </p>
 
 <p align="center"><i>Watch imgp resize a directory of images in lightning speed!</i></p>
