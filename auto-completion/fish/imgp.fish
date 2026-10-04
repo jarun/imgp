@@ -5,7 +5,7 @@
 #   Arun Prakash Jana <engineerarun@gmail.com>
 #
 complete -c imgp -s a  -l adapt       --description 'adapt to resolution by orientation'
-complete -c imgp -s c  -l convert     --description 'convert PNG to JPG format'
+complete -c imgp -s c  -l convert     --description 'convert PNG/WEBP to JPG format'
 complete -c imgp -s e  -l eraseexif   --description 'erase exif metadata'
 complete -c imgp -s f  -l force       --description 'force to exact specified resolution'
 complete -c imgp -s H  -l hidden      --description 'include hidden (dot) files'

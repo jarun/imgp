@@ -198,9 +198,9 @@ def rotate_image(src):
         img = Image.open(src)
         _format = img.format
 
-        if _format not in ['JPEG', 'PNG', 'MPO']:
+        if _format not in ['JPEG', 'PNG', 'MPO', 'WEBP']:
             if debug:
-                lock_print(src + ': not JPEG/PNG/MPO. format: ' + _format)
+                lock_print(src + ': not JPEG/PNG/MPO/WEBP. format: ' + _format)
             return
 
         try:
@@ -235,13 +235,13 @@ def rotate_image(src):
     else:
         suffix = pad
 
-    if convert and _format == 'PNG':
+    if convert and _format in ['PNG', 'WEBP']:
         if img.mode in ('RGBA', 'LA'):
             background = Image.new(img.mode.rstrip('A'), img.size, fill_color)
             background.paste(img, img.split()[-1])
             img = background
         elif img.mode == "P":
-            img.convert("RGBA")
+            img = img.convert("RGB")
         dest = name + suffix + '.jpg'
         _format = 'JPEG'
         converted = True
@@ -275,16 +275,16 @@ def resize_image(src):
         img = Image.open(src)
         _format = img.format
 
-        if _format not in ['JPEG', 'PNG', 'MPO']:
+        if _format not in ['JPEG', 'PNG', 'MPO', 'WEBP']:
             if debug:
-                lock_print(src + ': not JPEG/PNG/MPO. format: ' + _format)
+                lock_print(src + ': not JPEG/PNG/MPO/WEBP. format: ' + _format)
             return
 
         # check if convert or progressive is specified without any resolution option
         if no_res_opt:
-            if convert and _format != 'PNG':
+            if convert and _format not in ['PNG', 'WEBP']:
                 if debug:
-                    lock_print('resize_image: cannot convert non-PNG')
+                    lock_print('resize_image: cannot convert non-PNG/WEBP')
                 return
 
             if progressive and _format not in ['JPEG', 'MPO']:
@@ -326,7 +326,7 @@ def resize_image(src):
         if progressive and _format not in ['JPEG', 'MPO']:
             return
 
-        if convert and _format != 'PNG':
+        if convert and _format not in ['PNG', 'WEBP']:
             return
 
     elif megapixel:
@@ -494,13 +494,13 @@ def resize_image(src):
     else:
         suffix = pad
 
-    if convert and _format == 'PNG':
+    if convert and _format in ['PNG', 'WEBP']:
         if img.mode in ('RGBA', 'LA'):
             background = Image.new(img.mode.rstrip('A'), img.size, fill_color)
             background.paste(img, img.split()[-1])
             img = background
         elif img.mode == "P":
-            img = img.convert("RGBA")
+            img = img.convert("RGB")
         dest = name + suffix + '.jpg'
         _format = 'JPEG'
         converted = True
@@ -557,7 +557,7 @@ def parse_args(args=None, namespace=None):
         Namespace with parsed arguments / options.
     '''
 
-    argparser = ExtendedArgumentParser(description='Resize, rotate JPEG and PNG images.',
+    argparser = ExtendedArgumentParser(description='Resize, rotate JPEG, PNG and WEBP images.',
                                        formatter_class=argparse.RawTextHelpFormatter)
     addarg = argparser.add_argument
     addarg('-x', '--res', nargs=1, metavar='res',
@@ -567,7 +567,7 @@ def parse_args(args=None, namespace=None):
     addarg('-a', '--adapt', action='store_true',
            help='adapt to resolution by orientation [default: off]')
     addarg('-c', '--convert', action='store_true',
-           help='convert PNG to JPG format [default: off]')
+           help='convert PNG/WEBP to JPG format [default: off]')
     addarg('-e', '--eraseexif', action='store_true',
            help='erase exif metadata [default: off]')
     addarg('-f', '--force', action='store_true',

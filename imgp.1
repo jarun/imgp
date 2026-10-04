@@ -1,11 +1,11 @@
 .TH "IMGP" "1" "16 Aug 2026" "Version 3.0" "User Commands"
 .SH NAME
-imgp \- Resize, rotate JPEG and PNG images.
+imgp \- Resize, rotate JPEG, PNG and WEBP images.
 .SH SYNOPSIS
 .B imgp [OPTIONS] [PATH [PATH ...]]
 .SH DESCRIPTION
 .B imgp
-is a multiprocessing command line image resizer and rotator for JPEG and PNG images.
+is a multiprocessing command line image resizer and rotator for JPEG, PNG and WEBP images.
 .PP
 .B Features
 .PP
@@ -15,7 +15,7 @@ is a multiprocessing command line image resizer and rotator for JPEG and PNG ima
   * brute force to a resolution
   * optimize images to save more space
   * limit processing by minimum image size
-  * convert PNG to JPEG
+  * convert PNG/WEBP to JPEG
   * erase exif metadata
   * specify output JPEG image quality
   * force smaller to larger resize
@@ -40,7 +40,7 @@ For example, if an image has a resolution of 2048x1365 and is being resized to 1
 .br
 - Output image names are appended with \fB_IMGP\fR if '--overwrite' option is not used. By default \fB_IMGP\fR files are not processed. Doing so may lead to potential race conditions when '--overwrite' option is used.
 .br
-- PNG files with lower target hres/vres are not converted (even if '--convert' is used). Run 'imgp --convert (*.png)' separately to convert those.
+- PNG/WEBP files with lower target hres/vres are not converted (even if '--convert' is used). Run 'imgp --convert (*.png)' separately to convert those.
 .br
 - Resize and rotate are lossy operations. For additional reductions in size try '--optimize' and '--eraseexif' options.
 .br
@@ -62,7 +62,7 @@ Rotate clockwise by a specified angle (in degrees). Negative inputs rotate anti-
 Adapt to specified resolution considering the orientation of the image. Disabled by default.
 .TP
 .BI "-c, --convert"
-Convert PNG images to JPEG to save on space. The output image is saved with '.jpg' extension.
+Convert PNG and WEBP images to JPEG to save on space. The output image is saved with '.jpg' extension.
 .TP
 .BI "-e, --eraseexif"
 Erase EXIF metadata of JPEG images. Preserved by default.
@@ -77,7 +77,7 @@ Include hidden (dot) files. By default hidden files are skipped.
 Process \fI_IMGP\fR files. Risky due to potential race conditions.
 .TP
 .BI "-k, --keep"
-Do not process if image hres or vres matches specified hres or vres, or --res is 100. However, PNG images are converted to JPEG if --convert option is specified and JPEG images are made progressive is --progressive option is specified.
+Do not process if image hres or vres matches specified hres or vres, or --res is 100. However, PNG and WEBP images are converted to JPEG if --convert option is specified and JPEG images are made progressive is --progressive option is specified.
 .TP
 .BI "-n, --enlarge"
 Enlarge smaller images. By default smaller images are not scaled if specified resolution is greater.
@@ -110,7 +110,7 @@ Minimum size in bytes required to process an image. Acts as a guard against proc
 Overwrite the source images. By default an output image is saved with \fB_IMGP\fR appended to the source image name.
 .br
 .B NOTE:
-If overwrite and convert options are used together, source PNG images are deleted.
+If overwrite and convert options are used together, source PNG/WEBP images are deleted.
 .TP
 .BI "-d, --debug"
 Enable debugging.
@@ -176,7 +176,7 @@ Rotate an image clockwise by 90 degrees:
 .IP 5. 4
 Adapt the images in the current directory to 1366x1000 resolution.
 .br
-Visit all directories recursively, overwrite source images, ignore images with matching hres or vres but convert PNG images to JPEG.
+Visit all directories recursively, overwrite source images, ignore images with matching hres or vres but convert PNG/WEBP images to JPEG.
 .PP
 .EX
 .IP

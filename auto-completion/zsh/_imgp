@@ -10,7 +10,7 @@ setopt localoptions noshwordsplit noksharrays
 local -a args
 args=(
     '(-a --adapt)'{-a,--adapt}'[adapt to resolution by orientation]'
-    '(-c --convert)'{-c,--convert}'[convert PNG to JPG format]'
+    '(-c --convert)'{-c,--convert}'[convert PNG/WEBP to JPG format]'
     '(-e --eraseexif)'{-e,--eraseexif}'[erase exif metadata]'
     '(-f --force)'{-f,--force}'[force to exact specified resolution]'
     '(-H --hidden)'{-H,--hidden}'[include hidden (dot) files]'

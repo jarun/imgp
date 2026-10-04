@@ -14,7 +14,7 @@
 
 <p align="center"><i>Watch imgp resize a directory of images in lightning speed!</i></p>
 
-`imgp` is a command line image resizer and rotator for JPEG and PNG images. It can resize (or thumbnail) and rotate thousands of images in a go, at lightning speed, while saving significantly on storage.
+`imgp` is a command line image resizer and rotator for JPEG, PNG and WEBP images. It can resize (or thumbnail) and rotate thousands of images in a go, at lightning speed, while saving significantly on storage.
 
 Powered by multiprocessing, SIMD parallelism (thanks to the Pillow-SIMD library), an intelligent adaptive algorithm, recursive operations, shell completion scripts, EXIF preservation (and more), `imgp` is a very flexible utility with well-documented easy to use options.
 
@@ -47,7 +47,7 @@ Powered by multiprocessing, SIMD parallelism (thanks to the Pillow-SIMD library)
 - brute force to a resolution
 - optimize images to save more space
 - limit processing by minimum image size
-- convert PNG to JPEG
+- convert PNG/WEBP to JPEG
 - erase exif metadata
 - specify output JPEG image quality
 - force smaller to larger resize
@@ -142,7 +142,7 @@ Shell completion scripts for Bash, Fish and Zsh can be found in respective subdi
 usage: imgp [-h] [-x res] [-o deg] [-a] [-c] [-e] [-f] [-H] [-i] [-k] [-m] [-M res]
             [-n] [-N] [-O] [-P] [-q N] [-r] [-s byte] [-w] [-d] [-v] [PATH ...]
 
-Resize, rotate JPEG and PNG images.
+Resize, rotate JPEG, PNG and WEBP images.
 
 positional arguments:
   PATH                  source file or dir [default: current dir]
@@ -152,7 +152,7 @@ optional arguments:
   -x res, --res res     output resolution in HxV or percentage ("%" suffix) or megapixel ("MP" suffix)
   -o deg, --rotate deg  rotate clockwise by angle (in degrees)
   -a, --adapt           adapt to resolution by orientation [default: off]
-  -c, --convert         convert PNG to JPG format [default: off]
+  -c, --convert         convert PNG/WEBP to JPG format [default: off]
   -e, --eraseexif       erase exif metadata [default: off]
   -f, --force           force to exact specified resolution [default: off]
   -H, --hidden          include hidden (dot) files [default: off]
@@ -177,7 +177,7 @@ optional arguments:
 
 - Multiple files and directories can be specified as source. If `PATH` is omitted, the current directory is processed.
 - Output image names are appended with **_IMGP** if `--overwrite` option is not used. By default *_IMGP* files are not processed. Doing so may lead to potential race conditions when `--overwrite` option is used.
-- PNG files with lower target hres/vres are not converted (even if `--convert` is used). Run `imgp --convert (*.png)` separately to convert those.
+- PNG/WEBP files with lower target hres/vres are not converted (even if `--convert` is used). Run `imgp --convert (*.png)` separately to convert those.
 - Resize and rotate are lossy operations. For additional reductions in size try `--optimize` and `--eraseexif` options.
 - Option `--optimize` is slower, the encoder makes an extra pass over the image in order to select optimal encoder settings.
 - Progressive JPEG images are saved as progressive.
@@ -222,7 +222,7 @@ optional arguments:
        $ imgp -o 90 ~/image.jpg
        120968 bytes -> 72038 bytes
 
-5. Adapt the images in the current directory to 1366x1000 resolution. Visit all directories recursively, overwrite source images, ignore images with matching hres or vres but convert PNG images to JPEG.
+5. Adapt the images in the current directory to 1366x1000 resolution. Visit all directories recursively, overwrite source images, ignore images with matching hres or vres but convert PNG/WEBP images to JPEG.
 
        $ imgp -x 1366x1000 -wrack
 
