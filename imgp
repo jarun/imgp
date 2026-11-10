@@ -606,8 +606,10 @@ def parse_args(args=None, namespace=None):
     addarg('keywords', nargs='*', metavar='PATH',
            help='source file or dir [default: current dir]')
 
-    # Show help and exit if no arguments
-    if len(sys.argv) < 2:
+    # Show help and exit if no arguments were passed on the command line.
+    # Only consult sys.argv when the caller did not pass explicit args,
+    # so programmatic use of parse_args([...]) keeps working.
+    if args is None and len(sys.argv) < 2:
         argparser.print_help(sys.stderr)
         sys.exit(1)
 
