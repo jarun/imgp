@@ -152,6 +152,21 @@ def lock_print(msg):
         print(msg)
 
 
+# Settings workers read; spawn/forkserver workers don't inherit main()'s globals
+WORKER_VARS = ('HRES', 'VRES', 'megapixel', 'scale', 'rotate', 'adapt', 'convert',
+               'hidden', 'eraseexif', 'force', 'includeimgp', 'keep', 'enlarge',
+               'optimal', 'progressive', 'mute', 'recurse', 'size', 'qual',
+               'overwrite', 'debug', 'no_res_opt', 'png_ip', 'minH', 'minV')
+
+
+def init_worker(shared_lock, state):
+    '''Pool initializer: apply parent settings in the worker process'''
+
+    global lock
+    lock = shared_lock
+    globals().update(state)
+
+
 def cb(data):
     global count, count_lowres
 
@@ -710,7 +725,8 @@ def main():
     if args.nearest:
         png_ip = PIL.Image.Resampling.NEAREST
 
-    pool = Pool()
+    state = {name: globals()[name] for name in WORKER_VARS}
+    pool = Pool(initializer=init_worker, initargs=(lock, state))
 
     for path in args.keywords:
         if not os.path.exists(path):
